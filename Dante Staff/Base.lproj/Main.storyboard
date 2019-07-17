@@ -22,13 +22,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="amO-V6-EQZ">
-                                <rect key="frame" x="20" y="480" width="76" height="30"/>
+                                <rect key="frame" x="20" y="458" width="76" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your phone number" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="61f-mg-s8I" userLabel="phoneTextField">
-                                <rect key="frame" x="20" y="391" width="374" height="48"/>
+                                <rect key="frame" x="20" y="390" width="374" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -39,12 +39,9 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhj-dI-LKM" userLabel="loginButton">
-                                <rect key="frame" x="100" y="661" width="214" height="48"/>
+                                <rect key="frame" x="100" y="621" width="214" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="zhj-dI-LKM" secondAttribute="height" multiplier="107:24" id="g4O-bg-JdE"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Login">
@@ -52,7 +49,7 @@
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="HAb-1E-8IC">
-                                <rect key="frame" x="20" y="353" width="231" height="30"/>
+                                <rect key="frame" x="20" y="352" width="231" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -70,11 +67,11 @@
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your PIN" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="OF0-26-CWD" userLabel="pinTextField">
-                                <rect key="frame" x="20" y="518" width="374" height="48"/>
+                                <rect key="frame" x="20" y="496" width="374" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="OF0-26-CWD" secondAttribute="height" multiplier="187:24" id="KMu-dG-Iiq"/>
+                                    <constraint firstAttribute="height" constant="50" id="Y8E-hF-IU8"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -83,31 +80,31 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OF0-26-CWD" secondAttribute="trailing" constant="20" id="1UZ-D7-ZZE"/>
                             <constraint firstItem="61f-mg-s8I" firstAttribute="top" secondItem="HAb-1E-8IC" secondAttribute="bottom" constant="8" id="2et-sD-tXC"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="amO-V6-EQZ" secondAttribute="trailing" constant="318" id="49b-Vi-F8N"/>
+                            <constraint firstItem="amO-V6-EQZ" firstAttribute="top" secondItem="61f-mg-s8I" secondAttribute="bottom" constant="20" id="6BH-zL-EYl"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GwC-Hi-B9a" secondAttribute="trailing" constant="111" id="6bb-qg-pyw"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OF0-26-CWD" secondAttribute="trailing" constant="20" id="AU9-Lv-yfv"/>
                             <constraint firstItem="GwC-Hi-B9a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="110" id="DeP-JY-2s4"/>
                             <constraint firstItem="61f-mg-s8I" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="EgE-8R-3I9"/>
-                            <constraint firstItem="OF0-26-CWD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="FF4-uu-G46"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="61f-mg-s8I" secondAttribute="trailing" constant="20" id="GeN-qS-hqh"/>
-                            <constraint firstItem="zhj-dI-LKM" firstAttribute="top" secondItem="OF0-26-CWD" secondAttribute="bottom" constant="95" id="Gr8-LH-RRk"/>
+                            <constraint firstItem="OF0-26-CWD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="H1T-mq-F2y"/>
                             <constraint firstItem="1Mb-1R-Cqi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="JDO-rZ-4bM"/>
                             <constraint firstAttribute="trailing" secondItem="1Mb-1R-Cqi" secondAttribute="trailing" id="JLv-b6-w9Z"/>
                             <constraint firstItem="cr5-sE-lKU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="MNQ-FZ-8FE"/>
                             <constraint firstAttribute="bottom" secondItem="1Mb-1R-Cqi" secondAttribute="bottom" id="SWB-e6-bQP"/>
                             <constraint firstItem="1Mb-1R-Cqi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="VVy-pu-724"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HAb-1E-8IC" secondAttribute="trailing" constant="163" id="WoR-mZ-cdW"/>
+                            <constraint firstItem="amO-V6-EQZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="X5a-eH-U1V"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cr5-sE-lKU" secondAttribute="trailing" constant="87" id="aVv-9z-CuG"/>
-                            <constraint firstItem="amO-V6-EQZ" firstAttribute="top" secondItem="61f-mg-s8I" secondAttribute="bottom" constant="41" id="cdL-wF-0tw"/>
-                            <constraint firstItem="HAb-1E-8IC" firstAttribute="top" secondItem="GwC-Hi-B9a" secondAttribute="bottom" constant="101" id="iXu-cb-hNt"/>
+                            <constraint firstItem="OF0-26-CWD" firstAttribute="top" secondItem="amO-V6-EQZ" secondAttribute="bottom" constant="8" id="d0B-mI-COh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zhj-dI-LKM" secondAttribute="trailing" constant="100" id="dHH-eu-fJl"/>
+                            <constraint firstItem="zhj-dI-LKM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="hpc-9H-3Wb"/>
+                            <constraint firstItem="HAb-1E-8IC" firstAttribute="top" secondItem="GwC-Hi-B9a" secondAttribute="bottom" constant="100" id="iXu-cb-hNt"/>
                             <constraint firstItem="cr5-sE-lKU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="24" id="rac-lB-Wcr"/>
-                            <constraint firstItem="amO-V6-EQZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="vPO-le-B4a"/>
                             <constraint firstItem="HAb-1E-8IC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="vqK-B8-QL3"/>
-                            <constraint firstItem="zhj-dI-LKM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="w32-fJ-zRp"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zhj-dI-LKM" secondAttribute="trailing" constant="100" id="x0l-zZ-yEx"/>
+                            <constraint firstItem="zhj-dI-LKM" firstAttribute="top" secondItem="OF0-26-CWD" secondAttribute="bottom" constant="75" id="vzC-ET-tpB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="amO-V6-EQZ" secondAttribute="trailing" constant="318" id="x23-Ko-w9U"/>
                             <constraint firstItem="GwC-Hi-B9a" firstAttribute="top" secondItem="cr5-sE-lKU" secondAttribute="bottom" constant="8" id="xYt-WN-Uci"/>
-                            <constraint firstItem="OF0-26-CWD" firstAttribute="top" secondItem="amO-V6-EQZ" secondAttribute="bottom" constant="8" id="z5D-19-Es2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -115,11 +112,12 @@
                         <outlet property="loginButton" destination="zhj-dI-LKM" id="pVe-9e-Wmq"/>
                         <outlet property="phoneTextField" destination="61f-mg-s8I" id="ZnW-gt-Pwg"/>
                         <outlet property="pinTextField" destination="OF0-26-CWD" id="U0o-z8-kpf"/>
+                        <outlet property="topConstraintForKeyboardAvoiding" destination="iXu-cb-hNt" id="FlR-r2-C0Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130.40000000000001" y="118.96551724137932"/>
+            <point key="canvasLocation" x="128.98550724637681" y="118.52678571428571"/>
         </scene>
     </scenes>
     <resources>

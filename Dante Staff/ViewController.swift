@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var topConstraintForKeyboardAvoiding: NSLayoutConstraint!
+//    var topConstraintConstant:CGFloat = 100.0
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var pinTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
@@ -26,7 +28,29 @@ class ViewController: UIViewController {
         self.loginButton.layer.cornerRadius = 10.0
         
         self.addDoneButtonOnKeyboard()
+NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
+    }
+    
+    @objc func keyboardWillShow(notification:NSNotification) {
+            self.view.layoutIfNeeded()
+            
+            UIView.animate(withDuration: 0.25, animations: {
+                self.topConstraintForKeyboardAvoiding.constant = 50
+                self.view.layoutIfNeeded()
+                
+            })
+    }
+    @objc func keyboardWillHide(notification:NSNotification) {
+        self.view.layoutIfNeeded()
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.topConstraintForKeyboardAvoiding.constant = 100
+            self.view.layoutIfNeeded()
+            
+        })
     }
     
     func addDoneButtonOnKeyboard()
