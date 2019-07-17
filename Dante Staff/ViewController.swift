@@ -9,10 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var myTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        self.myTextField.layer.cornerRadius = 10.0
+//        let paddingView = UIView(frame: CGRectMake(0, 0, 15, self.myTextField.frame.height))
     }
 
 
