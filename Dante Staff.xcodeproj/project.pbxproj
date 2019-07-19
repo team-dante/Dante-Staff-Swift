@@ -12,6 +12,7 @@
 		243EF9BF22D7D74C0067E2CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243EF9BD22D7D74C0067E2CC /* Main.storyboard */; };
 		243EF9C122D7D74E0067E2CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 243EF9C022D7D74E0067E2CC /* Assets.xcassets */; };
 		243EF9C422D7D74E0067E2CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243EF9C222D7D74E0067E2CC /* LaunchScreen.storyboard */; };
+		2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2458D60D22E23E010020EA39 /* MainMenu_VC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		243EF9C022D7D74E0067E2CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		243EF9C322D7D74E0067E2CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		243EF9C522D7D74E0067E2CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2458D60D22E23E010020EA39 /* MainMenu_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu_VC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				243EF9B922D7D74C0067E2CC /* AppDelegate.swift */,
 				243EF9BB22D7D74C0067E2CC /* ViewController.swift */,
 				243EF9BD22D7D74C0067E2CC /* Main.storyboard */,
+				2458D60D22E23E010020EA39 /* MainMenu_VC.swift */,
 				243EF9C022D7D74E0067E2CC /* Assets.xcassets */,
 				243EF9C222D7D74E0067E2CC /* LaunchScreen.storyboard */,
 				243EF9C522D7D74E0067E2CC /* Info.plist */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				243EF9BC22D7D74C0067E2CC /* ViewController.swift in Sources */,
+				2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */,
 				243EF9BA22D7D74C0067E2CC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
