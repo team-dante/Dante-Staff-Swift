@@ -26,31 +26,33 @@ class ViewController: UIViewController {
         
         self.phoneTextField.layer.cornerRadius = 10.0
         self.phoneTextField.layer.shadowColor = UIColor.black.cgColor
-        self.phoneTextField.layer.shadowOffset = CGSize(width: 5, height: 5)
-        self.phoneTextField.layer.shadowRadius = 5
+        self.phoneTextField.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        self.phoneTextField.layer.shadowRadius = 0.5
         self.phoneTextField.layer.shadowOpacity = 0.5
         
         
         self.pinTextField.layer.cornerRadius = 10.0
         self.pinTextField.layer.shadowColor = UIColor.black.cgColor
-        self.pinTextField.layer.shadowOffset = CGSize(width: 5, height: 5)
-        self.pinTextField.layer.shadowRadius = 5
+        self.pinTextField.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        self.pinTextField.layer.shadowRadius = 0.5
         self.pinTextField.layer.shadowOpacity = 0.5
         
         
         self.loginButton.layer.cornerRadius = 10.0
         self.loginButton.layer.shadowColor = UIColor.black.cgColor
-        self.loginButton.layer.shadowOffset = CGSize(width: 5, height: 5)
-        self.loginButton.layer.shadowRadius = 5
+        self.loginButton.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        self.loginButton.layer.shadowRadius = 0.5
         self.loginButton.layer.shadowOpacity = 0.5
         
         self.loginHeader.layer.shadowColor = UIColor.black.cgColor
-        self.loginHeader.layer.shadowOffset = CGSize(width: 5, height: 5)
-        self.loginHeader.layer.shadowRadius = 5
+        self.loginHeader.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        self.loginHeader.layer.shadowRadius = 0.5
         self.loginHeader.layer.shadowOpacity = 0.5
-        
-        self.loginIcon.layer.masksToBounds = true
 
+        self.loginIcon.layer.shadowColor = UIColor.black.cgColor
+        self.loginIcon.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        self.loginIcon.layer.shadowRadius = 0.5
+        self.loginIcon.layer.shadowOpacity = 0.5
         
         self.addDoneButtonOnKeyboard()
         
