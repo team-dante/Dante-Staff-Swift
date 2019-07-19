@@ -16,11 +16,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var pinTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    @objc func doneButtonAction(){
-        phoneTextField.resignFirstResponder()
-        pinTextField.resignFirstResponder()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,8 +125,11 @@ class ViewController: UIViewController {
         phoneTextField.inputAccessoryView = doneToolbar
         pinTextField.inputAccessoryView = doneToolbar
     }
-
-
+    
+    @objc func doneButtonAction(){
+        phoneTextField.resignFirstResponder()
+        pinTextField.resignFirstResponder()
+    }
 
 }
 
