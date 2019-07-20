@@ -76,10 +76,6 @@ class ViewController: UIViewController {
             let keyboardHeight = keyboardRectangle.height
             let pinTextFieldFrame: CGRect = pinTextField.frame
             
-//            print("screen height ===>", screenHeight)
-//            print("lower y position of pinTextField ====>",  (pinTextFieldFrame.origin.y + pinTextFieldFrame.size.height))
-//            print("top y position of keyboard ====>", screenHeight - keyboardHeight)
-            
             let lowerYPosition_pinTextField = pinTextFieldFrame.origin.y + pinTextFieldFrame.size.height
             let topYPositionKeyboard = screenHeight - keyboardHeight
             
@@ -92,11 +88,6 @@ class ViewController: UIViewController {
     
                 })
             }
-            
-//            let sampleTextField = UITextField(frame: CGRect(x: 0, y: (pinTextFieldFrame.origin.y + pinTextFieldFrame.size.height), width: 10, height: 10))
-//            sampleTextField.placeholder = "Enter text here"
-//            sampleTextField.font = UIFont.systemFont(ofSize: 15)
-//            self.view.addSubview(sampleTextField)
         }
 
     }
