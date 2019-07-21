@@ -6,5 +6,9 @@ target 'Dante Staff' do
   use_frameworks!
 
   # Pods for Dante Staff
-  pod 'Firebase/Analytics'
+pod 'Firebase'
+pod 'Firebase/Core'
+pod 'Firebase/Database'
+pod 'Firebase/Auth'  
+pod 'Firebase/Analytics'
 end
