@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		241D1D3B22E39ADE00EC2EF3 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */; };
 		241D1D3D22E418E200EC2EF3 /* LookupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D1D3C22E418E200EC2EF3 /* LookupVC.swift */; };
+		2422369622E4EFA300CCF805 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2422369522E4EFA200CCF805 /* GoogleService-Info.plist */; };
 		243EF9BA22D7D74C0067E2CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243EF9B922D7D74C0067E2CC /* AppDelegate.swift */; };
 		243EF9BC22D7D74C0067E2CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243EF9BB22D7D74C0067E2CC /* ViewController.swift */; };
 		243EF9BF22D7D74C0067E2CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243EF9BD22D7D74C0067E2CC /* Main.storyboard */; };
@@ -17,11 +18,13 @@
 		2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2458D60D22E23E010020EA39 /* MainMenu_VC.swift */; };
 		24B153F222E437AA00FF2452 /* DisplayAccVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B153F122E437AA00FF2452 /* DisplayAccVC.swift */; };
 		24B153F422E4661000FF2452 /* ConfirmCreateAccVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */; };
+		C95007EABC3557B04AB16DF1 /* Pods_Dante_Staff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B44B7E979D6A0F42CD7507 /* Pods_Dante_Staff.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
 		241D1D3C22E418E200EC2EF3 /* LookupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupVC.swift; sourceTree = "<group>"; };
+		2422369522E4EFA200CCF805 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		243EF9B622D7D74C0067E2CC /* Dante Staff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dante Staff.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		243EF9B922D7D74C0067E2CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		243EF9BB22D7D74C0067E2CC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -32,6 +35,9 @@
 		2458D60D22E23E010020EA39 /* MainMenu_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu_VC.swift; sourceTree = "<group>"; };
 		24B153F122E437AA00FF2452 /* DisplayAccVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAccVC.swift; sourceTree = "<group>"; };
 		24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCreateAccVC.swift; sourceTree = "<group>"; };
+		649497D397F76F320AD04F58 /* Pods-Dante Staff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dante Staff.release.xcconfig"; path = "Target Support Files/Pods-Dante Staff/Pods-Dante Staff.release.xcconfig"; sourceTree = "<group>"; };
+		B2B44B7E979D6A0F42CD7507 /* Pods_Dante_Staff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dante_Staff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B89C84FD7C00B60088B7698D /* Pods-Dante Staff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dante Staff.debug.xcconfig"; path = "Target Support Files/Pods-Dante Staff/Pods-Dante Staff.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C95007EABC3557B04AB16DF1 /* Pods_Dante_Staff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +57,8 @@
 			children = (
 				243EF9B822D7D74C0067E2CC /* Dante Staff */,
 				243EF9B722D7D74C0067E2CC /* Products */,
+				D6C4EB446B5D6D5A62DB4469 /* Pods */,
+				8407869EF48BEC6D602C2E86 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -75,8 +84,27 @@
 				241D1D3C22E418E200EC2EF3 /* LookupVC.swift */,
 				243EF9C222D7D74E0067E2CC /* LaunchScreen.storyboard */,
 				243EF9C522D7D74E0067E2CC /* Info.plist */,
+				2422369522E4EFA200CCF805 /* GoogleService-Info.plist */,
 			);
 			path = "Dante Staff";
+			sourceTree = "<group>";
+		};
+		8407869EF48BEC6D602C2E86 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B2B44B7E979D6A0F42CD7507 /* Pods_Dante_Staff.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D6C4EB446B5D6D5A62DB4469 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B89C84FD7C00B60088B7698D /* Pods-Dante Staff.debug.xcconfig */,
+				649497D397F76F320AD04F58 /* Pods-Dante Staff.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,9 +114,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 243EF9C822D7D74E0067E2CC /* Build configuration list for PBXNativeTarget "Dante Staff" */;
 			buildPhases = (
+				7998AF0C9BBFB2AD43BACD7A /* [CP] Check Pods Manifest.lock */,
 				243EF9B222D7D74C0067E2CC /* Sources */,
 				243EF9B322D7D74C0067E2CC /* Frameworks */,
 				243EF9B422D7D74C0067E2CC /* Resources */,
+				BBF9E2B7C1235A6644B99E68 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -138,12 +168,55 @@
 			buildActionMask = 2147483647;
 			files = (
 				243EF9C422D7D74E0067E2CC /* LaunchScreen.storyboard in Resources */,
+				2422369622E4EFA300CCF805 /* GoogleService-Info.plist in Resources */,
 				243EF9C122D7D74E0067E2CC /* Assets.xcassets in Resources */,
 				243EF9BF22D7D74C0067E2CC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7998AF0C9BBFB2AD43BACD7A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dante Staff-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BBF9E2B7C1235A6644B99E68 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dante Staff/Pods-Dante Staff-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dante Staff/Pods-Dante Staff-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dante Staff/Pods-Dante Staff-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		243EF9B222D7D74C0067E2CC /* Sources */ = {
@@ -300,6 +373,7 @@
 		};
 		243EF9C922D7D74E0067E2CC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B89C84FD7C00B60088B7698D /* Pods-Dante Staff.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -309,7 +383,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.hphan.Dante-Staff";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dante-staff";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -318,6 +392,7 @@
 		};
 		243EF9CA22D7D74E0067E2CC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 649497D397F76F320AD04F58 /* Pods-Dante Staff.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -327,7 +402,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.hphan.Dante-Staff";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dante-staff";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

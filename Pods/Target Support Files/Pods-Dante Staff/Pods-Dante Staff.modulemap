@@ -1,0 +1,6 @@
+framework module Pods_Dante_Staff {
+  umbrella header "Pods-Dante Staff-umbrella.h"
+
+  export *
+  module * { export * }
+}
