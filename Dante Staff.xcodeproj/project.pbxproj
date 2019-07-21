@@ -16,6 +16,7 @@
 		243EF9C422D7D74E0067E2CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243EF9C222D7D74E0067E2CC /* LaunchScreen.storyboard */; };
 		2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2458D60D22E23E010020EA39 /* MainMenu_VC.swift */; };
 		24B153F222E437AA00FF2452 /* DisplayAccVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B153F122E437AA00FF2452 /* DisplayAccVC.swift */; };
+		24B153F422E4661000FF2452 /* ConfirmCreateAccVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		243EF9C522D7D74E0067E2CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2458D60D22E23E010020EA39 /* MainMenu_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu_VC.swift; sourceTree = "<group>"; };
 		24B153F122E437AA00FF2452 /* DisplayAccVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAccVC.swift; sourceTree = "<group>"; };
+		24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCreateAccVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				243EF9BB22D7D74C0067E2CC /* ViewController.swift */,
 				243EF9BD22D7D74C0067E2CC /* Main.storyboard */,
 				241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */,
+				24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */,
 				24B153F122E437AA00FF2452 /* DisplayAccVC.swift */,
 				2458D60D22E23E010020EA39 /* MainMenu_VC.swift */,
 				243EF9C022D7D74E0067E2CC /* Assets.xcassets */,
@@ -147,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24B153F422E4661000FF2452 /* ConfirmCreateAccVC.swift in Sources */,
 				243EF9BC22D7D74C0067E2CC /* ViewController.swift in Sources */,
 				241D1D3D22E418E200EC2EF3 /* LookupVC.swift in Sources */,
 				2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */,

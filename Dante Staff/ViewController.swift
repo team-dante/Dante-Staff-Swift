@@ -10,9 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var moveTextFieldUp: NSLayoutConstraint!
+    @IBOutlet weak var moveBothTextFieldsUp: NSLayoutConstraint!
     @IBOutlet weak var loginIcon: UIImageView!
-    @IBOutlet weak var loginHeader: UILabel!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var pinTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
@@ -52,10 +51,6 @@ class ViewController: UIViewController {
         self.loginButton.layer.shadowRadius = 0.5
         self.loginButton.layer.shadowOpacity = 0.5
         
-        self.loginHeader.layer.shadowColor = UIColor.black.cgColor
-        self.loginHeader.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        self.loginHeader.layer.shadowRadius = 0.5
-        self.loginHeader.layer.shadowOpacity = 0.5
 
         self.loginIcon.layer.shadowColor = UIColor.black.cgColor
         self.loginIcon.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
@@ -87,7 +82,7 @@ class ViewController: UIViewController {
                 let offset = lowerYPosition_pinTextField -  topYPositionKeyboard
                 print("offset ===>", offset)
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.moveTextFieldUp.constant = 60 - offset
+                    self.moveBothTextFieldsUp.constant = 60 - offset
                     self.view.layoutIfNeeded()
     
                 })
@@ -99,7 +94,7 @@ class ViewController: UIViewController {
         self.view.layoutIfNeeded()
 
         UIView.animate(withDuration: 0.25, animations: {
-            self.moveTextFieldUp.constant = 75.0
+            self.moveBothTextFieldsUp.constant = 75.0
             self.view.layoutIfNeeded()
 
         })
