@@ -8,9 +8,7 @@
 
 import UIKit
 
-class MainMenu_VC: UIViewController {
-
-
+class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var view1x1: UIView!
     @IBOutlet weak var view1x2: UIView!
     @IBOutlet weak var view2x1: UIView!
@@ -28,6 +26,16 @@ class MainMenu_VC: UIViewController {
         // Hide the Navigation Bar
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    @IBAction func openCameraBtn(_ sender: UIButton) {
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .camera
+            self.present(imagePickerController, animated: true, completion: nil)
+        }
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +49,8 @@ class MainMenu_VC: UIViewController {
         view3x1.layer.cornerRadius = 10.0
         view3x2.layer.cornerRadius = 10.0
         
+        
     }
-
-
+        
 }
+
