@@ -7,6 +7,32 @@
 //
 
 import UIKit
+import FirebaseAuth
+
+var vSpinner : UIView?
+extension UIViewController {
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        vSpinner = spinnerView
+    }
+    
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            vSpinner?.removeFromSuperview()
+            vSpinner = nil
+        }
+    }
+}
 
 extension UITextField {
     func underlined(){
@@ -22,27 +48,66 @@ extension UITextField {
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var loginView: UIView!
     @IBOutlet weak var moveBothTextFieldsUp: NSLayoutConstraint!
     @IBOutlet weak var loginIcon: UIImageView!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var pinTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    
+    var handle: AuthStateDidChangeListenerHandle?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // The listener gets called whenever the user's sign-in state changes
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            // self.setTitleDisplay(user)
+            //self.tableView.reloadData()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Show the navigation bar on other view controllers
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        // self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+       // detach listener
+        Auth.auth().removeStateDidChangeListener(handle!)
     }
+    
+    @IBAction func loginBtnPress(_ sender: Any) {
+        guard var email = self.phoneTextField.text, var password = self.pinTextField.text else {
+            self.errorLabel.text = "Email or password cannot be empty."
+            self.errorLabel.isHidden = false
+            return
+        }
+        email += "@email.com"
+        password += "ABCDEFG"
+        self.showSpinner(onView: self.view)
+        Auth.auth().signIn(withEmail: email, password: password) {
+            [weak self] user, error in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.removeSpinner()
+            if let error = error {
+                strongSelf.errorLabel.text = error.localizedDescription
+                strongSelf.errorLabel.isHidden = false
+                return
+            }
+            strongSelf.performSegue (withIdentifier: "loginToMenu", sender: strongSelf)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.errorLabel.isHidden = true
         
         self.loginView.layer.cornerRadius = 10.0
         self.loginView.layer.shadowColor = UIColor.black.cgColor
