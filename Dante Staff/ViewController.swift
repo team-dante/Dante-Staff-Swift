@@ -8,8 +8,21 @@
 
 import UIKit
 
+extension UITextField {
+    func underlined(){
+        let border = CALayer()
+        let width = CGFloat(1.0)
+        border.borderColor = UIColor.gray.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
+        border.borderWidth = width
+        self.layer.addSublayer(border)
+        self.layer.masksToBounds = true
+    }
+}
+
 class ViewController: UIViewController {
 
+    @IBOutlet weak var loginView: UIView!
     @IBOutlet weak var moveBothTextFieldsUp: NSLayoutConstraint!
     @IBOutlet weak var loginIcon: UIImageView!
     @IBOutlet weak var phoneTextField: UITextField!
@@ -31,15 +44,26 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.loginView.layer.cornerRadius = 10.0
+        self.loginView.layer.shadowColor = UIColor.black.cgColor
+        self.loginView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        self.loginView.layer.shadowRadius = 0.5
+        self.loginView.layer.shadowOpacity = 0.5
+        
+        self.phoneTextField.underlined()
+        phoneTextField.leftView =  UIView(frame: CGRect(x: 0, y: 0, width: 5, height: phoneTextField.frame.height))
+        phoneTextField.leftViewMode = .always
         self.phoneTextField.layer.cornerRadius = 10.0
-        self.phoneTextField.layer.shadowColor = UIColor.black.cgColor
+        self.phoneTextField.layer.shadowColor = UIColor.darkGray.cgColor
         self.phoneTextField.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         self.phoneTextField.layer.shadowRadius = 0.5
         self.phoneTextField.layer.shadowOpacity = 0.5
         
-        
+        self.pinTextField.underlined()
+        pinTextField.leftView =  UIView(frame: CGRect(x: 0, y: 0, width: 5, height: pinTextField.frame.height))
+        pinTextField.leftViewMode = .always
         self.pinTextField.layer.cornerRadius = 10.0
-        self.pinTextField.layer.shadowColor = UIColor.black.cgColor
+        self.pinTextField.layer.shadowColor = UIColor.darkGray.cgColor
         self.pinTextField.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         self.pinTextField.layer.shadowRadius = 0.5
         self.pinTextField.layer.shadowOpacity = 0.5
@@ -82,7 +106,7 @@ class ViewController: UIViewController {
                 let offset = lowerYPosition_pinTextField -  topYPositionKeyboard
                 print("offset ===>", offset)
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.moveBothTextFieldsUp.constant = 60 - offset
+//                    self.moveBothTextFieldsUp.constant = 60 - offset
                     self.view.layoutIfNeeded()
     
                 })
@@ -94,7 +118,7 @@ class ViewController: UIViewController {
         self.view.layoutIfNeeded()
 
         UIView.animate(withDuration: 0.25, animations: {
-            self.moveBothTextFieldsUp.constant = 75.0
+//            self.moveBothTextFieldsUp.constant = 75.0
             self.view.layoutIfNeeded()
 
         })
