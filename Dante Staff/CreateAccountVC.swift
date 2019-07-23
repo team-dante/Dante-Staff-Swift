@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
 
 class CreateAccountVC: UIViewController {
-    
-    
 
+    @IBOutlet weak var emptyValLabel: UILabel!
     @IBOutlet weak var firstNameTF: UITextField!
     @IBOutlet weak var lastNameTF: UITextField!
     @IBOutlet weak var phoneNumTF: UITextField!
@@ -19,15 +20,62 @@ class CreateAccountVC: UIViewController {
     @IBOutlet weak var createBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        emptyValLabel.isHidden = true
+        
         self.createBtn.layer.cornerRadius = 10.0
+        
         self.firstNameTF.layer.cornerRadius = 10.0
+
         self.lastNameTF.layer.cornerRadius = 10.0
+
         self.phoneNumTF.layer.cornerRadius = 10.0
+
         self.pinTF.layer.cornerRadius = 10.0
+
         
         self.addDoneButtonOnKeyboard()
     }
     
+    @IBAction func createBtnPressed(_ sender: Any) {
+        ViewController().showSpinner(onView: self.view)
+        let opfn = self.firstNameTF.text
+        let opln = self.lastNameTF.text
+        let oppn = self.phoneNumTF.text
+        let opp = self.pinTF.text
+        
+        if (!(opfn ?? "").isEmpty && !(opln ?? "").isEmpty && !(oppn ?? "").isEmpty && !(opp ?? "").isEmpty) {
+                let dict : [String : String] = [
+                    "firstName" : self.firstNameTF.text!,
+                    "lastName" : self.lastNameTF.text!,
+                    "patientPhoneNumber" : self.phoneNumTF.text!,
+                    "patientPin" : self.pinTF.text!
+                ]
+                let email = self.phoneNumTF.text! + "@email.com"
+                let password = self.pinTF.text! + "ABCDEFG"
+                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                    // ...
+                }
+                Database.database().reference().child("Patients").childByAutoId()
+                    .setValue(dict)
+            
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    ViewController().removeSpinner()
+                    self.firstNameTF.text = ""
+                    self.lastNameTF.text = ""
+                    self.phoneNumTF.text = ""
+                    self.pinTF.text = ""
+                    self.performSegue(withIdentifier: "success", sender: self)
+                }
+            }
+        else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                ViewController().removeSpinner()
+                self.emptyValLabel.isHidden = false
+                self.emptyValLabel.text = "One of the required fields is empty."
+            }
+        }
+    }
     func addDoneButtonOnKeyboard()
     {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))

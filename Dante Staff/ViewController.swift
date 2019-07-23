@@ -86,6 +86,8 @@ class ViewController: UIViewController {
         guard var email = self.phoneTextField.text, var password = self.pinTextField.text else {
             self.errorLabel.text = "Email or password cannot be empty."
             self.errorLabel.isHidden = false
+            self.phoneTextField.text = ""
+            self.pinTextField.text = ""
             return
         }
         email += "@email.com"
@@ -99,8 +101,12 @@ class ViewController: UIViewController {
             if let error = error {
                 strongSelf.errorLabel.text = error.localizedDescription
                 strongSelf.errorLabel.isHidden = false
+                strongSelf.phoneTextField.text = ""
+                strongSelf.pinTextField.text = ""
                 return
             }
+            strongSelf.phoneTextField.text = ""
+            strongSelf.pinTextField.text = ""
             strongSelf.performSegue (withIdentifier: "loginToMenu", sender: strongSelf)
         }
     }

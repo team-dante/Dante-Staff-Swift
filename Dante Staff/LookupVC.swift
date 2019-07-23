@@ -7,13 +7,19 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class LookupVC: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var lookupBtn: UIButton!
+    
+    var dataPassed = ["":""]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.noUserFound.isHidden = true
         
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = UIColor.white
@@ -21,17 +27,45 @@ class LookupVC: UIViewController {
         glassIconView?.image = glassIconView?.image?.withRenderingMode(.alwaysTemplate)
         glassIconView?.tintColor = UIColor.white
         
-//        if let clearButton = searchBar.value(forKey: "clearButton") as? UIButton {
-//            let templateImage = clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
-//            clearButton.setImage(templateImage, for: .normal)
-//            
-//            clearButton.tintColor = .red
-//        }
+        let clearButton = textFieldInsideSearchBar?.value(forKey: "clearButton") as! UIButton
+        clearButton.setImage(UIImage(named: "ic_clear"), for: .normal)
+        clearButton.tintColor = .white
         
         lookupBtn.layer.cornerRadius = 10.0
         
         self.addDoneButtonOnKeyboard()
         
+    }
+    
+    @IBOutlet weak var noUserFound: UILabel!
+    
+    @IBAction func lookupBtnPressed(_ sender: Any) {
+        ViewController().showSpinner(onView: self.view)
+        
+        Database.database().reference().child("Patients")
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                for eachPatient in snapshot.children {
+                    let snap = eachPatient as! DataSnapshot
+                    let dict = snap.value as! [String: String]
+                    if (dict["patientPhoneNumber"] == self.searchBar.text) {
+                        self.dataPassed = dict
+                        print("===>\(self.dataPassed)")
+                        self.searchBar.text = ""
+                        self.performSegue(withIdentifier: "lookupvc", sender: self)
+                    }
+                }
+            })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.searchBar.text = ""
+                self.noUserFound.isHidden = false
+                self.noUserFound.text = "This phone number does not exist."
+                ViewController().removeSpinner()
+            }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as? DisplayAccVC
+        vc!.dataReceived = self.dataPassed
     }
     
     func addDoneButtonOnKeyboard()
