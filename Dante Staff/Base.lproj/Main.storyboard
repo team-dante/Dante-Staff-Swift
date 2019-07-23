@@ -214,9 +214,14 @@
                                                         <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXY-oo-1oL">
-                                                        <rect key="frame" x="1" y="0.0" width="182.66666666666666" height="150"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXY-oo-1oL">
+                                                        <rect key="frame" x="-3" y="0.0" width="188" height="150"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <connections>
+                                                            <action selector="btnPressed1x1:" destination="Pgg-ez-raD" eventType="touchDown" id="Wh7-Z2-3H1"/>
+                                                            <action selector="btnReleased1x1:" destination="Pgg-ez-raD" eventType="touchUpInside" id="EIz-A8-mQJ"/>
+                                                            <action selector="dragExit1x1:" destination="Pgg-ez-raD" eventType="touchDragExit" id="dwx-MV-cuQ"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -230,9 +235,9 @@
                                                     <constraint firstAttribute="trailing" secondItem="Hya-Su-ctV" secondAttribute="trailing" constant="20.670000000000002" id="Tdc-iW-61E"/>
                                                     <constraint firstItem="Hya-Su-ctV" firstAttribute="leading" secondItem="1JK-SN-Ey2" secondAttribute="leading" constant="23" id="Umz-j5-uCq"/>
                                                     <constraint firstAttribute="bottom" secondItem="IXY-oo-1oL" secondAttribute="bottom" id="gJJ-Hb-uQu"/>
-                                                    <constraint firstItem="IXY-oo-1oL" firstAttribute="leading" secondItem="1JK-SN-Ey2" secondAttribute="leading" constant="1" id="krR-Uo-aHh"/>
+                                                    <constraint firstItem="IXY-oo-1oL" firstAttribute="leading" secondItem="1JK-SN-Ey2" secondAttribute="leading" constant="-3" id="krR-Uo-aHh"/>
                                                     <constraint firstAttribute="bottom" secondItem="Hya-Su-ctV" secondAttribute="bottom" constant="62" id="tal-nM-UEw"/>
-                                                    <constraint firstAttribute="trailing" secondItem="IXY-oo-1oL" secondAttribute="trailing" constant="1" id="uK3-6X-Fpp"/>
+                                                    <constraint firstAttribute="trailing" secondItem="IXY-oo-1oL" secondAttribute="trailing" constant="-0.33333333333334281" id="uK3-6X-Fpp"/>
                                                     <constraint firstAttribute="bottom" secondItem="fJl-4o-wFQ" secondAttribute="bottom" constant="10" id="wgU-EH-fQO"/>
                                                 </constraints>
                                             </view>
@@ -249,11 +254,13 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lookup-icon" translatesAutoresizingMaskIntoConstraints="NO" id="7hZ-dx-yr2">
                                                         <rect key="frame" x="24" y="13" width="140.33333333333334" height="75"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdG-KC-jEZ">
-                                                        <rect key="frame" x="3" y="0.0" width="183.33333333333334" height="150"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdG-KC-jEZ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="190" height="150"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <connections>
-                                                            <segue destination="0UW-lx-0VJ" kind="show" id="ni8-ao-IX6"/>
+                                                            <action selector="btnPressed1x2:" destination="Pgg-ez-raD" eventType="touchDown" id="jqh-x2-RvJ"/>
+                                                            <action selector="btnReleased1x2:" destination="Pgg-ez-raD" eventType="touchUpInside" id="w5y-JU-UJm"/>
+                                                            <action selector="dragExit1x2:" destination="Pgg-ez-raD" eventType="touchDragExit" id="SgZ-j4-qqC"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -264,12 +271,12 @@
                                                     <constraint firstAttribute="bottom" secondItem="PAH-oM-eYJ" secondAttribute="bottom" constant="10" id="NZj-yO-5aC"/>
                                                     <constraint firstItem="PAH-oM-eYJ" firstAttribute="top" secondItem="rGw-o9-KcQ" secondAttribute="top" constant="90" id="TGg-Ev-YCr"/>
                                                     <constraint firstAttribute="trailing" secondItem="7hZ-dx-yr2" secondAttribute="trailing" constant="25.329999999999998" id="cOm-MR-CR1"/>
-                                                    <constraint firstItem="pdG-KC-jEZ" firstAttribute="leading" secondItem="rGw-o9-KcQ" secondAttribute="leading" constant="3" id="faf-ap-2q4"/>
+                                                    <constraint firstItem="pdG-KC-jEZ" firstAttribute="leading" secondItem="rGw-o9-KcQ" secondAttribute="leading" id="faf-ap-2q4"/>
                                                     <constraint firstAttribute="bottom" secondItem="7hZ-dx-yr2" secondAttribute="bottom" constant="62" id="iHN-jn-Qo6"/>
                                                     <constraint firstAttribute="bottom" secondItem="pdG-KC-jEZ" secondAttribute="bottom" id="o4c-54-FVf"/>
                                                     <constraint firstAttribute="trailing" secondItem="PAH-oM-eYJ" secondAttribute="trailing" constant="15.67" id="pOe-sa-Isg"/>
                                                     <constraint firstItem="pdG-KC-jEZ" firstAttribute="top" secondItem="rGw-o9-KcQ" secondAttribute="top" id="sBG-Xp-0wS"/>
-                                                    <constraint firstAttribute="trailing" secondItem="pdG-KC-jEZ" secondAttribute="trailing" constant="3.3300000000000001" id="vBD-QG-lDy"/>
+                                                    <constraint firstAttribute="trailing" secondItem="pdG-KC-jEZ" secondAttribute="trailing" constant="-0.33333333333331439" id="vBD-QG-lDy"/>
                                                     <constraint firstItem="7hZ-dx-yr2" firstAttribute="top" secondItem="rGw-o9-KcQ" secondAttribute="top" constant="13" id="vi2-9z-vVm"/>
                                                 </constraints>
                                             </view>
@@ -294,24 +301,27 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qr-code-icon" translatesAutoresizingMaskIntoConstraints="NO" id="7q0-Rj-C8T">
                                                         <rect key="frame" x="29" y="22" width="133" height="70"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gm0-0f-2NX">
-                                                        <rect key="frame" x="1" y="0.0" width="182.66666666666666" height="150"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gm0-0f-2NX">
+                                                        <rect key="frame" x="0.0" y="0.0" width="185" height="150"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <connections>
+                                                            <action selector="btnPressed2x1:" destination="Pgg-ez-raD" eventType="touchDown" id="Z7l-F0-DYc"/>
+                                                            <action selector="btnReleased2x1:" destination="Pgg-ez-raD" eventType="touchUpInside" id="ghi-Mp-iUj"/>
+                                                            <action selector="dragExit2x1:" destination="Pgg-ez-raD" eventType="touchDragExit" id="TZh-Cg-1N0"/>
                                                             <action selector="openCameraBtn:" destination="Pgg-ez-raD" eventType="touchUpInside" id="Pwf-Pp-UcK"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="gm0-0f-2NX" secondAttribute="trailing" constant="1" id="0hb-ie-zG9"/>
+                                                    <constraint firstAttribute="trailing" secondItem="gm0-0f-2NX" secondAttribute="trailing" constant="-0.33333333333334281" id="0hb-ie-zG9"/>
                                                     <constraint firstItem="7q0-Rj-C8T" firstAttribute="top" secondItem="CSY-Yb-1rH" secondAttribute="top" constant="22" id="3It-Ic-2Jr"/>
                                                     <constraint firstAttribute="bottom" secondItem="XXV-9f-vcg" secondAttribute="bottom" constant="8" id="3vj-nj-I2Y"/>
                                                     <constraint firstAttribute="bottom" secondItem="7q0-Rj-C8T" secondAttribute="bottom" constant="58" id="Msp-6M-fzr"/>
                                                     <constraint firstAttribute="bottom" secondItem="gm0-0f-2NX" secondAttribute="bottom" id="T4b-nv-QoN"/>
                                                     <constraint firstAttribute="trailing" secondItem="7q0-Rj-C8T" secondAttribute="trailing" constant="22.670000000000002" id="VQV-De-B6a"/>
                                                     <constraint firstItem="XXV-9f-vcg" firstAttribute="leading" secondItem="CSY-Yb-1rH" secondAttribute="leading" constant="32" id="cRb-Ap-eEW"/>
-                                                    <constraint firstItem="gm0-0f-2NX" firstAttribute="leading" secondItem="CSY-Yb-1rH" secondAttribute="leading" constant="1" id="e5B-41-3ub"/>
+                                                    <constraint firstItem="gm0-0f-2NX" firstAttribute="leading" secondItem="CSY-Yb-1rH" secondAttribute="leading" id="e5B-41-3ub"/>
                                                     <constraint firstItem="XXV-9f-vcg" firstAttribute="top" secondItem="CSY-Yb-1rH" secondAttribute="top" constant="100" id="eUz-zT-3Kl"/>
                                                     <constraint firstItem="gm0-0f-2NX" firstAttribute="top" secondItem="CSY-Yb-1rH" secondAttribute="top" id="eZM-p9-od8"/>
                                                     <constraint firstAttribute="trailing" secondItem="XXV-9f-vcg" secondAttribute="trailing" constant="25.670000000000002" id="sf2-34-1wi"/>
@@ -331,9 +341,14 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stat-icon" translatesAutoresizingMaskIntoConstraints="NO" id="opH-kz-Bnt">
                                                         <rect key="frame" x="30" y="22" width="132.33333333333334" height="70"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdp-zY-cpn">
-                                                        <rect key="frame" x="3" y="0.0" width="183.33333333333334" height="150"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdp-zY-cpn">
+                                                        <rect key="frame" x="0.0" y="0.0" width="190" height="150"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <connections>
+                                                            <action selector="btnPressed2x2:" destination="Pgg-ez-raD" eventType="touchDown" id="t5F-xt-WFa"/>
+                                                            <action selector="btnReleased2x2:" destination="Pgg-ez-raD" eventType="touchUpInside" id="doe-S7-zoR"/>
+                                                            <action selector="dragExit2x2:" destination="Pgg-ez-raD" eventType="touchDragExit" id="gtA-Zl-ED9"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -344,9 +359,9 @@
                                                     <constraint firstItem="2ft-7u-zr7" firstAttribute="top" secondItem="z3X-eL-1AB" secondAttribute="top" constant="100" id="RcD-n8-tzl"/>
                                                     <constraint firstAttribute="trailing" secondItem="opH-kz-Bnt" secondAttribute="trailing" constant="27.329999999999998" id="TDG-27-1r9"/>
                                                     <constraint firstAttribute="bottom" secondItem="opH-kz-Bnt" secondAttribute="bottom" constant="58" id="de6-yC-bsk"/>
-                                                    <constraint firstAttribute="trailing" secondItem="Wdp-zY-cpn" secondAttribute="trailing" constant="3.3300000000000001" id="ezw-NS-nZf"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Wdp-zY-cpn" secondAttribute="trailing" constant="-0.33333333333331439" id="ezw-NS-nZf"/>
                                                     <constraint firstItem="opH-kz-Bnt" firstAttribute="top" secondItem="z3X-eL-1AB" secondAttribute="top" constant="22" id="s7B-r0-dKC"/>
-                                                    <constraint firstItem="Wdp-zY-cpn" firstAttribute="leading" secondItem="z3X-eL-1AB" secondAttribute="leading" constant="3" id="seD-3u-pP2"/>
+                                                    <constraint firstItem="Wdp-zY-cpn" firstAttribute="leading" secondItem="z3X-eL-1AB" secondAttribute="leading" id="seD-3u-pP2"/>
                                                     <constraint firstAttribute="bottom" secondItem="2ft-7u-zr7" secondAttribute="bottom" constant="9" id="uSV-j1-Shb"/>
                                                     <constraint firstItem="Wdp-zY-cpn" firstAttribute="top" secondItem="z3X-eL-1AB" secondAttribute="top" id="wpd-P9-giv"/>
                                                     <constraint firstAttribute="bottom" secondItem="Wdp-zY-cpn" secondAttribute="bottom" id="yPa-d9-spW"/>
@@ -373,11 +388,13 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="create-acc-icon" translatesAutoresizingMaskIntoConstraints="NO" id="vna-xO-51l">
                                                         <rect key="frame" x="27" y="22" width="131" height="70"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Fr-oD-qbI">
-                                                        <rect key="frame" x="1" y="0.0" width="182.66666666666666" height="150"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Fr-oD-qbI">
+                                                        <rect key="frame" x="0.0" y="0.0" width="185" height="150"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <connections>
-                                                            <segue destination="BPv-b3-8cj" kind="show" id="tJJ-wc-7SN"/>
+                                                            <action selector="btnPressed3x1:" destination="Pgg-ez-raD" eventType="touchDown" id="oBb-KV-64J"/>
+                                                            <action selector="btnReleased3x1:" destination="Pgg-ez-raD" eventType="touchUpInside" id="Onf-qd-QVk"/>
+                                                            <action selector="dragExit3x1:" destination="Pgg-ez-raD" eventType="touchDragExit" id="bB4-xB-wAS"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -387,11 +404,11 @@
                                                     <constraint firstItem="kMZ-xn-2hs" firstAttribute="leading" secondItem="9C2-cQ-6cR" secondAttribute="leading" constant="18" id="5vk-zM-wef"/>
                                                     <constraint firstItem="vna-xO-51l" firstAttribute="top" secondItem="9C2-cQ-6cR" secondAttribute="top" constant="22" id="8dl-fY-Jes"/>
                                                     <constraint firstAttribute="bottom" secondItem="kMZ-xn-2hs" secondAttribute="bottom" constant="8" id="Bzj-on-2U6"/>
-                                                    <constraint firstItem="5Fr-oD-qbI" firstAttribute="leading" secondItem="9C2-cQ-6cR" secondAttribute="leading" constant="1" id="C4k-s9-kaq"/>
+                                                    <constraint firstItem="5Fr-oD-qbI" firstAttribute="leading" secondItem="9C2-cQ-6cR" secondAttribute="leading" id="C4k-s9-kaq"/>
                                                     <constraint firstItem="5Fr-oD-qbI" firstAttribute="top" secondItem="9C2-cQ-6cR" secondAttribute="top" id="HeS-IJ-tUC"/>
                                                     <constraint firstAttribute="trailing" secondItem="kMZ-xn-2hs" secondAttribute="trailing" constant="17.329999999999998" id="Jyo-MZ-FNN"/>
                                                     <constraint firstItem="vna-xO-51l" firstAttribute="leading" secondItem="9C2-cQ-6cR" secondAttribute="leading" constant="27" id="N6A-Am-Blu"/>
-                                                    <constraint firstAttribute="trailing" secondItem="5Fr-oD-qbI" secondAttribute="trailing" constant="1" id="QWZ-fQ-ElY"/>
+                                                    <constraint firstAttribute="trailing" secondItem="5Fr-oD-qbI" secondAttribute="trailing" constant="-0.33333333333334281" id="QWZ-fQ-ElY"/>
                                                     <constraint firstAttribute="trailing" secondItem="vna-xO-51l" secondAttribute="trailing" constant="26.670000000000002" id="epu-Kd-SwZ"/>
                                                     <constraint firstItem="kMZ-xn-2hs" firstAttribute="top" secondItem="9C2-cQ-6cR" secondAttribute="top" constant="100" id="jqg-FI-cM1"/>
                                                     <constraint firstAttribute="bottom" secondItem="vna-xO-51l" secondAttribute="bottom" constant="58" id="kc8-Da-XjJ"/>
@@ -410,23 +427,25 @@
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feedback-icon" translatesAutoresizingMaskIntoConstraints="NO" id="3Tg-cv-Mzj">
                                                         <rect key="frame" x="26" y="22" width="131.33333333333334" height="70"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4e-w7-MPh">
-                                                        <rect key="frame" x="3" y="0.0" width="183.33333333333334" height="150"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4e-w7-MPh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="190" height="150"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <connections>
-                                                            <segue destination="BYZ-38-t0r" kind="show" animates="NO" id="81K-Wd-CyR"/>
+                                                            <action selector="btnPressed3x2:" destination="Pgg-ez-raD" eventType="touchDown" id="hoX-62-Nmw"/>
+                                                            <action selector="btnReleased3x2:" destination="Pgg-ez-raD" eventType="touchUpInside" id="cZr-5j-Tcm"/>
+                                                            <action selector="dragExit3x2:" destination="Pgg-ez-raD" eventType="touchDragExit" id="HoV-JJ-VxU"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="D4e-w7-MPh" secondAttribute="trailing" constant="3.3300000000000001" id="Ann-EJ-9cK"/>
+                                                    <constraint firstAttribute="trailing" secondItem="D4e-w7-MPh" secondAttribute="trailing" constant="-0.33333333333331439" id="Ann-EJ-9cK"/>
                                                     <constraint firstAttribute="bottom" secondItem="3Tg-cv-Mzj" secondAttribute="bottom" constant="58" id="JQB-Qd-Hlm"/>
                                                     <constraint firstItem="3Tg-cv-Mzj" firstAttribute="top" secondItem="vdH-dm-7bM" secondAttribute="top" constant="22" id="MCk-qB-Ifg"/>
                                                     <constraint firstItem="D4e-w7-MPh" firstAttribute="top" secondItem="vdH-dm-7bM" secondAttribute="top" id="MX8-sO-mcF"/>
                                                     <constraint firstItem="3Tg-cv-Mzj" firstAttribute="leading" secondItem="vdH-dm-7bM" secondAttribute="leading" constant="26" id="WMq-gK-zY7"/>
                                                     <constraint firstItem="A2S-tl-aal" firstAttribute="top" secondItem="vdH-dm-7bM" secondAttribute="top" constant="100" id="Wji-8e-FGR"/>
-                                                    <constraint firstItem="D4e-w7-MPh" firstAttribute="leading" secondItem="vdH-dm-7bM" secondAttribute="leading" constant="3" id="Xfh-sE-QKU"/>
+                                                    <constraint firstItem="D4e-w7-MPh" firstAttribute="leading" secondItem="vdH-dm-7bM" secondAttribute="leading" id="Xfh-sE-QKU"/>
                                                     <constraint firstAttribute="trailing" secondItem="3Tg-cv-Mzj" secondAttribute="trailing" constant="32.329999999999998" id="hFN-eH-IJk"/>
                                                     <constraint firstItem="A2S-tl-aal" firstAttribute="leading" secondItem="vdH-dm-7bM" secondAttribute="leading" constant="32" id="hTL-Mh-j8A"/>
                                                     <constraint firstAttribute="bottom" secondItem="A2S-tl-aal" secondAttribute="bottom" constant="8" id="myc-V2-zZg"/>
@@ -471,6 +490,9 @@
                         <outlet property="view2x2" destination="z3X-eL-1AB" id="v81-Md-uIc"/>
                         <outlet property="view3x1" destination="9C2-cQ-6cR" id="BbY-0m-XOg"/>
                         <outlet property="view3x2" destination="vdH-dm-7bM" id="F3g-Ty-xTA"/>
+                        <segue destination="BPv-b3-8cj" kind="show" identifier="createAcc" id="m9T-Zk-JMi"/>
+                        <segue destination="0UW-lx-0VJ" kind="show" identifier="lookupAcc" id="fT9-Cr-v3n"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="signout" id="bQA-kT-tgO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nl5-Es-C4v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1078,7 +1100,8 @@
         <image name="stat-icon" width="170.66667175292969" height="170.66667175292969"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SwA-9j-bgT"/>
-        <segue reference="81K-Wd-CyR"/>
+        <segue reference="fT9-Cr-v3n"/>
+        <segue reference="8Ip-ge-goz"/>
+        <segue reference="bQA-kT-tgO"/>
     </inferredMetricsTieBreakers>
 </document>
