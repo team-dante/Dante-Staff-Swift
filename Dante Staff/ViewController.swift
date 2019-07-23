@@ -66,8 +66,9 @@ class ViewController: UIViewController {
         
         // The listener gets called whenever the user's sign-in state changes
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            // self.setTitleDisplay(user)
-            //self.tableView.reloadData()
+            if let userLocal = Auth.auth().currentUser {
+                print("==> ERROR: USER IS STILL SIGNED IN ==>", userLocal.email!)
+            }
         }
     }
     

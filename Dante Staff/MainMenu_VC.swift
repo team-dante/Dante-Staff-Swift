@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var view1x1: UIView!
@@ -16,19 +17,41 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBOutlet weak var view2x2: UIView!
     @IBOutlet weak var view3x1: UIView!
     @IBOutlet weak var view3x2: UIView!
+    @IBOutlet weak var staffLastName: UILabel!
     
     var viewColor : UIColor!
+    var handle: AuthStateDidChangeListenerHandle?
+    var ref: DatabaseReference!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Show the Navigation Bar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = Auth.auth().currentUser {
+                let phoneNum = user.email!.split(separator: "@")[0]
+                Database.database().reference().child("staffs").observeSingleEvent(of: .value, with: { (snapshot) in
+                    for eachDoctor in snapshot.children.allObjects as! [DataSnapshot] {
+                        let dict = eachDoctor.value as? [String : String] ?? [:]
+                        if (String(dict["phoneNum"]!) == String(phoneNum)) {
+                            self.staffLastName.text = "Welcome, Staff \(dict["lastName"] ?? "")"
+                        }
+                    }
+                }) { (error) in
+                    print("=====>", error.localizedDescription)
+                }
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         // Hide the Navigation Bar
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        // detach listener
+        Auth.auth().removeStateDidChangeListener(handle!)
     }
     
     @IBAction func btnPressed1x1(_ sender: Any) {
@@ -100,11 +123,6 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         self.view3x2.backgroundColor = viewColor
         try! Auth.auth().signOut()
         let user = Auth.auth().currentUser
-        if let user = user {
-            print("User is still signed in ======>", user)
-        } else {
-            print("@@@@@@, user does not exist or user is signed out")
-        }
         self.performSegue(withIdentifier: "signout", sender: self)
     }
     @IBAction func dragExit3x2(_ sender: Any) {
