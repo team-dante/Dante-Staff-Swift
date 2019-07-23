@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import LocalAuthentication
 
 var vSpinner : UIView?
 extension UIViewController {
@@ -56,8 +57,25 @@ class ViewController: UIViewController {
     @IBOutlet weak var pinTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var uncheckedBox: UIImageView!
     var handle: AuthStateDidChangeListenerHandle?
+    var isChecked = true
     
+    @IBAction func rememberMeBtnPressed(_ sender: UIButton) {
+        activateBtn(bool: !isChecked)
+    }
+    
+    func activateBtn(bool: Bool) {
+        isChecked = bool
+        
+        if bool {
+            uncheckedBox.image = UIImage(named: "checked-box")
+        }
+        else {
+            uncheckedBox.image = UIImage(named: "unchecked-box")
+        }
+    }
+    @IBOutlet weak var rememberMeBtnPressed: UIButton!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
