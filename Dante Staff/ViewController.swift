@@ -60,6 +60,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var uncheckedBox: UIImageView!
     var handle: AuthStateDidChangeListenerHandle?
     var isChecked = true
+    var loggedInBtnPressed = false
     
     @IBAction func rememberMeBtnPressed(_ sender: UIButton) {
         activateBtn(bool: !isChecked)
@@ -75,7 +76,7 @@ class ViewController: UIViewController {
             uncheckedBox.image = UIImage(named: "unchecked-box")
         }
     }
-    @IBOutlet weak var rememberMeBtnPressed: UIButton!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -85,7 +86,30 @@ class ViewController: UIViewController {
         // The listener gets called whenever the user's sign-in state changes
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if let userLocal = Auth.auth().currentUser {
-                print("==> ERROR: USER IS STILL SIGNED IN ==>", userLocal.email!)
+                print("==> USER IS STILL SIGNED IN ==> ", userLocal.email!)
+                if (!self.loggedInBtnPressed) {
+                    let myContext = LAContext()
+                    let myLocalizedReasonString = "Log in to your account"
+                    
+                    var authError: NSError?
+                    if #available(iOS 8.0, macOS 10.12.1, *) {
+                        if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+                            myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
+                                DispatchQueue.main.async {
+                                    if success {
+                                        self.performSegue(withIdentifier: "loginToMenu", sender: self)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        // Fallback on earlier
+                    }
+                }
+            }
+            else {
+                print("==> user is signed out ==> ", user?.email ?? "None")
             }
         }
     }
@@ -101,6 +125,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func loginBtnPress(_ sender: Any) {
+        loggedInBtnPressed = true
         guard var email = self.phoneTextField.text, var password = self.pinTextField.text else {
             self.errorLabel.text = "Email or password cannot be empty."
             self.errorLabel.isHidden = false
