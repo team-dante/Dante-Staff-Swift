@@ -11,6 +11,16 @@ import FirebaseDatabase
 import FirebaseAuth
 
 class CreateAccountVC: UIViewController {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.emptyValLabel.text = ""
+        self.emptyValLabel.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.emptyValLabel.text = ""
+        self.emptyValLabel.isHidden = true
+    }
 
     @IBOutlet weak var emptyValLabel: UILabel!
     @IBOutlet weak var firstNameTF: UITextField!

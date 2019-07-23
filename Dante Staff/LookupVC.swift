@@ -10,6 +10,16 @@ import UIKit
 import FirebaseDatabase
 
 class LookupVC: UIViewController {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.noUserFound.text = ""
+        self.noUserFound.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.noUserFound.text = ""
+        self.noUserFound.isHidden = true
+    }
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var lookupBtn: UIButton!
@@ -18,8 +28,6 @@ class LookupVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.noUserFound.isHidden = true
         
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = UIColor.white
