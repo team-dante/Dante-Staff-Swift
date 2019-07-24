@@ -87,7 +87,9 @@ class ViewController: UIViewController {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if let userLocal = Auth.auth().currentUser {
                 print("==> USER IS STILL SIGNED IN ==> ", userLocal.email!)
-                if (!self.loggedInBtnPressed) {
+                let turnOffFaceId = UserDefaults.standard.bool(forKey: "turnOffFaceID")
+                print("@@@@@@@\(turnOffFaceId)")
+                if (!self.loggedInBtnPressed && turnOffFaceId == false) {
                     let myContext = LAContext()
                     let myLocalizedReasonString = "Log in to your account"
                     
@@ -126,6 +128,12 @@ class ViewController: UIViewController {
     
     @IBAction func loginBtnPress(_ sender: Any) {
         loggedInBtnPressed = true
+        if (isChecked == false) {
+            UserDefaults.standard.set(true, forKey: "turnOffFaceID")
+        }
+        else if (isChecked == true) {
+            UserDefaults.standard.set(false, forKey: "turnOffFaceID")
+        }
         guard var email = self.phoneTextField.text, var password = self.pinTextField.text else {
             self.errorLabel.text = "Email or password cannot be empty."
             self.errorLabel.isHidden = false
