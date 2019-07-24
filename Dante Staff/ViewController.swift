@@ -81,7 +81,7 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // Hide the navigation bar on the this view controller
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         // The listener gets called whenever the user's sign-in state changes
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in

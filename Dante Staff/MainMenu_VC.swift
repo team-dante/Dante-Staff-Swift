@@ -122,7 +122,7 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         view.alpha = 2
         self.view3x2.backgroundColor = viewColor
         try! Auth.auth().signOut()
-        let user = Auth.auth().currentUser
+//        let user = Auth.auth().currentUser
         self.performSegue(withIdentifier: "signout", sender: self)
     }
     @IBAction func dragExit3x2(_ sender: Any) {
@@ -136,7 +136,7 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
             let imagePickerController = UIImagePickerController()
             imagePickerController.delegate = self
             imagePickerController.sourceType = .camera
-            self.present(imagePickerController, animated: true, completion: nil)
+            self.present(imagePickerController, animated: false, completion: nil)
         }
 
     }
