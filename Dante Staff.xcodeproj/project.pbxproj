@@ -36,6 +36,7 @@
 		2458D60D22E23E010020EA39 /* MainMenu_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu_VC.swift; sourceTree = "<group>"; };
 		246BE68322E828B900638BF8 /* DanteStaff-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DanteStaff-Bridging-Header.h"; sourceTree = "<group>"; };
 		246BE68422E8432500638BF8 /* BroadcastLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastLocationViewController.swift; sourceTree = "<group>"; };
+		246BE68622E863DC00638BF8 /* Dante Staff.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dante Staff.entitlements"; sourceTree = "<group>"; };
 		24B153F122E437AA00FF2452 /* DisplayAccVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayAccVC.swift; sourceTree = "<group>"; };
 		24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmCreateAccVC.swift; sourceTree = "<group>"; };
 		649497D397F76F320AD04F58 /* Pods-Dante Staff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dante Staff.release.xcconfig"; path = "Target Support Files/Pods-Dante Staff/Pods-Dante Staff.release.xcconfig"; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		243EF9B822D7D74C0067E2CC /* Dante Staff */ = {
 			isa = PBXGroup;
 			children = (
+				246BE68622E863DC00638BF8 /* Dante Staff.entitlements */,
 				243EF9B922D7D74C0067E2CC /* AppDelegate.swift */,
 				243EF9BB22D7D74C0067E2CC /* ViewController.swift */,
 				243EF9BD22D7D74C0067E2CC /* Main.storyboard */,
@@ -145,6 +147,11 @@
 				TargetAttributes = {
 					243EF9B522D7D74C0067E2CC = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -381,6 +388,7 @@
 			baseConfigurationReference = B89C84FD7C00B60088B7698D /* Pods-Dante Staff.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Dante Staff/Dante Staff.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X86U5N326S;
 				INFOPLIST_FILE = "Dante Staff/Info.plist";
@@ -400,6 +408,7 @@
 			baseConfigurationReference = 649497D397F76F320AD04F58 /* Pods-Dante Staff.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Dante Staff/Dante Staff.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X86U5N326S;
 				INFOPLIST_FILE = "Dante Staff/Info.plist";
