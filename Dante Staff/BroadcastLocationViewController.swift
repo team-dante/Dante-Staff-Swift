@@ -18,14 +18,14 @@ class BroadcastLocationViewController: UIViewController {
     var region: KTKBeaconRegion!
     
     @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var stopBtnLabel: UIButton!
+    @IBOutlet weak var stopBtnLabel: CustomButton!
     @IBOutlet weak var roomLabel: UILabel!
     var userPhoneNum : String?
     
     // records a queue of 10 distances for each beacon
     var roomDict: [Int: [Double]] = [1: [], 2: [], 3:[]]
     // map beacon major to the real clinic room
-    let majorToRoom = [ 1: "Exam1", 2: "CTRoom", 3: "femaleWaitingRoom" ]
+    let majorToRoom = [ 1: "exam1", 2: "CTRoom", 3: "femaleWaitingRoom" ]
     // map beacon major to its corresponding cutoff value (1m)
     let cutoff = [1: 1.5, 2: 1.5, 3: 1.5]
     // after 10 rounds, perform stats analysis
@@ -40,7 +40,6 @@ class BroadcastLocationViewController: UIViewController {
         super.viewDidLoad()
         
 //        self.roomLabel.text = prettifyRoom(room: "femaleWaitingRoom")
-        stopBtnLabel.layer.cornerRadius = 10.0
         
         userPhoneNum = String((Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? ""))
         

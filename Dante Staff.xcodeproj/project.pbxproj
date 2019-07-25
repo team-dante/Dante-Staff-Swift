@@ -20,6 +20,7 @@
 		24B153F222E437AA00FF2452 /* DisplayAccVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B153F122E437AA00FF2452 /* DisplayAccVC.swift */; };
 		24B153F422E4661000FF2452 /* ConfirmCreateAccVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */; };
 		C95007EABC3557B04AB16DF1 /* Pods_Dante_Staff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B44B7E979D6A0F42CD7507 /* Pods_Dante_Staff.framework */; };
+		DB568A7B22E96076000E1B2C /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB568A7A22E96076000E1B2C /* extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		649497D397F76F320AD04F58 /* Pods-Dante Staff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dante Staff.release.xcconfig"; path = "Target Support Files/Pods-Dante Staff/Pods-Dante Staff.release.xcconfig"; sourceTree = "<group>"; };
 		B2B44B7E979D6A0F42CD7507 /* Pods_Dante_Staff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dante_Staff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B89C84FD7C00B60088B7698D /* Pods-Dante Staff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dante Staff.debug.xcconfig"; path = "Target Support Files/Pods-Dante Staff/Pods-Dante Staff.debug.xcconfig"; sourceTree = "<group>"; };
+		DB568A7A22E96076000E1B2C /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,16 +82,17 @@
 				246BE68622E863DC00638BF8 /* Dante Staff.entitlements */,
 				243EF9B922D7D74C0067E2CC /* AppDelegate.swift */,
 				243EF9BB22D7D74C0067E2CC /* ViewController.swift */,
-				243EF9BD22D7D74C0067E2CC /* Main.storyboard */,
 				241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */,
 				24B153F322E4660F00FF2452 /* ConfirmCreateAccVC.swift */,
 				24B153F122E437AA00FF2452 /* DisplayAccVC.swift */,
 				246BE68322E828B900638BF8 /* DanteStaff-Bridging-Header.h */,
 				246BE68422E8432500638BF8 /* BroadcastLocationViewController.swift */,
 				2458D60D22E23E010020EA39 /* MainMenu_VC.swift */,
-				243EF9C022D7D74E0067E2CC /* Assets.xcassets */,
 				241D1D3C22E418E200EC2EF3 /* LookupVC.swift */,
+				243EF9C022D7D74E0067E2CC /* Assets.xcassets */,
+				243EF9BD22D7D74C0067E2CC /* Main.storyboard */,
 				243EF9C222D7D74E0067E2CC /* LaunchScreen.storyboard */,
+				DB568A7A22E96076000E1B2C /* extensions.swift */,
 				243EF9C522D7D74E0067E2CC /* Info.plist */,
 				2422369522E4EFA200CCF805 /* GoogleService-Info.plist */,
 			);
@@ -239,6 +242,7 @@
 				241D1D3D22E418E200EC2EF3 /* LookupVC.swift in Sources */,
 				246BE68522E8432500638BF8 /* BroadcastLocationViewController.swift in Sources */,
 				2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */,
+				DB568A7B22E96076000E1B2C /* extensions.swift in Sources */,
 				241D1D3B22E39ADE00EC2EF3 /* CreateAccountVC.swift in Sources */,
 				243EF9BA22D7D74C0067E2CC /* AppDelegate.swift in Sources */,
 				24B153F222E437AA00FF2452 /* DisplayAccVC.swift in Sources */,

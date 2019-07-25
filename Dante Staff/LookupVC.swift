@@ -22,7 +22,7 @@ class LookupVC: UIViewController {
     }
 
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var lookupBtn: UIButton!
+    @IBOutlet weak var lookupBtn: CustomButton!
     
     var dataPassed = ["":""]
     
@@ -38,9 +38,7 @@ class LookupVC: UIViewController {
         let clearButton = textFieldInsideSearchBar?.value(forKey: "clearButton") as! UIButton
         clearButton.setImage(UIImage(named: "ic_clear"), for: .normal)
         clearButton.tintColor = .white
-        
-        lookupBtn.layer.cornerRadius = 10.0
-        
+                
         self.addDoneButtonOnKeyboard()
         
     }

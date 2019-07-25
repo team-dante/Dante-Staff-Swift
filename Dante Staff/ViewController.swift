@@ -35,27 +35,15 @@ extension UIViewController {
     }
 }
 
-extension UITextField {
-    func underlined(){
-        let border = CALayer()
-        let width = CGFloat(1.0)
-        border.borderColor = UIColor.gray.cgColor
-        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
-        border.borderWidth = width
-        self.layer.addSublayer(border)
-        self.layer.masksToBounds = true
-    }
-}
-
 class ViewController: UIViewController {
 
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var loginView: UIView!
     @IBOutlet weak var moveBothTextFieldsUp: NSLayoutConstraint!
     @IBOutlet weak var loginIcon: UIImageView!
-    @IBOutlet weak var phoneTextField: UITextField!
-    @IBOutlet weak var pinTextField: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var phoneTextField: CustomTextField!
+    @IBOutlet weak var pinTextField: CustomTextField!
+    @IBOutlet weak var loginButton: CustomButton!
     
     @IBOutlet weak var uncheckedBox: UIImageView!
     var handle: AuthStateDidChangeListenerHandle?
@@ -167,37 +155,11 @@ class ViewController: UIViewController {
         
         self.errorLabel.isHidden = true
         
-        self.loginView.layer.cornerRadius = 10.0
+        self.loginView.layer.cornerRadius = 12.0
         self.loginView.layer.shadowColor = UIColor.black.cgColor
         self.loginView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         self.loginView.layer.shadowRadius = 0.5
         self.loginView.layer.shadowOpacity = 0.5
-        
-        self.phoneTextField.underlined()
-        phoneTextField.leftView =  UIView(frame: CGRect(x: 0, y: 0, width: 5, height: phoneTextField.frame.height))
-        phoneTextField.leftViewMode = .always
-        self.phoneTextField.layer.cornerRadius = 10.0
-        self.phoneTextField.layer.shadowColor = UIColor.darkGray.cgColor
-        self.phoneTextField.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        self.phoneTextField.layer.shadowRadius = 0.5
-        self.phoneTextField.layer.shadowOpacity = 0.5
-        
-        self.pinTextField.underlined()
-        pinTextField.leftView =  UIView(frame: CGRect(x: 0, y: 0, width: 5, height: pinTextField.frame.height))
-        pinTextField.leftViewMode = .always
-        self.pinTextField.layer.cornerRadius = 10.0
-        self.pinTextField.layer.shadowColor = UIColor.darkGray.cgColor
-        self.pinTextField.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        self.pinTextField.layer.shadowRadius = 0.5
-        self.pinTextField.layer.shadowOpacity = 0.5
-        
-        
-        self.loginButton.layer.cornerRadius = 10.0
-        self.loginButton.layer.shadowColor = UIColor.black.cgColor
-        self.loginButton.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        self.loginButton.layer.shadowRadius = 0.5
-        self.loginButton.layer.shadowOpacity = 0.5
-        
 
         self.loginIcon.layer.shadowColor = UIColor.black.cgColor
         self.loginIcon.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
@@ -206,6 +168,7 @@ class ViewController: UIViewController {
         
         self.addDoneButtonOnKeyboard()
         
+        self.loginButton.backgroundColor = UIColor(red: 105/255, green: 151/255, blue: 188/255, alpha: 1.0)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 

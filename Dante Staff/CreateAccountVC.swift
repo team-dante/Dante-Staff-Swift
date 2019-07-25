@@ -23,26 +23,15 @@ class CreateAccountVC: UIViewController {
     }
 
     @IBOutlet weak var emptyValLabel: UILabel!
-    @IBOutlet weak var firstNameTF: UITextField!
-    @IBOutlet weak var lastNameTF: UITextField!
-    @IBOutlet weak var phoneNumTF: UITextField!
-    @IBOutlet weak var pinTF: UITextField!
-    @IBOutlet weak var createBtn: UIButton!
+    @IBOutlet weak var firstNameTF: CustomFieldRounded!
+    @IBOutlet weak var lastNameTF: CustomFieldRounded!
+    @IBOutlet weak var phoneNumTF: CustomFieldRounded!
+    @IBOutlet weak var pinTF: CustomFieldRounded!
+    @IBOutlet weak var createBtn: CustomButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         emptyValLabel.isHidden = true
-        
-        self.createBtn.layer.cornerRadius = 10.0
-        
-        self.firstNameTF.layer.cornerRadius = 10.0
-
-        self.lastNameTF.layer.cornerRadius = 10.0
-
-        self.phoneNumTF.layer.cornerRadius = 10.0
-
-        self.pinTF.layer.cornerRadius = 10.0
-
         
         self.addDoneButtonOnKeyboard()
     }

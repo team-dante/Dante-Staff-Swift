@@ -10,11 +10,9 @@ import UIKit
 
 class ConfirmCreateAccVC: UIViewController {
 
-    @IBOutlet weak var mainMenuBtn: UIButton!
+    @IBOutlet weak var mainMenuBtn: CustomButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        mainMenuBtn.layer.cornerRadius = 10.0
     }
 
 }

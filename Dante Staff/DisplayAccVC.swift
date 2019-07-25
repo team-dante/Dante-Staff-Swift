@@ -15,10 +15,9 @@ class DisplayAccVC: UIViewController {
     @IBOutlet weak var phoneNum: UILabel!
     @IBOutlet weak var pin: UILabel!
     @IBOutlet weak var blurView: UIView!
-    @IBOutlet weak var mainMenuBtn: UIButton!
+    @IBOutlet weak var mainMenuBtn: CustomButton!
     var dataReceived = ["":""]
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +29,6 @@ class DisplayAccVC: UIViewController {
         self.pin.text = dataReceived["patientPin"]
     
         
-        mainMenuBtn.layer.cornerRadius = 10.0
         blurView.layer.cornerRadius = 10.0
     }
 
