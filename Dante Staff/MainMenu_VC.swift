@@ -31,6 +31,7 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBAction func btnReleased1x1(_ sender: Any) {
         view.alpha = 2
         self.view1x1.backgroundColor = viewColor
+        self.performSegue(withIdentifier: "goToBroadcast", sender: self)
     }
     @IBAction func dragExit1x1(_ sender: Any) {
         self.view1x1.backgroundColor = viewColor
@@ -95,6 +96,7 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         //        let user = Auth.auth().currentUser
         self.performSegue(withIdentifier: "signout", sender: self)
     }
+
     @IBAction func dragExit3x2(_ sender: Any) {
         self.view3x2.backgroundColor = viewColor
     }
@@ -152,7 +154,6 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         view2x2.layer.cornerRadius = 10.0
         view3x1.layer.cornerRadius = 10.0
         view3x2.layer.cornerRadius = 10.0
-        
         
     }
         

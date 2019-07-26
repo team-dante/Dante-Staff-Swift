@@ -11,6 +11,36 @@ import FirebaseDatabase
 
 class LookupVC: UIViewController {
     
+    var dataPassed = ["":""]
+
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var lookupBtn: CustomButton!
+    @IBOutlet weak var noUserFound: UILabel!
+    @IBAction func lookupBtnPressed(_ sender: Any) {
+        ViewController().showSpinner(onView: self.view)
+        
+        Database.database().reference().child("Patients")
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                for eachPatient in snapshot.children {
+                    let snap = eachPatient as! DataSnapshot
+                    let dict = snap.value as! [String: String]
+                    if (dict["patientPhoneNumber"] == self.searchBar.text) {
+                        self.dataPassed = dict
+                        print("===>\(self.dataPassed)")
+                        self.searchBar.text = ""
+                        self.performSegue(withIdentifier: "lookupvc", sender: self)
+                    }
+                }
+            })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.searchBar.text = ""
+            self.noUserFound.isHidden = false
+            self.noUserFound.text = "This phone number does not exist."
+            ViewController().removeSpinner()
+        }
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         self.noUserFound.text = ""
         self.noUserFound.isHidden = true
@@ -20,11 +50,6 @@ class LookupVC: UIViewController {
         self.noUserFound.text = ""
         self.noUserFound.isHidden = true
     }
-
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var lookupBtn: CustomButton!
-    
-    var dataPassed = ["":""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,37 +68,13 @@ class LookupVC: UIViewController {
         
     }
     
-    @IBOutlet weak var noUserFound: UILabel!
-    
-    @IBAction func lookupBtnPressed(_ sender: Any) {
-        ViewController().showSpinner(onView: self.view)
-        
-        Database.database().reference().child("Patients")
-            .observeSingleEvent(of: .value, with: { (snapshot) in
-                for eachPatient in snapshot.children {
-                    let snap = eachPatient as! DataSnapshot
-                    let dict = snap.value as! [String: String]
-                    if (dict["patientPhoneNumber"] == self.searchBar.text) {
-                        self.dataPassed = dict
-                        print("===>\(self.dataPassed)")
-                        self.searchBar.text = ""
-                        self.performSegue(withIdentifier: "lookupvc", sender: self)
-                    }
-                }
-            })
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.searchBar.text = ""
-                self.noUserFound.isHidden = false
-                self.noUserFound.text = "This phone number does not exist."
-                ViewController().removeSpinner()
-            }
-    }
-    
+    // pass data to the next view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? DisplayAccVC
         vc!.dataReceived = self.dataPassed
     }
     
+    // add Done button on top of keyboard
     func addDoneButtonOnKeyboard()
     {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -88,7 +89,6 @@ class LookupVC: UIViewController {
 
         searchBar.inputAccessoryView = doneToolbar
     }
-
     @objc func doneButtonAction(){
         searchBar.resignFirstResponder()
     }

@@ -26,21 +26,13 @@ class BroadcastLocationViewController: UIViewController {
     let threshold = 5
     var count = 0
     var currRoom = ""
-    var counting = 5
+    var counting = 6
     
-    
-    @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var stopBtnLabel: CustomButton!
-    @IBOutlet weak var roomLabel: UILabel!
-    @IBAction func stopBtnPressed(_ sender: Any) {
-        beaconManager.stopRangingBeacons(in: region)
-        Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
-        self.performSegue(withIdentifier: "backToMenu", sender: self)
-    }
-    
+    @IBOutlet weak var timeTickingLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
         
 //        self.roomLabel.text = prettifyRoom(room: "femaleWaitingRoom")
         
@@ -62,6 +54,19 @@ class BroadcastLocationViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        if self.navigationController?.viewControllers.firstIndex(of: self) == nil {
+            // Back button pressed because self is no longer in the navigation stack.
+            // Stop ranging if needed
+            beaconManager.stopRangingBeacons(in: region)
+        
+            if (userPhoneNum != "445566") {
+              Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
+            }
+        }
+        super.viewWillDisappear(animated)
+    }
+    
     func prettifyRoom(room: String) -> String {
         switch room {
         case "femaleWaitingRoom":
@@ -73,15 +78,6 @@ class BroadcastLocationViewController: UIViewController {
         default:
             return ""
         }
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        if self.navigationController?.viewControllers.firstIndex(of: self) == nil {
-            // Back button pressed because self is no longer in the navigation stack.
-            // Stop ranging if needed
-            beaconManager.stopRangingBeacons(in: region)
-            Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
-        }
-        super.viewWillDisappear(animated)
     }
 
 }
@@ -97,8 +93,10 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
         
         // wait a few rounds (5) to gather data to compute avg
         if (self.count < self.threshold) {
-            self.count -= 1
-            self.countLabel.text = "\(count) sec"
+            self.count += 1
+            
+            self.counting -= 1
+            self.timeTickingLabel.text = "Initiate Location Tracking in \(counting)"
             
             for beacon in beacons {
                 // if too far, assume 999m away
@@ -109,9 +107,11 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
                 }
             }
         } else {
+            
+            if counting == 0 {counting = 6}
             self.counting -= 1
-            if counting > 5 {counting = 0}
-            self.countLabel.text = "\(counting) sec"
+            self.timeTickingLabel.text = "Beacons detected. Your location will be updated in \(counting)"
+            
             for beacon in beacons {
                 // queue system; dequeue iff array length >= threshold
                 if self.roomDict[Int(truncating: beacon.major)]!.count >= threshold {
@@ -140,13 +140,17 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
             if sortedBeaconArr.count != 0 {
                 if sortedBeaconArr[0].value >= self.cutoff[sortedBeaconArr[0].key]! {
                     self.currRoom = "Private"
+                    self.timeTickingLabel.text = "No beacons detected nearby. Please go closer to the beacons. Your location will be updated in \(counting)"
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
-                    self.roomLabel.text = prettifyRoom(room: currRoom)
-                    Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
+                   
+                    if (userPhoneNum != "445566") {
+                        Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
+                    }
                 }
             } else {
                 self.currRoom = "Private"
+                self.timeTickingLabel.text = "No beacons detected nearby. Please go closer to the beacons. Your location will be updated in \(counting)"
             }
     }
     

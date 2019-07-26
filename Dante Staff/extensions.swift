@@ -58,7 +58,7 @@ class CustomTextField: UITextField {
 class CustomFieldRounded: UITextField {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
-        self.layer.cornerRadius = self.frame.height / 2.5
+        self.layer.cornerRadius = 5.0
 
         let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 12.0, height: 20.0))
         self.leftView = leftView

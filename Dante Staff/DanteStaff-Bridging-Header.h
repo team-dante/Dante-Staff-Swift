@@ -11,5 +11,4 @@
 
 #import <KontaktSDK/KontaktSDK.h>
 
-
 #endif /* DanteStaff_Bridging_Header_h */

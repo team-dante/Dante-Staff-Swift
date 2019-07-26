@@ -131,7 +131,7 @@ class ViewController: UIViewController {
         
         self.addDoneButtonOnKeyboard()
         
-        self.loginButton.backgroundColor = UIColor(red: 105/255, green: 151/255, blue: 188/255, alpha: 1.0)
+        self.loginButton.backgroundColor = UIColor(displayP3Red: 0.205, green: 0.471, blue: 0.966, alpha: 1)
         
         // Pushes keyboard based on the y-position of a text input
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
