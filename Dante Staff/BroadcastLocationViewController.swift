@@ -14,14 +14,8 @@ import FirebaseAuth
 class BroadcastLocationViewController: UIViewController {
     
     var beaconManager: KTKBeaconManager!
-    
     var region: KTKBeaconRegion!
-    
-    @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var stopBtnLabel: CustomButton!
-    @IBOutlet weak var roomLabel: UILabel!
     var userPhoneNum : String?
-    
     // records a queue of 10 distances for each beacon
     var roomDict: [Int: [Double]] = [1: [], 2: [], 3:[]]
     // map beacon major to the real clinic room
@@ -30,11 +24,20 @@ class BroadcastLocationViewController: UIViewController {
     let cutoff = [1: 1.5, 2: 1.5, 3: 1.5]
     // after 10 rounds, perform stats analysis
     let threshold = 5
-    
     var count = 0
     var currRoom = ""
-    var counting = 0
-
+    var counting = 5
+    
+    
+    @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var stopBtnLabel: CustomButton!
+    @IBOutlet weak var roomLabel: UILabel!
+    @IBAction func stopBtnPressed(_ sender: Any) {
+        beaconManager.stopRangingBeacons(in: region)
+        Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
+        self.performSegue(withIdentifier: "backToMenu", sender: self)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,12 +74,6 @@ class BroadcastLocationViewController: UIViewController {
             return ""
         }
     }
-    
-    @IBAction func stopBtnPressed(_ sender: Any) {
-        beaconManager.stopRangingBeacons(in: region)
-        Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
-        self.performSegue(withIdentifier: "backToMenu", sender: self)
-    }
     override func viewWillDisappear(_ animated: Bool) {
         if self.navigationController?.viewControllers.firstIndex(of: self) == nil {
             // Back button pressed because self is no longer in the navigation stack.
@@ -100,7 +97,7 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
         
         // wait a few rounds (5) to gather data to compute avg
         if (self.count < self.threshold) {
-            self.count += 1
+            self.count -= 1
             self.countLabel.text = "\(count) sec"
             
             for beacon in beacons {
@@ -112,7 +109,7 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
                 }
             }
         } else {
-            self.counting += 1
+            self.counting -= 1
             if counting > 5 {counting = 0}
             self.countLabel.text = "\(counting) sec"
             for beacon in beacons {

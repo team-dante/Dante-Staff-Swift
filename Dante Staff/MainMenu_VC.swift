@@ -11,6 +11,12 @@ import FirebaseAuth
 import FirebaseDatabase
 
 class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    
+    var viewColor : UIColor!
+    var handle: AuthStateDidChangeListenerHandle?
+    var ref: DatabaseReference!
+    
     @IBOutlet weak var view1x1: UIView!
     @IBOutlet weak var view1x2: UIView!
     @IBOutlet weak var view2x1: UIView!
@@ -18,42 +24,6 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBOutlet weak var view3x1: UIView!
     @IBOutlet weak var view3x2: UIView!
     @IBOutlet weak var staffLastName: UILabel!
-    
-    var viewColor : UIColor!
-    var handle: AuthStateDidChangeListenerHandle?
-    var ref: DatabaseReference!
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        // Show the Navigation Bar
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-        
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let user = Auth.auth().currentUser {
-                let phoneNum = user.email!.split(separator: "@")[0]
-                Database.database().reference().child("staffs").observeSingleEvent(of: .value, with: { (snapshot) in
-                    for eachDoctor in snapshot.children.allObjects as! [DataSnapshot] {
-                        let dict = eachDoctor.value as? [String : String] ?? [:]
-                        if (String(dict["phoneNum"]!) == String(phoneNum)) {
-                            self.staffLastName.text = "Welcome, Staff \(dict["lastName"] ?? "")"
-                        }
-                    }
-                }) { (error) in
-                    print("=====>", error.localizedDescription)
-                }
-            }
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        // Hide the Navigation Bar
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        // detach listener
-        Auth.auth().removeStateDidChangeListener(handle!)
-    }
-    
     @IBAction func btnPressed1x1(_ sender: Any) {
         self.viewColor = self.view1x1.backgroundColor
         self.view1x1.backgroundColor = UIColor(white: 1, alpha: 0.5)
@@ -122,7 +92,7 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         view.alpha = 2
         self.view3x2.backgroundColor = viewColor
         try! Auth.auth().signOut()
-//        let user = Auth.auth().currentUser
+        //        let user = Auth.auth().currentUser
         self.performSegue(withIdentifier: "signout", sender: self)
     }
     @IBAction func dragExit3x2(_ sender: Any) {
@@ -131,20 +101,50 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     
     
     @IBAction func openCameraBtn(_ sender: UIButton) {
-
+        
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let imagePickerController = UIImagePickerController()
             imagePickerController.delegate = self
             imagePickerController.sourceType = .camera
             self.present(imagePickerController, animated: false, completion: nil)
         }
-
+        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        // Show the Navigation Bar
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = Auth.auth().currentUser {
+                let phoneNum = user.email!.split(separator: "@")[0]
+                Database.database().reference().child("staffs").observeSingleEvent(of: .value, with: { (snapshot) in
+                    for eachDoctor in snapshot.children.allObjects as! [DataSnapshot] {
+                        let dict = eachDoctor.value as? [String : String] ?? [:]
+                        if (String(dict["phoneNum"]!) == String(phoneNum)) {
+                            self.staffLastName.text = "Welcome, Staff \(dict["lastName"] ?? "")"
+                        }
+                    }
+                }) { (error) in
+                    print("=====>", error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        // Hide the Navigation Bar
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        // detach listener
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
         
         view1x1.layer.cornerRadius = 10.0
         view1x2.layer.cornerRadius = 10.0

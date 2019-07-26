@@ -10,58 +10,57 @@ import UIKit
 import FirebaseAuth
 import LocalAuthentication
 
-var vSpinner : UIView?
-extension UIViewController {
-    func showSpinner(onView : UIView) {
-        let spinnerView = UIView.init(frame: onView.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
-        ai.startAnimating()
-        ai.center = spinnerView.center
-        
-        DispatchQueue.main.async {
-            spinnerView.addSubview(ai)
-            onView.addSubview(spinnerView)
-        }
-        
-        vSpinner = spinnerView
-    }
-    
-    func removeSpinner() {
-        DispatchQueue.main.async {
-            vSpinner?.removeFromSuperview()
-            vSpinner = nil
-        }
-    }
-}
-
 class ViewController: UIViewController {
+    
+    var handle: AuthStateDidChangeListenerHandle?
+    var isChecked = true
+    var loggedInBtnPressed = false
 
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var loginView: UIView!
+    // add the top constraint to move the text fields above the keyboard
     @IBOutlet weak var moveBothTextFieldsUp: NSLayoutConstraint!
     @IBOutlet weak var loginIcon: UIImageView!
     @IBOutlet weak var phoneTextField: CustomTextField!
     @IBOutlet weak var pinTextField: CustomTextField!
     @IBOutlet weak var loginButton: CustomButton!
-    
     @IBOutlet weak var uncheckedBox: UIImageView!
-    var handle: AuthStateDidChangeListenerHandle?
-    var isChecked = true
-    var loggedInBtnPressed = false
-    
     @IBAction func rememberMeBtnPressed(_ sender: UIButton) {
         activateBtn(bool: !isChecked)
     }
-    
-    func activateBtn(bool: Bool) {
-        isChecked = bool
-        
-        if bool {
-            uncheckedBox.image = UIImage(named: "checked-box")
+    @IBAction func loginBtnPress(_ sender: Any) {
+        loggedInBtnPressed = true
+        if (isChecked == false) {
+            UserDefaults.standard.set(true, forKey: "turnOffFaceID")
         }
-        else {
-            uncheckedBox.image = UIImage(named: "unchecked-box")
+        else if (isChecked == true) {
+            UserDefaults.standard.set(false, forKey: "turnOffFaceID")
+        }
+        guard var email = self.phoneTextField.text, var password = self.pinTextField.text else {
+            self.errorLabel.text = "Email or password cannot be empty."
+            self.errorLabel.isHidden = false
+            self.phoneTextField.text = ""
+            self.pinTextField.text = ""
+            return
+        }
+        email += "@email.com"
+        password += "ABCDEFG"
+        self.showSpinner(onView: self.view)
+        Auth.auth().signIn(withEmail: email, password: password) {
+            [weak self] user, error in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.removeSpinner()
+            if let error = error {
+                strongSelf.errorLabel.text = error.localizedDescription
+                strongSelf.errorLabel.isHidden = false
+                strongSelf.phoneTextField.text = ""
+                strongSelf.pinTextField.text = ""
+                return
+            }
+            strongSelf.phoneTextField.text = ""
+            strongSelf.pinTextField.text = ""
+            strongSelf.performSegue (withIdentifier: "loginToMenu", sender: strongSelf)
         }
     }
     
@@ -114,42 +113,6 @@ class ViewController: UIViewController {
         Auth.auth().removeStateDidChangeListener(handle!)
     }
     
-    @IBAction func loginBtnPress(_ sender: Any) {
-        loggedInBtnPressed = true
-        if (isChecked == false) {
-            UserDefaults.standard.set(true, forKey: "turnOffFaceID")
-        }
-        else if (isChecked == true) {
-            UserDefaults.standard.set(false, forKey: "turnOffFaceID")
-        }
-        guard var email = self.phoneTextField.text, var password = self.pinTextField.text else {
-            self.errorLabel.text = "Email or password cannot be empty."
-            self.errorLabel.isHidden = false
-            self.phoneTextField.text = ""
-            self.pinTextField.text = ""
-            return
-        }
-        email += "@email.com"
-        password += "ABCDEFG"
-        self.showSpinner(onView: self.view)
-        Auth.auth().signIn(withEmail: email, password: password) {
-            [weak self] user, error in
-            guard let strongSelf = self else { return }
-            
-            strongSelf.removeSpinner()
-            if let error = error {
-                strongSelf.errorLabel.text = error.localizedDescription
-                strongSelf.errorLabel.isHidden = false
-                strongSelf.phoneTextField.text = ""
-                strongSelf.pinTextField.text = ""
-                return
-            }
-            strongSelf.phoneTextField.text = ""
-            strongSelf.pinTextField.text = ""
-            strongSelf.performSegue (withIdentifier: "loginToMenu", sender: strongSelf)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -170,12 +133,24 @@ class ViewController: UIViewController {
         
         self.loginButton.backgroundColor = UIColor(red: 105/255, green: 151/255, blue: 188/255, alpha: 1.0)
         
+        // Pushes keyboard based on the y-position of a text input
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
     }
     
+    func activateBtn(bool: Bool) {
+        isChecked = bool
+        
+        if bool {
+            uncheckedBox.image = UIImage(named: "checked-box")
+        }
+        else {
+            uncheckedBox.image = UIImage(named: "unchecked-box")
+        }
+    }
+    
+    // decide what to do when the keyboard shows
     @objc func keyboardWillShow(notification:NSNotification) {
         let screenHeight = UIScreen.main.bounds.height
         
@@ -200,6 +175,8 @@ class ViewController: UIViewController {
         }
 
     }
+    
+    // decide what to do when keyboard hides
     @objc func keyboardWillHide(notification:NSNotification) {
         self.view.layoutIfNeeded()
 
@@ -210,6 +187,7 @@ class ViewController: UIViewController {
         })
     }
     
+    // add Done button on top of keyboard
     func addDoneButtonOnKeyboard()
     {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -225,7 +203,6 @@ class ViewController: UIViewController {
         phoneTextField.inputAccessoryView = doneToolbar
         pinTextField.inputAccessoryView = doneToolbar
     }
-    
     @objc func doneButtonAction(){
         phoneTextField.resignFirstResponder()
         pinTextField.resignFirstResponder()
