@@ -104,7 +104,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-    
     func hideAllPins() {
         ctYellow.isHidden = true
         ctGreen.isHidden = true
