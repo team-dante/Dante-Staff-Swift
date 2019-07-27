@@ -126,7 +126,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate {
             return ""
         }
     }
-
 }
 
 var flashFirst5 = false
