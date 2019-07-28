@@ -65,10 +65,10 @@ class ViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(true)
         
         // Hide the navigation bar on the this view controller
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+//        self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         // The listener gets called whenever the user's sign-in state changes
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -104,10 +104,10 @@ class ViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+        super.viewWillDisappear(true)
         
         // Show the navigation bar on other view controllers
-        // self.navigationController?.setNavigationBarHidden(false, animated: animated)
+//         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
        // detach listener
         Auth.auth().removeStateDidChangeListener(handle!)

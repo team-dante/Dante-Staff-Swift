@@ -7,24 +7,44 @@
 //
 
 import UIKit
+import NavigationDrawer
+import FirebaseAuth
 
 class SlidingViewVC: UIViewController {
+    
+    var interactor:Interactor? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
+    // Handle gesture
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func handleGesture(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        
+        let progress = MenuHelper.calculateProgress(translationInView: translation, viewBounds: view.bounds, direction: .Left)
+        
+        MenuHelper.mapGestureStateToInteractor(
+            gestureState: sender.state,
+            progress: progress,
+            interactor: interactor){
+                self.dismiss(animated: true, completion: nil)
+        }
+        
     }
-    */
-
+    
+    @IBAction func closeBtnPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    @IBAction func homeBtnPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    @IBAction func logOutBtnPressed(_ sender: Any) {
+        try! Auth.auth().signOut()
+        performSegue(withIdentifier: "signout", sender: self)
+    }
+    
+    
 }

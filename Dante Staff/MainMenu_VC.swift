@@ -9,9 +9,11 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import NavigationDrawer
 
 class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    let interactor = Interactor()
     
     var viewColor : UIColor!
     var handle: AuthStateDidChangeListenerHandle?
@@ -93,9 +95,6 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBAction func btnReleased3x2(_ sender: Any) {
         view.alpha = 2
         self.view3x2.backgroundColor = viewColor
-        try! Auth.auth().signOut()
-        //        let user = Auth.auth().currentUser
-        self.performSegue(withIdentifier: "signout", sender: self)
     }
 
     @IBAction func dragExit3x2(_ sender: Any) {
@@ -120,12 +119,36 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     
     @IBAction func drawerBtnReleased(_ sender: Any) {
         self.hamburgerImage.image = UIImage(named: "hamburger-icon")
+//        performSegue(withIdentifier: "showSlidingView", sender: nil)
     }
     
     @IBAction func dragExitDrawerBtn(_ sender: Any) {
         self.hamburgerImage.image = UIImage(named: "hamburger-icon")
     }
     
+    //3. Add a Pan Gesture to slide the menu from Certain Direction
+    
+    @IBAction func edgePanGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        
+        let progress = MenuHelper.calculateProgress(translationInView: translation, viewBounds: view.bounds, direction: .Right)
+        
+        MenuHelper.mapGestureStateToInteractor(
+            gestureState: sender.state,
+            progress: progress,
+            interactor: interactor){
+                self.performSegue(withIdentifier: "showSlidingMenu", sender: nil)
+        }
+    }
+    
+    //4. Prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationViewController = segue.destination as? SlidingViewVC {
+            destinationViewController.transitioningDelegate = self
+            destinationViewController.interactor = self.interactor
+            //            destinationViewController.mainVC = self
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -173,3 +196,22 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         
 }
 
+//5. Exten BaseVC
+extension MainMenu_VC: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PresentMenuAnimator()
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return DismissMenuAnimator()
+    }
+    
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactor.hasStarted ? interactor : nil
+    }
+    
+    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactor.hasStarted ? interactor : nil
+    }
+}
