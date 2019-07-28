@@ -1,0 +1,6 @@
+framework module NavigationDrawer {
+  umbrella header "NavigationDrawer-umbrella.h"
+
+  export *
+  module * { export * }
+}

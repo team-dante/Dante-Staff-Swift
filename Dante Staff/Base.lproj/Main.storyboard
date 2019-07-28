@@ -200,6 +200,21 @@
             </objects>
             <point key="canvasLocation" x="990" y="457"/>
         </scene>
+        <!--Sliding ViewVC-->
+        <scene sceneID="4Ka-zr-GJY">
+            <objects>
+                <viewController id="e8O-RA-Qab" customClass="SlidingViewVC" customModule="Dante_Staff" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dK5-4S-J9d">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="eGx-BJ-RJf"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nLB-to-1Y8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="927" y="-334"/>
+        </scene>
         <!--Main MenuVC-->
         <scene sceneID="Hzj-1K-Wmf">
             <objects>
@@ -526,6 +541,7 @@
                                             <action selector="dragExitDrawerBtn:" destination="Pgg-ez-raD" eventType="touchDragExit" id="Cy2-tU-bS6"/>
                                             <action selector="drawerBtnPressed:" destination="Pgg-ez-raD" eventType="touchDown" id="O3e-zj-b0r"/>
                                             <action selector="drawerBtnReleased:" destination="Pgg-ez-raD" eventType="touchUpInside" id="Nb9-cU-5RR"/>
+                                            <segue destination="e8O-RA-Qab" kind="presentation" identifier="showSlidingMenu" id="4en-VP-50O"/>
                                         </connections>
                                     </button>
                                 </subviews>
