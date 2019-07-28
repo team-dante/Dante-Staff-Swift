@@ -181,9 +181,27 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         Auth.auth().removeStateDidChangeListener(handle!)
     }
     
+    @objc func panAction(sender: UIScreenEdgePanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        
+        let progress = MenuHelper.calculateProgress(translationInView: translation, viewBounds: view.bounds, direction: .Right)
+        
+        MenuHelper.mapGestureStateToInteractor(
+            gestureState: sender.state,
+            progress: progress,
+            interactor: interactor){
+                self.performSegue(withIdentifier: "showSlidingMenu", sender: nil)
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // allow sliding left from the left edge of the screen
+        let panGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(panAction(sender:)))
+            panGesture.edges = .left
+            view.addGestureRecognizer(panGesture)
         
         view1x1.layer.cornerRadius = 10.0
         view1x2.layer.cornerRadius = 10.0
