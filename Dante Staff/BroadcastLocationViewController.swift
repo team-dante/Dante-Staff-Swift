@@ -10,8 +10,12 @@ import UIKit
 import KontaktSDK
 import Firebase
 import FirebaseAuth
+import FloatingPanel
 
-class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate {
+class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, FloatingPanelControllerDelegate {
+    
+    var fpc : FloatingPanelController!
+    var doctorVC : DoctorListVC!
     
     var beaconManager: KTKBeaconManager!
     var region: KTKBeaconRegion!
@@ -31,6 +35,8 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate {
     var findPinRoom : [String : UIView] = [:]
     var userPinColor = ""
     
+    @IBOutlet weak var bottomView: UIView!
+    
     @IBOutlet weak var timeTickingLabel: UILabel!
     @IBOutlet weak var scrollViewContent: UIScrollView!
     @IBOutlet weak var imageView: UIView!
@@ -46,6 +52,29 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Initialize FloatingPanelController
+        fpc = FloatingPanelController()
+        fpc.delegate = self
+        
+        // Initialize FloatingPanelController and add the view
+        fpc.surfaceView.backgroundColor = UIColor(displayP3Red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+        fpc.surfaceView.cornerRadius = 24.0
+        fpc.surfaceView.shadowHidden = true
+        fpc.surfaceView.borderWidth = 1.0 / traitCollection.displayScale
+        fpc.surfaceView.borderColor = UIColor.black.withAlphaComponent(0.2)
+        
+        doctorVC = storyboard?.instantiateViewController(withIdentifier: "DoctorList") as? DoctorListVC
+        
+        // Set a content view controller
+        fpc.set(contentViewController: doctorVC)
+        fpc.track(scrollView: doctorVC.scrollView)
+        
+        fpc.addPanel(toParent: self, belowView: bottomView, animated: false)
+        
+        fpc.move(to: .tip, animated: true)
+        
+        
         
         hideAllPins()
         

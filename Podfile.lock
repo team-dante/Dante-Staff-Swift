@@ -41,6 +41,7 @@ PODS:
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
+  - FloatingPanel (1.6.1)
   - GoogleAppMeasurement (6.0.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -80,6 +81,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
+  - FloatingPanel
   - KontaktSDK (~> 2.0)
 
 SPEC REPOS:
@@ -91,6 +93,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseDatabase
     - FirebaseInstanceID
+    - FloatingPanel
     - GoogleAppMeasurement
     - GoogleUtilities
     - GTMSessionFetcher
@@ -106,6 +109,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 68f8a7f50cdae542715d4e86afa37c4067217dcb
   FirebaseDatabase: f48e067716864be2b855cf716b927ef375d6cfa0
   FirebaseInstanceID: f20243a1d828e0e9a3798b995174dedc16f1b32a
+  FloatingPanel: 46f000f80eddffd7c27acdb48b813eb1b4ba7d79
   GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
   GoogleUtilities: c7a0b08bda3bf808be823ed151f0e28ac6866e71
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
@@ -113,6 +117,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: d6520dfb8fdb99944ea30364e9f32ebafb55e068
+PODFILE CHECKSUM: bb2d6f6aea1ae95cc3ec57de3765f29f1add1f33
 
 COCOAPODS: 1.7.3

@@ -17,6 +17,7 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     var handle: AuthStateDidChangeListenerHandle?
     var ref: DatabaseReference!
     
+    @IBOutlet weak var hamburgerImage: UIImageView!
     @IBOutlet weak var view1x1: UIView!
     @IBOutlet weak var view1x2: UIView!
     @IBOutlet weak var view2x1: UIView!
@@ -112,6 +113,19 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
         }
         
     }
+    
+    @IBAction func drawerBtnPressed(_ sender: Any) {
+        self.hamburgerImage.image = UIImage(named: "hamburger-pressed-black")
+    }
+    
+    @IBAction func drawerBtnReleased(_ sender: Any) {
+        self.hamburgerImage.image = UIImage(named: "hamburger-icon")
+    }
+    
+    @IBAction func dragExitDrawerBtn(_ sender: Any) {
+        self.hamburgerImage.image = UIImage(named: "hamburger-icon")
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

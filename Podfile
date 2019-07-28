@@ -12,4 +12,5 @@ pod 'Firebase/Database'
 pod 'Firebase/Auth'  
 pod 'Firebase/Analytics'
 pod 'KontaktSDK', '~> 2.0'
+pod 'FloatingPanel'
 end
