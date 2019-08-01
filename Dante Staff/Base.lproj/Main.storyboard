@@ -700,19 +700,26 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="70"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initiate Location Tracking in 5" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQ2-tI-6GS">
-                                        <rect key="frame" x="8" y="0.0" width="398" height="70"/>
+                                        <rect key="frame" x="8" y="0.0" width="376" height="70"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B1e-ib-70r">
+                                        <rect key="frame" x="384" y="5" width="30" height="61"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="yQ2-tI-6GS" secondAttribute="trailing" constant="8" id="2X1-8b-Baz"/>
+                                    <constraint firstAttribute="trailing" secondItem="yQ2-tI-6GS" secondAttribute="trailing" constant="30" id="2X1-8b-Baz"/>
+                                    <constraint firstItem="B1e-ib-70r" firstAttribute="top" secondItem="a64-n4-yNe" secondAttribute="top" constant="5" id="78T-Pr-Xzr"/>
                                     <constraint firstItem="yQ2-tI-6GS" firstAttribute="leading" secondItem="a64-n4-yNe" secondAttribute="leading" constant="8" id="JPm-Gj-zha"/>
+                                    <constraint firstAttribute="trailing" secondItem="B1e-ib-70r" secondAttribute="trailing" id="NCz-S1-UAe"/>
                                     <constraint firstItem="yQ2-tI-6GS" firstAttribute="top" secondItem="a64-n4-yNe" secondAttribute="top" id="SA6-dJ-ne9"/>
                                     <constraint firstAttribute="height" constant="70" id="VSg-PO-6Hg"/>
                                     <constraint firstAttribute="bottom" secondItem="yQ2-tI-6GS" secondAttribute="bottom" id="WzI-an-N0h"/>
+                                    <constraint firstAttribute="bottom" secondItem="B1e-ib-70r" secondAttribute="bottom" constant="4" id="m3L-tY-5qV"/>
+                                    <constraint firstItem="B1e-ib-70r" firstAttribute="leading" secondItem="yQ2-tI-6GS" secondAttribute="trailing" id="tdZ-aH-hEa"/>
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="LqI-Wm-zPJ">
@@ -917,6 +924,7 @@
                         <outlet property="imageView" destination="EFr-pq-AEp" id="lWe-br-Ipr"/>
                         <outlet property="scrollViewContent" destination="LqI-Wm-zPJ" id="Jo1-b3-aBF"/>
                         <outlet property="timeTickingLabel" destination="yQ2-tI-6GS" id="eWh-5X-ckJ"/>
+                        <outlet property="userPinColor" destination="B1e-ib-70r" id="hcO-hs-94W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MKr-cZ-Fxg" userLabel="First Responder" sceneMemberID="firstResponder"/>
