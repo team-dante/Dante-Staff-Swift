@@ -115,7 +115,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
         
-//        self.roomLabel.text = prettifyRoom(room: "femaleWaitingRoom")
+//        self.timeTickingLabel.text = "Beacons detected. You are in Female Waiting Room"
         
         userPhoneNum = String((Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? ""))
         if (userPhoneNum != "445566") {
