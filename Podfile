@@ -15,4 +15,5 @@ pod 'KontaktSDK', '~> 2.0'
 pod 'FloatingPanel'
 pod 'NavigationDrawer'
 pod 'Charts'
+pod 'NVActivityIndicatorView'
 end

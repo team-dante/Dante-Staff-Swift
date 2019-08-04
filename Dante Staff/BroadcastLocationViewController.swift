@@ -11,6 +11,7 @@ import KontaktSDK
 import Firebase
 import FirebaseAuth
 import FloatingPanel
+import NVActivityIndicatorView
 
 class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, FloatingPanelControllerDelegate {
     
@@ -30,9 +31,13 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     let threshold = 5
     var count = 0
     var currRoom = ""
-    var counting = 6
     let pinColor = ["111" : "yellow-pin", "222" : "green-pin"]
     var findPinRoom : [String : UIView] = [:]
+    var descriptionFrameActivityIndicatorView : NVActivityIndicatorView!
+    var mapFrameActivityIndicatorView : NVActivityIndicatorView!
+    var descriptionFrame : CGRect!
+    var mapFrame : CGRect!
+    var firstRunMap = true
     
     @IBOutlet weak var bottomView: UIView!
     
@@ -48,12 +53,38 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     @IBOutlet weak var e1Yellow: UIView!
     @IBOutlet weak var flashImageView: UIView!
     @IBOutlet weak var userPinColor: UIImageView!
-    
+    @IBOutlet weak var pinView: UIView!
+    @IBOutlet weak var descriptionView: UIView!
+    @IBOutlet weak var uciImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideAllPins()
+        
+        // animating the description frame
+        descriptionFrame = CGRect(x: self.descriptionView.bounds.origin.x, y: self.descriptionView.bounds.origin.y, width: self.descriptionView.bounds.size.width, height: self.descriptionView.bounds.size.height)
+        descriptionFrameActivityIndicatorView = NVActivityIndicatorView(frame: descriptionFrame, type: .lineScale, padding: 10)
+        self.descriptionView.addSubview(descriptionFrameActivityIndicatorView)
+        descriptionFrameActivityIndicatorView.startAnimating()
+        self.timeTickingLabel.isHidden = true
+        
+        // animating the map frame
+        mapFrame = CGRect(x: self.flashImageView.bounds.origin.x, y: self.flashImageView.bounds.origin.y, width: self.flashImageView.bounds.size.width, height: self.flashImageView.bounds.size.height)
+        mapFrameActivityIndicatorView = NVActivityIndicatorView(frame: mapFrame, type: .ballClipRotate, padding: 300)
+        self.flashImageView.addSubview(mapFrameActivityIndicatorView)
+        mapFrameActivityIndicatorView.startAnimating()
+        self.uciImageView.isHidden = true
+
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+            self.descriptionFrameActivityIndicatorView.stopAnimating()
+            self.descriptionFrameActivityIndicatorView.removeFromSuperview()
+            self.timeTickingLabel.isHidden = false
+            self.mapFrameActivityIndicatorView.stopAnimating()
+            self.mapFrameActivityIndicatorView.removeFromSuperview()
+            self.uciImageView.isHidden = false
+        }
         
         // Initialize FloatingPanelController
         fpc = FloatingPanelController()
@@ -76,7 +107,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         
         fpc.move(to: .tip, animated: true)
         
-        
         findPinRoom = ["exam1-111"  : e1Yellow,
                        "exam1-222"   : e1Green,
                        "CTRoom-111" : ctYellow,
@@ -93,7 +123,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
                 self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
             }
             self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
-
             
             for (key, value) in postDict {
                 var valueString : String = (value["room"] as? String)!
@@ -108,12 +137,11 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
                     self.findPinRoom[pinColor]?.isHidden = true
                 }
             }
+            
         })
         
         // used for zooming imageView
         scrollViewContent.delegate = self
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
         
 //        self.timeTickingLabel.text = "Beacons detected. You are in Female Waiting Room"
         
@@ -148,10 +176,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
             beaconManager.stopRangingBeacons(in: region)
         
             if (userPhoneNum != "445566") {
-                
-//                 flashFirst5 = false
-//                 flashOnceWhenAppear = false
-//                 flashOnceWhenDisappear = false
               Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
             }
         }
@@ -187,10 +211,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     }
 }
 
-//var flashFirst5 = false
-//var flashOnceWhenAppear = false
-//var flashOnceWhenDisappear = false
-//var prevRoom = ""
 extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
     
     func beaconManager(_ manager: KTKBeaconManager, didRangeBeacons beacons: [CLBeacon], in region: KTKBeaconRegion) {
@@ -204,9 +224,6 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
         if (self.count < self.threshold) {
             self.count += 1
             
-            self.counting -= 1
-
-            self.timeTickingLabel.text = "Initiate Location Tracking in \(counting)"
             
             for beacon in beacons {
                 // if too far, assume 999m away
@@ -217,15 +234,7 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
                 }
             }
         } else {
-//            if (!flashFirst5){
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                    self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
-//                }
-//                self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
-//                flashFirst5 = true
-//            }
-            
-            
+
             for beacon in beacons {
                 // queue system; dequeue iff array length >= threshold
                 if self.roomDict[Int(truncating: beacon.major)]!.count >= threshold {
@@ -254,58 +263,28 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
             if sortedBeaconArr.count != 0 {
                 if sortedBeaconArr[0].value >= self.cutoff[sortedBeaconArr[0].key]! {
                     self.currRoom = "Private"
-//                    if (flashOnceWhenAppear && !flashOnceWhenDisappear) {
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                            self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
-//                        }
-//                        self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
-//                        flashOnceWhenAppear = false
-//                        flashOnceWhenDisappear = true
-//                    }
+
                     if (userPhoneNum != "445566") {
                         Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
                     }
+                    
+                    
                     self.timeTickingLabel.text = "No beacons detected nearby. Your location is currently private."
                     
-//                    hideAllPins()
 
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
                    
                     if (userPhoneNum != "445566") {
-//                        if (!flashOnceWhenAppear) {
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                                self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
-//                            }
-//                            self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
-//                            flashOnceWhenAppear = true
-//                        }
+
                         self.timeTickingLabel.text = "Beacons detected. You are in \(prettifyRoom(room: currRoom))"
                         
-                        
-//                        if (prevRoom == "") {
-//                            prevRoom = currRoom + "-" + userPinColor
-//                            findPinRoom[currRoom + "-" + userPinColor]?.isHidden = false
-//                        }
-//                        else {
-//                            findPinRoom[prevRoom]?.isHidden = true
-//                            findPinRoom[currRoom + "-" + userPinColor]?.isHidden = false
-//                            prevRoom = currRoom + "-" + userPinColor
-//                        }
                         Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
                     }
                 }
             } else {
                 self.currRoom = "Private"
-//                hideAllPins()
-//                if (flashOnceWhenAppear && !flashOnceWhenDisappear) {
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                        self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
-//                    }
-//                    self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
-//                    flashOnceWhenAppear = false
-//                    flashOnceWhenDisappear = true
-//                }
+
                 if (userPhoneNum != "445566") {
                     Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
                 }
