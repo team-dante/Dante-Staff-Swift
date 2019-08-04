@@ -14,4 +14,5 @@ pod 'Firebase/Analytics'
 pod 'KontaktSDK', '~> 2.0'
 pod 'FloatingPanel'
 pod 'NavigationDrawer'
+pod 'Charts'
 end
