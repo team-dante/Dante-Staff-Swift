@@ -63,8 +63,6 @@ class BarChartVC: UIViewController, ChartViewDelegate {
         xaxis.valueFormatter = formatter
         chartView.xAxis.valueFormatter = xaxis.valueFormatter
         
-        
-        
         chartView.data = chartData
     }
     
