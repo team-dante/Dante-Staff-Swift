@@ -26,7 +26,7 @@ class BarChartVC: UIViewController, ChartViewDelegate {
         // x Axis's label
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
-        xAxis.labelFont = .systemFont(ofSize: 15)
+        xAxis.labelFont = .systemFont(ofSize: 10)
         xAxis.labelCount = 12
         
         chartView.drawValueAboveBarEnabled = false
@@ -39,6 +39,7 @@ class BarChartVC: UIViewController, ChartViewDelegate {
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
+        chartView.noDataTextColor = UIColor.black
         chartView.noDataText = "You need to provide data for the chart."
         
         // for a chart to display data, we need to create a BarChartData object and set it as chartView's data attribute
@@ -54,6 +55,16 @@ class BarChartVC: UIViewController, ChartViewDelegate {
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Number of patients treated per month")
         chartDataSet.colors = ChartColorTemplates.vordiplom()
         let chartData = BarChartData(dataSet: chartDataSet)
+        
+        // Relabel x-axis using public class ChartFormatter
+        let formatter: ChartFormatter = ChartFormatter()
+        formatter.setValues(values: dataPoints)
+        let xaxis: XAxis = XAxis()
+        xaxis.valueFormatter = formatter
+        chartView.xAxis.valueFormatter = xaxis.valueFormatter
+        
+        
+        
         chartView.data = chartData
     }
     
@@ -74,6 +85,18 @@ class BarChartVC: UIViewController, ChartViewDelegate {
         
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
         self.present(alert, animated: true)
+    }
+}
+
+public class ChartFormatter: NSObject, IAxisValueFormatter {
+    var monthInText = [String]()
+    
+    public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return monthInText[Int(value)]
+    }
+    
+    public func setValues(values: [String]) {
+        self.monthInText = values
     }
 }
 
