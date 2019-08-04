@@ -53,6 +53,8 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideAllPins()
+        
         // Initialize FloatingPanelController
         fpc = FloatingPanelController()
         fpc.delegate = self
@@ -74,8 +76,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         
         fpc.move(to: .tip, animated: true)
         
-//        hideAllPins()
-        
         
         findPinRoom = ["exam1-111"  : e1Yellow,
                        "exam1-222"   : e1Green,
@@ -87,7 +87,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         Database.database().reference().child("DoctorLocation").observe(DataEventType.value, with: { (snapshot) in
             let postDict = snapshot.value as? [String: AnyObject] ?? [:]
             
-            self.hideAllPins()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
@@ -135,6 +134,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.hideAllPins()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
