@@ -86,7 +86,8 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         
         Database.database().reference().child("DoctorLocation").observe(DataEventType.value, with: { (snapshot) in
             let postDict = snapshot.value as? [String: AnyObject] ?? [:]
-            
+        
+            self.hideAllPins()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
