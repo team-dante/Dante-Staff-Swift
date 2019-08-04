@@ -22,8 +22,11 @@ class BarChartVC: UIViewController, ChartViewDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Save", style: .done, target: self, action: #selector(self.action(sender:)))
         
         chartView.delegate = self
+        // disable zooming
+        chartView.setScaleEnabled(false)
         
-        // x Axis's label
+        
+        // x-Axis's label
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
@@ -54,6 +57,7 @@ class BarChartVC: UIViewController, ChartViewDelegate {
         
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Number of patients treated per month")
         chartDataSet.colors = ChartColorTemplates.vordiplom()
+        chartDataSet.barBorderWidth = 1
         let chartData = BarChartData(dataSet: chartDataSet)
         
         // Relabel x-axis using public class ChartFormatter
