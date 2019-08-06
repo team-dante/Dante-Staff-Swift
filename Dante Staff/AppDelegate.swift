@@ -76,41 +76,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        if let rootViewController = UIApplication.topViewController() {
-            let name = String(describing: type(of: rootViewController.self))
-            if (name != "ViewController") {
-                rootViewController.navigationController?.setNavigationBarHidden(true, animated: false)
-                rootViewController.view.blurView(style: UIBlurEffect.Style.dark)
-                
-                let myContext = LAContext()
-                let myLocalizedReasonString = "Log in to your account"
-                
-                var authError: NSError?
-                if #available(iOS 8.0, macOS 10.12.1, *) {
-                    if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                        myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
-                            DispatchQueue.main.async {
-                                if success {
-                                    if (name == "MainMenu_VC" || name == "CAMImagePickerCameraViewController")
-                                    {
-                                        rootViewController.navigationController?.setNavigationBarHidden(true, animated: false)
-//                                        print("###########\(name)")
-                                    }
-                                    else {
-                                        rootViewController.navigationController?.setNavigationBarHidden(false, animated: false)
-//                                        print("@@@@@@@@@@@@\(name)")
-                                    }
-                                    rootViewController.view.removeBlur()
-                                }
-                            }
-                        }
-                    }
-                }
-                else {
-                    // Fallback on earlier
-                }
-            }
-        }
+//        if let rootViewController = UIApplication.topViewController() {
+//            let name = String(describing: type(of: rootViewController.self))
+//            if (name != "ViewController") {
+//                rootViewController.navigationController?.setNavigationBarHidden(true, animated: false)
+//                rootViewController.view.blurView(style: UIBlurEffect.Style.dark)
+//
+//                let myContext = LAContext()
+//                let myLocalizedReasonString = "Log in to your account"
+//                
+//                var authError: NSError?
+//                if #available(iOS 8.0, macOS 10.12.1, *) {
+//                    if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+//                        myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
+//                            DispatchQueue.main.async {
+//                                if success {
+//                                    if (name == "MainMenu_VC" || name == "CAMImagePickerCameraViewController")
+//                                    {
+//                                        rootViewController.navigationController?.setNavigationBarHidden(true, animated: false)
+////                                        print("###########\(name)")
+//                                    }
+//                                    else {
+//                                        rootViewController.navigationController?.setNavigationBarHidden(false, animated: false)
+////                                        print("@@@@@@@@@@@@\(name)")
+//                                    }
+//                                    rootViewController.view.removeBlur()
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                else {
+//                    // Fallback on earlier
+//                }
+//            }
+//        }
 
 
     }
