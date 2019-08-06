@@ -24,38 +24,46 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     // records a queue of 10 distances for each beacon
     var roomDict: [Int: [Double]] = [1: [], 2: [], 3:[]]
     // map beacon major to the real clinic room
-    let majorToRoom = [ 1: "exam1", 2: "CTRoom", 3: "femaleWaitingRoom" ]
+    let majorToRoom = [ 1: "CT Simulator", 2: "Linear Accelerator 1", 3: "Trilogy Linear Accelerator" ]
     // map beacon major to its corresponding cutoff value (1m)
     let cutoff = [1: 1.5, 2: 1.5, 3: 1.5]
     // after 10 rounds, perform stats analysis
     let threshold = 5
     var count = 0
     var currRoom = ""
-    let pinColor = ["111" : "yellow-pin", "222" : "green-pin"]
-    var findPinRoom : [String : UIView] = [:]
+    
+    @IBOutlet weak var uciImageView: UIImageView!
+    @IBOutlet weak var mapView: UIView!
+    @IBOutlet weak var descriptionView: UIView!
     var descriptionFrameActivityIndicatorView : NVActivityIndicatorView!
     var mapFrameActivityIndicatorView : NVActivityIndicatorView!
     var descriptionFrame : CGRect!
     var mapFrame : CGRect!
-    var firstRunMap = true
+    
+    let pinColor = ["111" : 1,
+                    "222" : 2,
+                    "333" : 3,
+                    "444" : 4,
+                    "555" : 5,
+                    "666" : 6,
+                    "777" : 7,
+                    "888" : 8,
+                    "999" : 9,
+                    "1000" : 10]
+    
+    @IBOutlet weak var ctsView: UIView!
+    @IBOutlet weak var tlaView: UIView!
+    @IBOutlet weak var la1View: UIView!
+
+    @IBOutlet weak var timeTickingLabel: UILabel!
     
     @IBOutlet weak var bottomView: UIView!
-    
-    @IBOutlet weak var timeTickingLabel: UILabel!
     @IBOutlet weak var scrollViewContent: UIScrollView!
-    @IBOutlet weak var imageView: UIView!
-    
-    @IBOutlet weak var ctYellow: UIView!
-    @IBOutlet weak var ctGreen: UIView!
-    @IBOutlet weak var fwrYellow: UIView!
-    @IBOutlet weak var fwrGreen: UIView!
-    @IBOutlet weak var e1Green: UIView!
-    @IBOutlet weak var e1Yellow: UIView!
     @IBOutlet weak var flashImageView: UIView!
+    
     @IBOutlet weak var userPinColor: UIImageView!
     @IBOutlet weak var pinView: UIView!
-    @IBOutlet weak var descriptionView: UIView!
-    @IBOutlet weak var uciImageView: UIImageView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,15 +76,15 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         self.descriptionView.addSubview(descriptionFrameActivityIndicatorView)
         descriptionFrameActivityIndicatorView.startAnimating()
         self.timeTickingLabel.isHidden = true
-        
+
         // animating the map frame
-        mapFrame = CGRect(x: self.flashImageView.bounds.origin.x, y: self.flashImageView.bounds.origin.y, width: self.flashImageView.bounds.size.width, height: self.flashImageView.bounds.size.height)
+        mapFrame = CGRect(x: self.mapView.bounds.origin.x, y: self.mapView.bounds.origin.y, width: self.mapView.bounds.size.width, height: self.mapView.bounds.size.height)
         mapFrameActivityIndicatorView = NVActivityIndicatorView(frame: mapFrame, type: .ballClipRotate, padding: 300)
-        self.flashImageView.addSubview(mapFrameActivityIndicatorView)
+        self.mapView.addSubview(mapFrameActivityIndicatorView)
         mapFrameActivityIndicatorView.startAnimating()
         self.uciImageView.isHidden = true
 
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
             self.descriptionFrameActivityIndicatorView.stopAnimating()
             self.descriptionFrameActivityIndicatorView.removeFromSuperview()
@@ -107,16 +115,9 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         
         fpc.move(to: .tip, animated: true)
         
-        findPinRoom = ["exam1-111"  : e1Yellow,
-                       "exam1-222"   : e1Green,
-                       "CTRoom-111" : ctYellow,
-                       "CTRoom-222"  : ctGreen,
-                       "femaleWaitingRoom-111" : fwrYellow,
-                       "femaleWaitingRoom-222"  : fwrGreen]
-        
-        Database.database().reference().child("DoctorLocation").observe(DataEventType.value, with: { (snapshot) in
+        Database.database().reference().child("StaffLocation").observe(DataEventType.value, with: { (snapshot) in
             let postDict = snapshot.value as? [String: AnyObject] ?? [:]
-        
+            
             self.hideAllPins()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -124,31 +125,43 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
             }
             self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
             
-            for (key, value) in postDict {
-                var valueString : String = (value["room"] as? String)!
-                var pinColor : String = ""
-
-                if (valueString != "Private") {
-                    pinColor = valueString + "-" + key
-                    self.findPinRoom[pinColor]?.isHidden = false
+            for (key , value) in postDict {
+                let roomString : String = (value["room"] as? String)!
+                
+                if (roomString == "Linear Accelerator 1") {
+                    
+                    let iTag = self.pinColor[key]
+                    print("linear accelerator 1 ==> ", iTag!)
+                    self.la1View.viewWithTag(iTag!)!.isHidden = false
                 }
-                else if (valueString == "Private") {
-                    pinColor = valueString + "-" + key
-                    self.findPinRoom[pinColor]?.isHidden = true
+                else if (roomString == "CT Simulator") {
+                    let iTag = self.pinColor[key]
+                    print("CT Simulator ==> ", iTag!)
+                    self.ctsView.viewWithTag(iTag!)!.isHidden = false
+                }
+                else if (roomString == "Trilogy Linear Accelerator") {
+                    let iTag = self.pinColor[key]
+                    print(iTag!)
+                    self.tlaView.viewWithTag(iTag!)!.isHidden = false
+                }
+                else if (roomString == "Private") {
+                    let iTag = self.pinColor[key]
+                    print("private ==> ", iTag!)
+                    self.la1View.viewWithTag(iTag!)!.isHidden = true
+                    self.ctsView.viewWithTag(iTag!)!.isHidden = true
+                    self.tlaView.viewWithTag(iTag!)!.isHidden = true
                 }
             }
-            
         })
         
         // used for zooming imageView
         scrollViewContent.delegate = self
         
-//        self.timeTickingLabel.text = "Beacons detected. You are in Female Waiting Room"
+        //        self.timeTickingLabel.text = "Beacons detected. You are in Female Waiting Room"
         
         userPhoneNum = String((Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? ""))
-        if (userPhoneNum != "445566") {
-            userPinColor.image = UIImage(named: pinColor[userPhoneNum!]!)
-        }
+
+        userPinColor.image = UIImage(named: "test" + String(pinColor[userPhoneNum!]!))
         
         Kontakt.setAPIKey("IKLlxikqjxJwiXbyAgokGeLkcZqipAnc")
         
@@ -174,41 +187,48 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
             // Back button pressed because self is no longer in the navigation stack.
             // Stop ranging if needed
             beaconManager.stopRangingBeacons(in: region)
-        
+            
             if (userPhoneNum != "445566") {
-              Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
+                Database.database().reference().child("/StaffLocation/\(userPhoneNum!)/room").setValue("Private")
             }
         }
         super.viewWillDisappear(animated)
     }
     
-    // return imageView when zooming
+    // return flashImageView when zooming
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return imageView
+        return flashImageView
     }
     
     func hideAllPins() {
-        ctYellow.isHidden = true
-        ctGreen.isHidden = true
-        fwrYellow.isHidden = true
-        fwrGreen.isHidden = true
-        e1Green.isHidden = true
-        e1Yellow.isHidden = true
-    }
-    
-    
-    func prettifyRoom(room: String) -> String {
-        switch room {
-        case "femaleWaitingRoom":
-            return "Female Waiting Room"
-        case "CTRoom":
-            return "CT Room"
-        case "exam1":
-            return "Exam 1 Room"
-        default:
-            return ""
+        
+        for i in 1...10 {
+            self.la1View.viewWithTag(i)!.isHidden = true
         }
+        
+        for i in 1...10 {
+            self.ctsView.viewWithTag(i)!.isHidden = true
+        }
+        
+        for i in 1...10 {
+            self.tlaView.viewWithTag(i)!.isHidden = true
+        }
+        
     }
+    
+    
+    //    func prettifyRoom(room: String) -> String {
+    //        switch room {
+    //        case "femaleWaitingRoom":
+    //            return "CT Simulator"
+    //        case "CTRoom":
+    //            return "CT Room"
+    //        case "exam1":
+    //            return "Exam 1 Room"
+    //        default:
+    //            return ""
+    //        }
+    //    }
 }
 
 extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
@@ -234,7 +254,7 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
                 }
             }
         } else {
-
+            
             for beacon in beacons {
                 // queue system; dequeue iff array length >= threshold
                 if self.roomDict[Int(truncating: beacon.major)]!.count >= threshold {
@@ -263,35 +283,25 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
             if sortedBeaconArr.count != 0 {
                 if sortedBeaconArr[0].value >= self.cutoff[sortedBeaconArr[0].key]! {
                     self.currRoom = "Private"
+                Database.database().reference().child("/StaffLocation/\(userPhoneNum!)/room").setValue("Private")
 
-                    if (userPhoneNum != "445566") {
-                        Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
-                    }
-                    
-                    
                     self.timeTickingLabel.text = "No beacons detected nearby. Your location is currently private."
                     
-
+                    
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
-                   
-                    if (userPhoneNum != "445566") {
-
-                        self.timeTickingLabel.text = "Beacons detected. You are in \(prettifyRoom(room: currRoom))"
                         
-                        Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
-                    }
+                        self.timeTickingLabel.text = "Beacons detected. You are in \(currRoom)"
+                        
+                        Database.database().reference().child("/StaffLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
                 }
             } else {
                 self.currRoom = "Private"
-
-                if (userPhoneNum != "445566") {
-                    Database.database().reference().child("/DoctorLocation/\(userPhoneNum!)/room").setValue("Private")
-                }
+            Database.database().reference().child("/StaffLocation/\(userPhoneNum!)/room").setValue("Private")
                 self.timeTickingLabel.text = "No beacons detected nearby. Your location is currently private."
-
+                
             }
+        }
+        
     }
-    
-}
 }
