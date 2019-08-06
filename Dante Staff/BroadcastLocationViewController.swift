@@ -68,6 +68,8 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController!.navigationBar.topItem!.title = "Stop"
+        
         self.hideAllPins()
         
         // animating the description frame
@@ -193,6 +195,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
             }
         }
         super.viewWillDisappear(animated)
+        self.navigationController!.navigationBar.topItem!.title = "Back"
     }
     
     // return flashImageView when zooming
