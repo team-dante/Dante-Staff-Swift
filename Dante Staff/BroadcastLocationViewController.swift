@@ -24,7 +24,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     // records a queue of 10 distances for each beacon
     var roomDict: [Int: [Double]] = [1: [], 2: [], 3:[]]
     // map beacon major to the real clinic room
-    let majorToRoom = [ 1: "CT Simulator", 2: "Linear Accelerator 1", 3: "Trilogy Linear Accelerator" ]
+    let majorToRoom = [ 1: "LA1", 2: "TLA", 3: "CT" ]
     // map beacon major to its corresponding cutoff value (1m)
     let cutoff = [1: 1.5, 2: 1.5, 3: 1.5]
     // after 10 rounds, perform stats analysis
@@ -77,6 +77,12 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         descriptionFrame = CGRect(x: self.descriptionView.bounds.origin.x, y: self.descriptionView.bounds.origin.y, width: self.descriptionView.bounds.size.width, height: self.descriptionView.bounds.size.height)
         descriptionFrameActivityIndicatorView = NVActivityIndicatorView(frame: descriptionFrame, type: .lineScale, padding: 10)
         self.descriptionView.addSubview(descriptionFrameActivityIndicatorView)
+        
+        // add centerX and centerY to the spinner
+        descriptionFrameActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: descriptionView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0))
+        descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: descriptionView, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0))
+        
         descriptionFrameActivityIndicatorView.startAnimating()
         self.timeTickingLabel.isHidden = true
 
@@ -84,6 +90,12 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         mapFrame = CGRect(x: self.mapView.bounds.origin.x, y: self.mapView.bounds.origin.y, width: self.mapView.bounds.size.width, height: self.mapView.bounds.size.height)
         mapFrameActivityIndicatorView = NVActivityIndicatorView(frame: mapFrame, type: .ballClipRotate, padding: 300)
         self.mapView.addSubview(mapFrameActivityIndicatorView)
+        
+        // add centerX and centerY to the spinner
+        mapFrameActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: mapView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0))
+        mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: mapView, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0))
+        
         mapFrameActivityIndicatorView.startAnimating()
         self.uciImageView.isHidden = true
 
@@ -125,8 +137,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         
         // used for zooming imageView
         scrollViewContent.delegate = self
-        
-        //        self.timeTickingLabel.text = "Beacons detected. You are in Female Waiting Room"
         
         userPhoneNum = String((Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? ""))
 
@@ -200,20 +210,20 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
             for (key , value) in postDict {
                 let roomString : String = (value["room"] as? String)!
                 
-                if (roomString == "Linear Accelerator 1") {
+                if (roomString == "LA1") {
                     
                     let iTag = self.pinColor[key]
-                    print("linear accelerator 1 ==> ", iTag!)
+                    print("Linear Accelerator 1 ==> ", iTag!)
                     self.la1View.viewWithTag(iTag!)!.isHidden = false
                 }
-                else if (roomString == "CT Simulator") {
+                else if (roomString == "CT") {
                     let iTag = self.pinColor[key]
                     print("CT Simulator ==> ", iTag!)
                     self.ctsView.viewWithTag(iTag!)!.isHidden = false
                 }
-                else if (roomString == "Trilogy Linear Accelerator") {
+                else if (roomString == "TLA") {
                     let iTag = self.pinColor[key]
-                    print(iTag!)
+                    print("Trilogy Linear Accelerator ==> ", iTag!)
                     self.tlaView.viewWithTag(iTag!)!.isHidden = false
                 }
                 else if (roomString == "Private") {
@@ -225,23 +235,23 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
                 }
             }
         })
-        
         firstLoading = false
     }
     
+    func prettifyRoom(room: String) -> String{
+        switch room {
+        case "LA1":
+            return "Linear Accelerator 1"
+        case "TLA":
+            return "Trilogy Linear Accelerator"
+        case "CT":
+            return "CT Simulator"
+        default:
+            return room
+        }
+    }
     
-    //    func prettifyRoom(room: String) -> String {
-    //        switch room {
-    //        case "femaleWaitingRoom":
-    //            return "CT Simulator"
-    //        case "CTRoom":
-    //            return "CT Room"
-    //        case "exam1":
-    //            return "Exam 1 Room"
-    //        default:
-    //            return ""
-    //        }
-    //    }
+    
 }
 
 extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
@@ -304,7 +314,7 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
                         
-                        self.timeTickingLabel.text = "Beacons detected. You are in \(currRoom)"
+                        self.timeTickingLabel.text = "Beacons detected. You are in \(prettifyRoom(room: currRoom))"
                         
                         Database.database().reference().child("/StaffLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
                 }
