@@ -50,6 +50,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
                     "888" : 8,
                     "999" : 9,
                     "1000" : 10]
+    var firstLoading = true
     
     @IBOutlet weak var ctsView: UIView!
     @IBOutlet weak var tlaView: UIView!
@@ -86,14 +87,19 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         mapFrameActivityIndicatorView.startAnimating()
         self.uciImageView.isHidden = true
 
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+            self.firstLoading = false
             self.descriptionFrameActivityIndicatorView.stopAnimating()
             self.descriptionFrameActivityIndicatorView.removeFromSuperview()
             self.timeTickingLabel.isHidden = false
             self.mapFrameActivityIndicatorView.stopAnimating()
             self.mapFrameActivityIndicatorView.removeFromSuperview()
             self.uciImageView.isHidden = false
+            self.callFirebase()
+        }
+        
+        if (!firstLoading) {
+            self.callFirebase()
         }
         
         // Initialize FloatingPanelController
@@ -116,45 +122,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         fpc.addPanel(toParent: self, belowView: bottomView, animated: false)
         
         fpc.move(to: .tip, animated: true)
-        
-        Database.database().reference().child("StaffLocation").observe(DataEventType.value, with: { (snapshot) in
-            let postDict = snapshot.value as? [String: AnyObject] ?? [:]
-            
-            self.hideAllPins()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
-            }
-            self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
-            
-            for (key , value) in postDict {
-                let roomString : String = (value["room"] as? String)!
-                
-                if (roomString == "Linear Accelerator 1") {
-                    
-                    let iTag = self.pinColor[key]
-                    print("linear accelerator 1 ==> ", iTag!)
-                    self.la1View.viewWithTag(iTag!)!.isHidden = false
-                }
-                else if (roomString == "CT Simulator") {
-                    let iTag = self.pinColor[key]
-                    print("CT Simulator ==> ", iTag!)
-                    self.ctsView.viewWithTag(iTag!)!.isHidden = false
-                }
-                else if (roomString == "Trilogy Linear Accelerator") {
-                    let iTag = self.pinColor[key]
-                    print(iTag!)
-                    self.tlaView.viewWithTag(iTag!)!.isHidden = false
-                }
-                else if (roomString == "Private") {
-                    let iTag = self.pinColor[key]
-                    print("private ==> ", iTag!)
-                    self.la1View.viewWithTag(iTag!)!.isHidden = true
-                    self.ctsView.viewWithTag(iTag!)!.isHidden = true
-                    self.tlaView.viewWithTag(iTag!)!.isHidden = true
-                }
-            }
-        })
         
         // used for zooming imageView
         scrollViewContent.delegate = self
@@ -217,6 +184,49 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
             self.tlaView.viewWithTag(i)!.isHidden = true
         }
         
+    }
+    
+    func callFirebase() {
+        Database.database().reference().child("StaffLocation").observe(DataEventType.value, with: { (snapshot) in
+            let postDict = snapshot.value as? [String: AnyObject] ?? [:]
+            
+            self.hideAllPins()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.flashImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
+            }
+            self.flashImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
+            
+            for (key , value) in postDict {
+                let roomString : String = (value["room"] as? String)!
+                
+                if (roomString == "Linear Accelerator 1") {
+                    
+                    let iTag = self.pinColor[key]
+                    print("linear accelerator 1 ==> ", iTag!)
+                    self.la1View.viewWithTag(iTag!)!.isHidden = false
+                }
+                else if (roomString == "CT Simulator") {
+                    let iTag = self.pinColor[key]
+                    print("CT Simulator ==> ", iTag!)
+                    self.ctsView.viewWithTag(iTag!)!.isHidden = false
+                }
+                else if (roomString == "Trilogy Linear Accelerator") {
+                    let iTag = self.pinColor[key]
+                    print(iTag!)
+                    self.tlaView.viewWithTag(iTag!)!.isHidden = false
+                }
+                else if (roomString == "Private") {
+                    let iTag = self.pinColor[key]
+                    print("private ==> ", iTag!)
+                    self.la1View.viewWithTag(iTag!)!.isHidden = true
+                    self.ctsView.viewWithTag(iTag!)!.isHidden = true
+                    self.tlaView.viewWithTag(iTag!)!.isHidden = true
+                }
+            }
+        })
+        
+        firstLoading = false
     }
     
     
