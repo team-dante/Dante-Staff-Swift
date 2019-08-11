@@ -72,17 +72,17 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         self.navigationController!.navigationBar.topItem!.title = "Stop"
         
         self.hideAllPins()
-        
+
         // animating the description frame
         descriptionFrame = CGRect(x: self.descriptionView.bounds.origin.x, y: self.descriptionView.bounds.origin.y, width: self.descriptionView.bounds.size.width, height: self.descriptionView.bounds.size.height)
         descriptionFrameActivityIndicatorView = NVActivityIndicatorView(frame: descriptionFrame, type: .lineScale, padding: 10)
         self.descriptionView.addSubview(descriptionFrameActivityIndicatorView)
-        
+
         // add centerX and centerY to the spinner
         descriptionFrameActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: descriptionView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0))
         descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: descriptionView, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0))
-        
+
         descriptionFrameActivityIndicatorView.startAnimating()
         self.timeTickingLabel.isHidden = true
 
@@ -90,12 +90,12 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         mapFrame = CGRect(x: self.mapView.bounds.origin.x, y: self.mapView.bounds.origin.y, width: self.mapView.bounds.size.width, height: self.mapView.bounds.size.height)
         mapFrameActivityIndicatorView = NVActivityIndicatorView(frame: mapFrame, type: .ballClipRotate, padding: 300)
         self.mapView.addSubview(mapFrameActivityIndicatorView)
-        
+
         // add centerX and centerY to the spinner
         mapFrameActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: mapView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0))
         mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: mapView, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0))
-        
+
         mapFrameActivityIndicatorView.startAnimating()
         self.uciImageView.isHidden = true
 
@@ -109,7 +109,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
             self.uciImageView.isHidden = false
             self.callFirebase()
         }
-        
+
         if (!firstLoading) {
             self.callFirebase()
         }
