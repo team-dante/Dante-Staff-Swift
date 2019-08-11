@@ -201,6 +201,7 @@
 				243EF9B322D7D74C0067E2CC /* Frameworks */,
 				243EF9B422D7D74C0067E2CC /* Resources */,
 				BBF9E2B7C1235A6644B99E68 /* [CP] Embed Pods Frameworks */,
+				24D6DC4F22FF8DDF00247510 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -264,6 +265,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		24D6DC4F22FF8DDF00247510 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "custom_sim=`xcrun simctl list | grep 'Custom Simulators' | awk -F'[()]' '{print $2}'`\nif [ ! -z \"${custom_sim}\" ] && [ \"${TARGET_DEVICE_IDENTIFIER}\" = \"${custom_sim}\" ]; then\n/bin/sh multipleSimulatorsStartup.sh\nfi\n";
+		};
 		7998AF0C9BBFB2AD43BACD7A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
