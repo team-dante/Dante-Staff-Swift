@@ -1701,6 +1701,13 @@
                                             <constraint firstAttribute="height" constant="45" id="Z6n-ma-Kbt"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sMS-YA-fvR">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="62"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="62" id="TR8-mH-BRn"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.25961187481880188" green="0.20355799794197083" blue="0.34800973534584045" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -1712,7 +1719,9 @@
                                     <constraint firstItem="ebN-E9-8PZ" firstAttribute="leading" secondItem="YpW-jB-2EY" secondAttribute="leading" constant="8" id="96n-av-4hl"/>
                                     <constraint firstItem="ALr-Gr-9Ex" firstAttribute="leading" secondItem="YpW-jB-2EY" secondAttribute="leading" constant="8" id="BW4-BS-H8h"/>
                                     <constraint firstAttribute="trailing" secondItem="5JR-ZA-HHu" secondAttribute="trailing" constant="8" id="BxV-Md-lHB"/>
+                                    <constraint firstAttribute="trailing" secondItem="sMS-YA-fvR" secondAttribute="trailing" id="COU-Gg-RGU"/>
                                     <constraint firstAttribute="trailing" secondItem="uIQ-OJ-530" secondAttribute="trailing" id="CRx-G5-8QS"/>
+                                    <constraint firstItem="sMS-YA-fvR" firstAttribute="top" secondItem="YpW-jB-2EY" secondAttribute="top" id="DT1-kh-Ust"/>
                                     <constraint firstItem="5JR-ZA-HHu" firstAttribute="top" secondItem="EC4-U0-Xb8" secondAttribute="bottom" constant="50" id="DZZ-2q-9LS"/>
                                     <constraint firstAttribute="trailing" secondItem="NCR-c1-ycL" secondAttribute="trailing" constant="8" id="Dl8-k4-Joy"/>
                                     <constraint firstItem="XeU-FR-UIg" firstAttribute="top" secondItem="5JR-ZA-HHu" secondAttribute="bottom" constant="8" id="FgF-LI-RRI"/>
@@ -1744,6 +1753,7 @@
                                     <constraint firstAttribute="trailing" secondItem="tcP-5u-IRf" secondAttribute="trailing" constant="8" id="xND-yN-Tm5"/>
                                     <constraint firstAttribute="trailing" secondItem="ebN-E9-8PZ" secondAttribute="trailing" constant="8" id="xYM-RX-IdV"/>
                                     <constraint firstItem="ALr-Gr-9Ex" firstAttribute="top" secondItem="IAp-on-yMo" secondAttribute="bottom" constant="8" id="ydo-Pk-2Yc"/>
+                                    <constraint firstItem="sMS-YA-fvR" firstAttribute="leading" secondItem="YpW-jB-2EY" secondAttribute="leading" id="zAg-VP-hw0"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -1757,12 +1767,13 @@
                         <viewLayoutGuide key="safeArea" id="tWW-TI-boa"/>
                     </view>
                     <connections>
+                        <outlet property="legendView" destination="sMS-YA-fvR" id="SyJ-aN-xcW"/>
                         <outlet property="scrollView" destination="YpW-jB-2EY" id="6uO-bz-c7y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GnG-tA-J4H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1116" y="1150"/>
+            <point key="canvasLocation" x="1115.9420289855072" y="1149.7767857142856"/>
         </scene>
         <!--Show Patient Statistics-->
         <scene sceneID="fSd-z0-BB1">

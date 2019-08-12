@@ -15,7 +15,9 @@ import NVActivityIndicatorView
 
 class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, FloatingPanelControllerDelegate {
     
-    var fpc : FloatingPanelController!
+    struct GlobalVariable {
+        static var fpc : FloatingPanelController!
+    }
     var doctorVC : DoctorListVC!
     
     var beaconManager: KTKBeaconManager!
@@ -115,25 +117,27 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         }
         
         // Initialize FloatingPanelController
-        fpc = FloatingPanelController()
-        fpc.delegate = self
+        GlobalVariable.fpc = FloatingPanelController()
+        GlobalVariable.fpc.delegate = self
         
         // Initialize FloatingPanelController and add the view
-        fpc.surfaceView.backgroundColor = UIColor(displayP3Red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)
-        fpc.surfaceView.cornerRadius = 24.0
-        fpc.surfaceView.shadowHidden = true
-        fpc.surfaceView.borderWidth = 1.0 / traitCollection.displayScale
-        fpc.surfaceView.borderColor = UIColor.black.withAlphaComponent(0.2)
+        GlobalVariable.fpc.surfaceView.backgroundColor = UIColor(displayP3Red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+        GlobalVariable.fpc.surfaceView.cornerRadius = 24.0
+        GlobalVariable.fpc.surfaceView.shadowHidden = true
+        GlobalVariable.fpc.surfaceView.borderWidth = 1.0 / traitCollection.displayScale
+        GlobalVariable.fpc.surfaceView.borderColor = UIColor.black.withAlphaComponent(0.2)
         
         doctorVC = storyboard?.instantiateViewController(withIdentifier: "DoctorList") as? DoctorListVC
         
         // Set a content view controller
-        fpc.set(contentViewController: doctorVC)
-        fpc.track(scrollView: doctorVC.scrollView)
+        GlobalVariable.fpc.set(contentViewController: doctorVC)
+        GlobalVariable.fpc.track(scrollView: doctorVC.scrollView)
         
-        fpc.addPanel(toParent: self, belowView: bottomView, animated: false)
+        GlobalVariable.fpc.addPanel(toParent: self, belowView: bottomView, animated: false)
         
-        fpc.move(to: .tip, animated: true)
+        GlobalVariable.fpc.move(to: .tip, animated: true)
+        
+        print("BroadcastVC_fpc=>", GlobalVariable.fpc!)
         
         // used for zooming imageView
         scrollViewContent.delegate = self
