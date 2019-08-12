@@ -12,6 +12,7 @@ class DoctorListVC: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var legendView: UIView!
+    var full = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +22,11 @@ class DoctorListVC: UIViewController {
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        print("TAPPED")
-        print("DoctorListVC=>",BroadcastLocationViewController.GlobalVariable.fpc)
-        BroadcastLocationViewController.GlobalVariable.fpc.move(to: .full, animated: true)
-        
-       
-        
-        
-        
+       full = !full
+        if (full) {
+            BroadcastLocationViewController.GlobalVariable.fpc.move(to: .full, animated: true)
+        } else {
+            BroadcastLocationViewController.GlobalVariable.fpc.move(to: .tip, animated: true)
+        }
     }
 }
