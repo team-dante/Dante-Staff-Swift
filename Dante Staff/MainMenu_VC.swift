@@ -95,6 +95,7 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBAction func btnReleased3x2(_ sender: Any) {
         view.alpha = 2
         self.view3x2.backgroundColor = viewColor
+        self.performSegue(withIdentifier: "goToFeedback", sender: self)
     }
 
     @IBAction func dragExit3x2(_ sender: Any) {

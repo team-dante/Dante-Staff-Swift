@@ -675,6 +675,7 @@
                         <segue destination="BPv-b3-8cj" kind="show" identifier="createAcc" id="m9T-Zk-JMi"/>
                         <segue destination="0UW-lx-0VJ" kind="show" identifier="lookupAcc" id="fT9-Cr-v3n"/>
                         <segue destination="JxE-Lh-BbZ" kind="show" identifier="goToBroadcast" id="s6O-PJ-31X"/>
+                        <segue destination="RAn-rR-PhA" kind="show" identifier="goToFeedback" id="ftK-Df-GhS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nl5-Es-C4v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2133,6 +2134,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JEX-8y-ZXn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3570" y="802"/>
+        </scene>
+        <!--FeedbackVC-->
+        <scene sceneID="nms-SA-604">
+            <objects>
+                <viewController id="RAn-rR-PhA" customClass="FeedbackVC" customModule="Dante_Staff" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9up-dc-zct">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="tJ4-RG-awo"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kUd-nv-eqU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4480" y="802"/>
         </scene>
         <!--Create Patient Account-->
         <scene sceneID="Odr-Pm-okB">
