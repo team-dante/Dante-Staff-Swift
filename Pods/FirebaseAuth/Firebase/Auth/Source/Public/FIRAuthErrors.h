@@ -299,11 +299,11 @@ typedef NS_ENUM(NSInteger, FIRAuthErrorCode) {
      */
     FIRAuthErrorCodeInvalidClientID = 17060,
 
-    /** Indicates that a network request within a SFSafariViewController or UIWebview failed.
+    /** Indicates that a network request within a SFSafariViewController or WKWebView failed.
      */
     FIRAuthErrorCodeWebNetworkRequestFailed = 17061,
 
-    /** Indicates that an internal error occurred within a SFSafariViewController or UIWebview.
+    /** Indicates that an internal error occurred within a SFSafariViewController or WKWebView.
      */
     FIRAuthErrorCodeWebInternalError = 17062,
 
@@ -334,6 +334,10 @@ typedef NS_ENUM(NSInteger, FIRAuthErrorCode) {
     /** Indicates that the GameKit framework is not linked prior to attempting Game Center signin.
      */
     FIRAuthErrorCodeGameKitNotLinked = 17076,
+
+    /** Indicates an error for when the client identifier is missing.
+     */
+    FIRAuthErrorCodeMissingClientIdentifier = 17993,
 
     /** Indicates an error occurred while attempting to access the keychain.
      */
