@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class DisplayAccVC: UIViewController {
 
@@ -16,6 +17,8 @@ class DisplayAccVC: UIViewController {
     @IBOutlet weak var pin: UILabel!
     @IBOutlet weak var blurView: UIView!
     @IBOutlet weak var mainMenuBtn: CustomButton!
+    @IBOutlet weak var QRImageView: UIImageView!
+    
     var dataReceived = ["":""]
 
     override func viewDidLoad() {
@@ -27,8 +30,22 @@ class DisplayAccVC: UIViewController {
         self.lastName.text = dataReceived["lastName"]
         self.phoneNum.text = dataReceived["patientPhoneNumber"]
         self.pin.text = dataReceived["patientPin"]
-    
-        
+        let qrCodeString = dataReceived["qrCodeLink"]
+        let httpsReference = Storage.storage().reference(forURL: qrCodeString!)
+        // allows to download up to 10 MB file (1024 * 1024) = 1 MB
+        httpsReference.getData(maxSize: 10 * 1024 * 1024) { (data, error) in
+            if error != nil {
+                print("ERROR DOWNLOADING IMAGE")
+            } else {
+                let imageCII = CIImage(data: data!)
+                let scaleXX = self.QRImageView.frame.size.width / (imageCII?.extent.size.width)!
+                let scaleYY = self.QRImageView.frame.size.height / (imageCII?.extent.size.height)!
+                
+                let transformedImage = imageCII?.transformed(by: CGAffineTransform(scaleX: scaleXX, y: scaleYY))
+
+                self.QRImageView.image = UIImage(ciImage: transformedImage!)
+            }
+        }
         blurView.layer.cornerRadius = 10.0
     }
 

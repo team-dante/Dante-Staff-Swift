@@ -30,13 +30,6 @@ class CreateAccountVC: UIViewController {
         let opp = self.pinTF.text
         
         if (!(opfn ?? "").isEmpty && !(opln ?? "").isEmpty && !(oppn ?? "").isEmpty && !(opp ?? "").isEmpty) {
-            let dict : [String : String] = [
-                "firstName" : self.firstNameTF.text!,
-                "lastName" : self.lastNameTF.text!,
-                "patientPhoneNumber" : self.phoneNumTF.text!,
-                "patientPin" : self.pinTF.text!
-            ]
-
             Database.database().reference().child("Patients").queryOrdered(byChild: "patientPhoneNumber").queryEqual(toValue: oppn!).observeSingleEvent(of: .value, with: { snapshot in
                 if (snapshot.exists()) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -47,20 +40,19 @@ class CreateAccountVC: UIViewController {
                 }
                 else {
                     print("Account requested is new!")
-                    Database.database().reference().child("Patients").childByAutoId().setValue(dict)
-                    
                     // generate QR code as CIImage
                     let qrData = self.phoneNumTF.text?.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
                     let filter = CIFilter(name: "CIQRCodeGenerator")
                     filter?.setValue(qrData, forKey: "inputMessage")
                     filter?.setValue("Q", forKey: "inputCorrectionLevel")
                     self.qrcodeCIImage = filter?.outputImage
+                    let transformedImage = self.qrcodeCIImage?.transformed(by: CGAffineTransform(scaleX: 44.52, y: 44.52))
                     
                     // convert CIImage to UIImage
                     let context:CIContext = CIContext.init(options:nil)
-                    let cgImage:CGImage = context.createCGImage(self.qrcodeCIImage, from: self.qrcodeCIImage.extent)!
+                    let cgImage:CGImage = context.createCGImage(transformedImage!, from: transformedImage!.extent)!
                     let qrcodeUIImage = UIImage.init(cgImage: cgImage)
-                    // convert UIImage to JPEG
+                    // convert UIImage to JPEGs
                     self.qrcodeData = qrcodeUIImage.jpegData(compressionQuality: 1.0)! as NSData
                     
                     // Upload to Firebase Storage
@@ -88,7 +80,14 @@ class CreateAccountVC: UIViewController {
                                 return
                             }
                             print("URL = ", url!)
-                            
+                            let dict : [String : String] = [
+                                "firstName" : opfn!,
+                                "lastName" : opln!,
+                                "patientPhoneNumber" : oppn!,
+                                "patientPin" : opp!,
+                                "qrCodeLink" : url!.absoluteString
+                            ]
+                            Database.database().reference().child("Patients").childByAutoId().setValue(dict)
                             // QR code is uploaded successfully -> Display success message
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 ViewController().removeSpinner()
