@@ -76,32 +76,30 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         self.hideAllPins()
 
         // animating the description frame
-        descriptionFrame = CGRect(x: self.descriptionView.bounds.origin.x, y: self.descriptionView.bounds.origin.y, width: self.descriptionView.bounds.size.width, height: self.descriptionView.bounds.size.height)
-        descriptionFrameActivityIndicatorView = NVActivityIndicatorView(frame: descriptionFrame, type: .lineScale, padding: 10)
+        descriptionFrameActivityIndicatorView = NVActivityIndicatorView(frame: self.descriptionView.frame, type: .lineScale, padding: 10)
         self.descriptionView.addSubview(descriptionFrameActivityIndicatorView)
 
         // add centerX and centerY to the spinner
         descriptionFrameActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: descriptionView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0))
-        descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: descriptionView, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0))
+        descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: .centerX, relatedBy: .equal, toItem: descriptionView, attribute: .centerX, multiplier: 1, constant: 0))
+        descriptionView.addConstraint(NSLayoutConstraint(item: descriptionFrameActivityIndicatorView!, attribute: .centerY, relatedBy: .equal, toItem: descriptionView, attribute: .centerY, multiplier: 1, constant: 0))
 
         descriptionFrameActivityIndicatorView.startAnimating()
         self.timeTickingLabel.isHidden = true
 
         // animating the map frame
-        mapFrame = CGRect(x: self.mapView.bounds.origin.x, y: self.mapView.bounds.origin.y, width: self.mapView.bounds.size.width, height: self.mapView.bounds.size.height)
-        mapFrameActivityIndicatorView = NVActivityIndicatorView(frame: mapFrame, type: .ballClipRotate, padding: 300)
+        mapFrameActivityIndicatorView = NVActivityIndicatorView(frame: self.mapView.frame, type: .ballClipRotate, padding: 300)
         self.mapView.addSubview(mapFrameActivityIndicatorView)
 
         // add centerX and centerY to the spinner
         mapFrameActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: mapView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0))
-        mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: mapView, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0))
+        mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: .centerX, relatedBy: .equal, toItem: mapView, attribute: .centerX, multiplier: 1, constant: 0))
+        mapView.addConstraint(NSLayoutConstraint(item: mapFrameActivityIndicatorView!, attribute: .centerY, relatedBy: .equal, toItem: mapView, attribute: .centerY, multiplier: 1, constant: 0))
 
         mapFrameActivityIndicatorView.startAnimating()
         self.uciImageView.isHidden = true
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.firstLoading = false
             self.descriptionFrameActivityIndicatorView.stopAnimating()
             self.descriptionFrameActivityIndicatorView.removeFromSuperview()
@@ -157,6 +155,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         
         beaconManager.startRangingBeacons(in: region)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.hideAllPins()
@@ -185,7 +184,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
     }
     
     func hideAllPins() {
-        
         for i in 1...10 {
             self.la1View.viewWithTag(i)!.isHidden = true
         }
@@ -197,7 +195,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         for i in 1...10 {
             self.tlaView.viewWithTag(i)!.isHidden = true
         }
-        
     }
     
     func callFirebase() {
@@ -215,7 +212,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
                 let roomString : String = (value["room"] as? String)!
                 
                 if (roomString == "LA1") {
-                    
                     let iTag = self.pinColor[key]
                     print("Linear Accelerator 1 ==> ", iTag!)
                     self.la1View.viewWithTag(iTag!)!.isHidden = false
@@ -255,7 +251,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         }
     }
     
-    
 }
 
 extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
@@ -266,11 +261,9 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
         for beacon in beacons {
             print(beacon.major, beacon.accuracy)
         }
-        
         // wait a few rounds (5) to gather data to compute avg
         if (self.count < self.threshold) {
             self.count += 1
-            
             
             for beacon in beacons {
                 // if too far, assume 999m away
@@ -310,23 +303,17 @@ extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
             if sortedBeaconArr.count != 0 {
                 if sortedBeaconArr[0].value >= self.cutoff[sortedBeaconArr[0].key]! {
                     self.currRoom = "Private"
-                Database.database().reference().child("/StaffLocation/\(userPhoneNum!)/room").setValue("Private")
-
+                    Database.database().reference().child("/StaffLocation/\(userPhoneNum!)/room").setValue("Private")
                     self.timeTickingLabel.text = "No beacons detected nearby. Your location is currently private."
-                    
-                    
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
-                        
-                        self.timeTickingLabel.text = "Beacons detected. You are in \(prettifyRoom(room: currRoom))"
-                        
-                        Database.database().reference().child("/StaffLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
+                    self.timeTickingLabel.text = "Beacons detected. You are in \(prettifyRoom(room: currRoom))"
+                    Database.database().reference().child("/StaffLocation/\(userPhoneNum!)").updateChildValues(["room" : currRoom])
                 }
             } else {
                 self.currRoom = "Private"
-            Database.database().reference().child("/StaffLocation/\(userPhoneNum!)/room").setValue("Private")
+                Database.database().reference().child("/StaffLocation/\(userPhoneNum!)/room").setValue("Private")
                 self.timeTickingLabel.text = "No beacons detected nearby. Your location is currently private."
-                
             }
         }
         
