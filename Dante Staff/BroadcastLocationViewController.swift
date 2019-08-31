@@ -99,7 +99,7 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         mapFrameActivityIndicatorView.startAnimating()
         self.uciImageView.isHidden = true
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
             self.firstLoading = false
             self.descriptionFrameActivityIndicatorView.stopAnimating()
             self.descriptionFrameActivityIndicatorView.removeFromSuperview()
