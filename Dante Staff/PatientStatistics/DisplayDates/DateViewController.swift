@@ -10,11 +10,13 @@ import UIKit
 import Firebase
 
 class DateCustom {
+    var rawDate : String!
     var date : String!
     var daysAgo : String!
     var daysAgoSortedInt : Int!
     
-    init(d : String, dA: String) {
+    init(rd: String, d : String, dA: String) {
+        rawDate = rd
         date = d
         if (dA == "0" || dA == "1") {
             daysAgo = dA + " day ago"
@@ -28,6 +30,7 @@ class DateCustom {
 class DateViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var receivedData : String = ""
+    var passedData : String = ""
     var dates : [DateCustom] = []
 
     @IBOutlet weak var tableBackground: UIView!
@@ -40,11 +43,12 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // deselect selected row
         if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
         }
         
-        print("==>receivedData=", receivedData)
+        print("==>receivedDataFromPatientVC=", receivedData)
         
         // load data to table
         self.tableView.delegate = self
@@ -64,7 +68,7 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 for (key, _) in dict {
                     let prettifiedDate = self.prettifyDate(date: key)
                     let daysAgo = self.daysAgoFunc(start: key)
-                    self.dates.append(DateCustom(d: prettifiedDate, dA: daysAgo))
+                    self.dates.append(DateCustom(rd: key,d: prettifiedDate, dA: daysAgo))
                     self.dates = self.dates.sorted {
                         $0.daysAgoSortedInt < $1.daysAgoSortedInt
                     }
@@ -96,18 +100,17 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let date = dates[indexPath.row]
+        self.passedData = self.receivedData + "@" + date.rawDate
         self.performSegue(withIdentifier: "next", sender: self)
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        let vc = segue.destination as! DetailViewController
+        vc.receivedData = self.passedData
     }
-    */
 
 }
