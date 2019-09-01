@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2419E2BC231B47B500BA99D5 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2419E2BB231B47B500BA99D5 /* DateViewController.swift */; };
+		2419E2BE231B523200BA99D5 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2419E2BD231B523200BA99D5 /* DateTableViewCell.swift */; };
 		241D1D3B22E39ADE00EC2EF3 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */; };
 		241D1D3D22E418E200EC2EF3 /* LookupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D1D3C22E418E200EC2EF3 /* LookupVC.swift */; };
 		2422369622E4EFA300CCF805 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2422369522E4EFA200CCF805 /* GoogleService-Info.plist */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2419E2BB231B47B500BA99D5 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
+		2419E2BD231B523200BA99D5 /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
 		241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
 		241D1D3C22E418E200EC2EF3 /* LookupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupVC.swift; sourceTree = "<group>"; };
 		2422369522E4EFA200CCF805 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -76,6 +80,15 @@
 				2490B74C22F61FED00E5B8CA /* BarChartVC.swift */,
 			);
 			name = Charts;
+			sourceTree = "<group>";
+		};
+		2419E2BA231B380E00BA99D5 /* DisplayAllPatients */ = {
+			isa = PBXGroup;
+			children = (
+				248CAE5123188E8000ADF0CF /* PatientTableViewCell.swift */,
+				2458C080231A07CF003234FE /* PatientViewController.swift */,
+			);
+			path = DisplayAllPatients;
 			sourceTree = "<group>";
 		};
 		243EF9AD22D7D74C0067E2CC = {
@@ -191,8 +204,9 @@
 		248CAE552319AE9900ADF0CF /* PatientStatistics */ = {
 			isa = PBXGroup;
 			children = (
-				248CAE5123188E8000ADF0CF /* PatientTableViewCell.swift */,
-				2458C080231A07CF003234FE /* PatientViewController.swift */,
+				2419E2BA231B380E00BA99D5 /* DisplayAllPatients */,
+				2419E2BB231B47B500BA99D5 /* DateViewController.swift */,
+				2419E2BD231B523200BA99D5 /* DateTableViewCell.swift */,
 			);
 			path = PatientStatistics;
 			sourceTree = "<group>";
@@ -355,8 +369,10 @@
 			files = (
 				24B153F422E4661000FF2452 /* ConfirmCreateAccVC.swift in Sources */,
 				243EF9BC22D7D74C0067E2CC /* ViewController.swift in Sources */,
+				2419E2BE231B523200BA99D5 /* DateTableViewCell.swift in Sources */,
 				241D1D3D22E418E200EC2EF3 /* LookupVC.swift in Sources */,
 				246BE68522E8432500638BF8 /* BroadcastLocationViewController.swift in Sources */,
+				2419E2BC231B47B500BA99D5 /* DateViewController.swift in Sources */,
 				2467E1632301039B00689EB7 /* FeedbackVC.swift in Sources */,
 				2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */,
 				2444211C22EDB15F0088A545 /* SlidingViewVC.swift in Sources */,

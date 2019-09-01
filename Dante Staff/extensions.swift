@@ -32,6 +32,63 @@ extension UIViewController {
             vSpinner = nil
         }
     }
+    
+    func prettifyDate(date: String) -> String {
+        let dateArr = date.components(separatedBy: "-")
+        
+        var month : String = ""
+        
+        switch dateArr[1] {
+        case "01":
+            month = "January"
+        case "02":
+            month = "Febuary"
+        case "03":
+            month = "March"
+        case "04":
+            month = "April"
+        case "05":
+            month = "May"
+        case "06":
+            month = "June"
+        case "07":
+            month = "July"
+        case "08":
+            month = "August"
+        case "09":
+            month = "September"
+        case "10":
+            month = "October"
+        case "11":
+            month = "November"
+        case "12":
+            month = "December"
+        default:
+            month = "N/A"
+            break
+        }
+        
+        let newDate = month + " "  + dateArr[2] + ", " + dateArr[0]
+        
+        return newDate
+    }
+    
+    func daysAgoFunc(start: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let startDate : Date = dateFormatter.date(from: start)!
+        let currentDateString = dateFormatter.string(from: Date())
+        let currentDate : Date = dateFormatter.date(from: currentDateString)!
+        
+        let cal = NSCalendar.current
+        let calComponents : Set<Calendar.Component> = [.day]
+        let components = cal.dateComponents(calComponents, from: startDate, to: currentDate)
+        
+        let arr = String(describing: components).components(separatedBy: " ")
+        
+        return arr[1]
+    }
 }
 
 class CustomTextField: UITextField {

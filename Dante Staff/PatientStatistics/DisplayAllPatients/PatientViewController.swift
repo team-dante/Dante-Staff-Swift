@@ -25,6 +25,7 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var backgroundView: UIView!
     
     var patients : [Patient] = []
+    var passedData : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +112,8 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let patient = patients[indexPath.row]
+        self.passedData = patient.patientPhoneNum
         self.performSegue(withIdentifier: "patientDetail", sender: self)
     }
     
@@ -118,7 +121,8 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        let vc = segue.destination as! DateViewController
+        vc.receivedData = self.passedData
     }
     
     /*
