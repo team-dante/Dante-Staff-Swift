@@ -25,3 +25,23 @@ class DetailTableViewCell: UITableViewCell {
     }
 
 }
+
+class CustomHeaderDetailTableViewCell : UITableViewCell {
+    
+    @IBOutlet weak var locationLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // add separator to custom cell
+//        let lineFrame = CGRect(x: 15, y: contentView.frame.size.height, width: contentView.frame.size.width, height: 1)
+//        let line = UIView(frame: lineFrame)
+//        line.backgroundColor = UIColor.white
+//        addSubview(line)
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+}

@@ -40,6 +40,7 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         
         self.tableBackground.layer.cornerRadius = 30.0
+        self.tableView.layer.cornerRadius = 30.0
     }
     
     override func viewWillAppear(_ animated: Bool) {

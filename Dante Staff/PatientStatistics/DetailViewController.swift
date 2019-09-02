@@ -31,6 +31,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         
         self.tableViewBackground.layer.cornerRadius = 30.0
+        self.tableView.layer.cornerRadius = 30.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,11 +96,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let detail = details[indexPath.row]
         cell.roomLabel.text = detail.room
         if (detail.duration == -1) {
-            cell.durationMinuteLabel.text = "Currently inside"
+            cell.durationMinuteLabel.text = "Currently there"
         } else {
             cell.durationMinuteLabel.text = String(detail.duration) + " minutes"
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        let headerCell = tableView.dequeueReusableCell(withIdentifier: "CustomHeaderDetailTableViewCell") as! CustomHeaderDetailTableViewCell
+        headerView.autoresizingMask = []
+        headerView.addSubview(headerCell)
+        return headerView
     }
 }

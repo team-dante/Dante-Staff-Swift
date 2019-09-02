@@ -31,6 +31,7 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         backgroundView.layer.cornerRadius = 30.0
+        self.tableView.layer.cornerRadius = 30.0
         
         tableView.backgroundColor = UIColor.clear
 
