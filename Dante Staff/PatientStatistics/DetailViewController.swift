@@ -209,7 +209,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
 
         let detail = details[indexPath.row]
-        cell.roomLabel.text = "\(indexPath.row + 1). \(detail.room!)"
+        cell.roomLabel.text = "\(details.count - indexPath.row). \(detail.room!)"
         if (detail.duration == -1.0) {
             cell.durationMinuteLabel.text = "Currently there"
         } else {
