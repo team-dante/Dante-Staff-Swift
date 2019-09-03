@@ -2638,10 +2638,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aoa-dH-DOR">
-                                <rect key="frame" x="20" y="135" width="374" height="250"/>
+                                <rect key="frame" x="20" y="135" width="374" height="200"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vDr-ez-5y0">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="250"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="200"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -2756,15 +2756,21 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="250" id="2mg-Wz-0b9"/>
+                                    <constraint firstAttribute="height" constant="200" id="2mg-Wz-0b9"/>
                                     <constraint firstAttribute="bottom" secondItem="vDr-ez-5y0" secondAttribute="bottom" id="EMo-d7-2ho"/>
                                     <constraint firstItem="vDr-ez-5y0" firstAttribute="top" secondItem="aoa-dH-DOR" secondAttribute="top" id="Si3-n9-cRO"/>
                                     <constraint firstItem="vDr-ez-5y0" firstAttribute="leading" secondItem="aoa-dH-DOR" secondAttribute="leading" id="bGW-0p-wpi"/>
                                     <constraint firstAttribute="trailing" secondItem="vDr-ez-5y0" secondAttribute="trailing" id="qTR-4W-yUu"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total time spent in each room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAk-VH-4Fe">
+                                <rect key="frame" x="20" y="350" width="374" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYd-lS-8fg">
-                                <rect key="frame" x="20" y="395" width="374" height="280"/>
+                                <rect key="frame" x="20" y="382" width="374" height="280"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLL-nM-Rya" customClass="BarChartView" customModule="Charts">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="280"/>
@@ -2785,13 +2791,16 @@
                         <constraints>
                             <constraint firstItem="7u5-iD-vXK" firstAttribute="trailing" secondItem="aoa-dH-DOR" secondAttribute="trailing" constant="20" id="1Xz-sf-gfV"/>
                             <constraint firstItem="IYd-lS-8fg" firstAttribute="leading" secondItem="7u5-iD-vXK" secondAttribute="leading" constant="20" id="3Qa-za-rib"/>
+                            <constraint firstItem="lAk-VH-4Fe" firstAttribute="top" secondItem="aoa-dH-DOR" secondAttribute="bottom" constant="15" id="ACy-P0-aYa"/>
                             <constraint firstItem="aoa-dH-DOR" firstAttribute="leading" secondItem="7u5-iD-vXK" secondAttribute="leading" constant="20" id="V60-vx-E52"/>
-                            <constraint firstItem="IYd-lS-8fg" firstAttribute="top" secondItem="aoa-dH-DOR" secondAttribute="bottom" constant="10" id="Vt6-ZL-01k"/>
                             <constraint firstItem="eRx-hx-0cX" firstAttribute="top" secondItem="7u5-iD-vXK" secondAttribute="top" constant="15" id="Wj4-AG-TDt"/>
+                            <constraint firstItem="IYd-lS-8fg" firstAttribute="top" secondItem="lAk-VH-4Fe" secondAttribute="bottom" constant="8" id="XJm-7x-RVc"/>
                             <constraint firstItem="7u5-iD-vXK" firstAttribute="trailing" secondItem="IYd-lS-8fg" secondAttribute="trailing" constant="20" id="Yeh-JS-ruU"/>
                             <constraint firstItem="7u5-iD-vXK" firstAttribute="trailing" secondItem="eRx-hx-0cX" secondAttribute="trailing" constant="20" id="a7A-pU-Ow0"/>
+                            <constraint firstItem="7u5-iD-vXK" firstAttribute="trailing" secondItem="lAk-VH-4Fe" secondAttribute="trailing" constant="20" id="ce0-je-SDc"/>
                             <constraint firstItem="eRx-hx-0cX" firstAttribute="leading" secondItem="7u5-iD-vXK" secondAttribute="leading" constant="20" id="hKH-lV-r10"/>
                             <constraint firstItem="aoa-dH-DOR" firstAttribute="top" secondItem="eRx-hx-0cX" secondAttribute="bottom" constant="8" id="kfO-WZ-Mpc"/>
+                            <constraint firstItem="lAk-VH-4Fe" firstAttribute="leading" secondItem="7u5-iD-vXK" secondAttribute="leading" constant="20" id="pM5-VL-7Lo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7u5-iD-vXK"/>
                     </view>
