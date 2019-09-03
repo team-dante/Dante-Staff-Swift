@@ -30,8 +30,8 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        backgroundView.layer.cornerRadius = 30.0
-        self.tableView.layer.cornerRadius = 30.0
+        backgroundView.layer.cornerRadius = 10.0
+        self.tableView.layer.cornerRadius = 10.0
         
         tableView.backgroundColor = UIColor.clear
 
@@ -71,7 +71,7 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
                     self.patients.append(Patient(name: fullName, phoneNum: phoneNumber))
                     // these lines make sure all patients are appended to the patients array
                     self.patients = self.patients.sorted() {
-                        $0.patientPhoneNum < $1.patientPhoneNum
+                        $0.patientName < $1.patientName
                     }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()

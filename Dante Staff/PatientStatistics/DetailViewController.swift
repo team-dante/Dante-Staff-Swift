@@ -12,10 +12,19 @@ import Charts
 
 class RoomAndDuration {
     var room : String!
-    var duration : Int!
+    var duration : Double!
     
-    init(r: String, d: Int) {
-        room = r
+    init(r: String, d: Double) {
+        if (r == "WR") {
+            room = "Waiting Room"
+        }
+        else if (r == "LA1"){
+            room = "Linear Accelerator 1"
+        } else if (r == "TLA") {
+            room = "Trilogy Linear Accelerator"
+        } else if (r == "CT") {
+            room = "CT Simulator"
+        }
         duration = d
     }
 }
@@ -24,7 +33,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var receivedData : String = ""
     var details : [RoomAndDuration] = []
     var rooms : [String] = ["Waiting\nRoom", "Linear\nAccelerator 1", "Trilogy\nLinear\nAccelerator", "CT\nSimulator"]
-    var timeSpent : [Double] = [23, 0, 10, 60]
+    var timeSpent : [Double] = [0, 0, 0, 0]
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -46,35 +55,40 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Modify xAxis's properties
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
-        xAxis.labelFont = .systemFont(ofSize: 13)
+        xAxis.labelFont = .systemFont(ofSize: 12)
         xAxis.labelCount = 4
         xAxis.labelTextColor = UIColor.white
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: rooms)
-        chartView.xAxis.granularity = 1
+        xAxis.valueFormatter = IndexAxisValueFormatter(values: rooms)
+        xAxis.granularity = 1
+        xAxis.gridColor = UIColor.white
+        
+        
         
         // Modify leftAxis's properties
         let leftAxis = chartView.leftAxis
         leftAxis.labelTextColor = UIColor.white
         leftAxis.axisMinimum = 0.0
+        leftAxis.gridColor = UIColor.white
         
         // Modify rightAxis's properties
         let rightAxis = chartView.rightAxis
         rightAxis.labelTextColor = UIColor.white
         rightAxis.axisMinimum = 0.0
+        rightAxis.gridColor = UIColor.white
         
         let legendVar = chartView.legend
         legendVar.form = .circle
         legendVar.textColor = UIColor.white
+        legendVar.enabled = false
         
         
         chartView.drawBarShadowEnabled = false
         chartView.animate(yAxisDuration: 2)
         chartView.borderColor = UIColor.white
         
-        loadGraph(dataPoints: rooms, values: timeSpent)
-        
         // adjust the height of the barchart to the view's height
-        chartView.notifyDataSetChanged()
+        self.chartView.notifyDataSetChanged()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,9 +123,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // barChartDataset.colors = [UIColor.red,UIColor.orange,UIColor.green,UIColor.black,UIColor.blue]
         chartDataSet.colors = ChartColorTemplates.vordiplom()
         chartDataSet.highlightColor = UIColor.white
-        chartDataSet.barShadowColor = UIColor.white
         chartDataSet.barBorderColor = UIColor.white
         chartDataSet.valueColors = valueColors
+        chartDataSet.valueFont = UIFont.systemFont(ofSize: 12)
         let chartData = BarChartData(dataSet: chartDataSet)
         chartView.data = chartData
     }
@@ -129,27 +143,45 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     if (value["inSession"]! as! Bool == false) {
                         
 //                      var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
-                        let minute = ((value["endTime"] as! Int - (value["startTime"] as! Int)) / 60)
-                        if (value["room"] as! String == "WR") {
-                            self.timeSpent[0] += Double(minute)
-                        } else if (value["room"] as! String == "LA1") {
-                            self.timeSpent[1] += Double(minute)
-                        } else if (value["room"] as! String == "TLA") {
-                            self.timeSpent[2] += Double(minute)
-                        } else if (value["room"] as! String == "CT") {
-                            self.timeSpent[3] += Double(minute)
-                        }
-                        
+                        let minute = ((value["endTime"] as! Double - (value["startTime"] as! Double)) / 60.0)
+                            if (value["room"] as! String == "WR") {
+                                self.timeSpent[0] = (self.timeSpent[0] + Double(minute))
+                            } else if (value["room"] as! String == "LA1") {
+                                self.timeSpent[1] = (self.timeSpent[1] + Double(minute))
+                            } else if (value["room"] as! String == "TLA") {
+                                self.timeSpent[2] = (self.timeSpent[2] + Double(minute))
+                            } else if (value["room"] as! String == "CT") {
+                                self.timeSpent[3] = (self.timeSpent[3] + Double(minute))
+                            }
+                            for i in 0...3 {
+                                print("..", self.timeSpent[i])
+                            }
                         self.details.append(RoomAndDuration(r: value["room"] as! String, d: minute))
                         self.details = self.details.sorted {
                             $0.duration < $1.duration
                         }
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
+                            
                         }
                     }
                     else {
-                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: -1))
+                            let now = NSDate().timeIntervalSince1970
+                            let minute = ((Int(now) - (value["startTime"] as! Int)) / 60)
+                            if (value["room"] as! String == "WR") {
+                                self.timeSpent[0] = (self.timeSpent[0] + Double(minute))
+                            } else if (value["room"] as! String == "LA1") {
+                                self.timeSpent[1] = (self.timeSpent[1] + Double(minute))
+                            } else if (value["room"] as! String == "TLA") {
+                                self.timeSpent[2] = (self.timeSpent[2] + Double(minute))
+                            } else if (value["room"] as! String == "CT") {
+                                self.timeSpent[3] = (self.timeSpent[3] + Double(minute))
+                            }
+                            for i in 0...3 {
+                                print("...", self.timeSpent[i])
+                            }
+
+                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: -1.0))
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
@@ -158,6 +190,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             } else {
                 print("==>DataSnapshot does not exist.")
             }
+            for i in 0...3 {
+                print("==>", self.timeSpent[i])
+            }
+            
+            // loadGraph is called after timeSpent is filled with values.
+            self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -171,11 +209,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
 
         let detail = details[indexPath.row]
-        cell.roomLabel.text = detail.room
-        if (detail.duration == -1) {
+        cell.roomLabel.text = "\(indexPath.row + 1). \(detail.room!)"
+        if (detail.duration == -1.0) {
             cell.durationMinuteLabel.text = "Currently there"
         } else {
-            cell.durationMinuteLabel.text = String(detail.duration) + " minutes"
+            cell.durationMinuteLabel.text = String(Double(round(100 * detail.duration)/100)) + " minutes"
         }
         
         return cell
