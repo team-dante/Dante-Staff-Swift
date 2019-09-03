@@ -210,10 +210,18 @@
 			children = (
 				2419E2BA231B380E00BA99D5 /* DisplayAllPatients */,
 				24DA2D0F231C715F0077229B /* DisplayDates */,
+				24D49031231F08A100F334AB /* DisplayDetails */,
+			);
+			path = PatientStatistics;
+			sourceTree = "<group>";
+		};
+		24D49031231F08A100F334AB /* DisplayDetails */ = {
+			isa = PBXGroup;
+			children = (
 				24DA2D10231C71810077229B /* DetailTableViewCell.swift */,
 				24DA2D12231C71950077229B /* DetailViewController.swift */,
 			);
-			path = PatientStatistics;
+			path = DisplayDetails;
 			sourceTree = "<group>";
 		};
 		24DA2D0F231C715F0077229B /* DisplayDates */ = {

@@ -12,6 +12,7 @@ class DetailTableViewCell: UITableViewCell {
 
     @IBOutlet weak var roomLabel: UILabel!
     @IBOutlet weak var durationMinuteLabel: UILabel!
+    @IBOutlet weak var timeline: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

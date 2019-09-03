@@ -63,6 +63,21 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         ref = Database.database().reference()
         
+        ref.child("Patients").queryOrdered(byChild: "patientPhoneNumber").queryEqual(toValue: receivedData).observeSingleEvent(of: .value) { (DataSnapshot) in
+            var firstName = ""
+            var lastName = ""
+            if DataSnapshot.exists() {
+                let dict = DataSnapshot.value as! [String : AnyObject]
+                for (_, value) in dict {
+                    firstName = value["firstName"] as! String
+                    lastName = value["lastName"] as! String
+                }
+            } else {
+                print("==>DataSnapshot does not exist")
+            }
+            self.title = "\(firstName) \(Array(lastName)[0])."
+        }
+        
         ref.child("PatientVisitsByDates/\(receivedData)").observeSingleEvent(of: .value) { (DataSnapshot) in
             if DataSnapshot.exists() {
                 let dict = DataSnapshot.value as! [String : AnyObject]

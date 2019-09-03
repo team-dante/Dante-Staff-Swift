@@ -10,28 +10,41 @@ import UIKit
 import Firebase
 import Charts
 
+class timeLineClass {
+    var timelineStr : String!
+    var order : Int!
+    
+    init(tl: String, o: Int) {
+        timelineStr = tl
+        order = o
+    }
+}
+
 class RoomAndDuration {
     var room : String!
     var duration : Double!
+    var order : Int!
     
-    init(r: String, d: Double) {
+    init(r: String, d: Double, o: Int) {
         if (r == "WR") {
             room = "Waiting Room"
         }
         else if (r == "LA1"){
             room = "Linear Accelerator 1"
         } else if (r == "TLA") {
-            room = "Trilogy Linear Accelerator"
+            room = "Trilogy Linear Acc."
         } else if (r == "CT") {
             room = "CT Simulator"
         }
         duration = d
+        order = o
     }
 }
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ChartViewDelegate {
     
     var receivedData : String = ""
     var details : [RoomAndDuration] = []
+    var timelineArr : [timeLineClass] = []
     var rooms : [String] = ["Waiting\nRoom", "Linear\nAccelerator 1", "Trilogy\nLinear\nAccelerator", "CT\nSimulator"]
     var timeSpent : [Double] = [0, 0, 0, 0]
 
@@ -136,10 +149,31 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.dateLabel.text = "Report for \(self.prettifyDate(date: receivedDataArr[1]))"
         var ref : DatabaseReference!
         ref = Database.database().reference()
-        ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])").observeSingleEvent(of: .value) { (DataSnapshot) in
+        ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])").queryOrdered(byChild: "startTime").observeSingleEvent(of: .value) { (DataSnapshot) in
             if DataSnapshot.exists() {
                 let dict = DataSnapshot.value as! [String : AnyObject]
+                
+                print("oldDict=>", dict)
+                
+                var newDict : [Int : AnyObject] = [:]
+                
                 for (_, value) in dict {
+                    let startTimeKey = value["startTime"] as! Int
+                    newDict[startTimeKey] = value
+                }
+                
+                print("newDict=>", newDict)
+                
+                let sortedArrayTuple = newDict.sorted() { $0.key > $1.key }
+                
+                print("sortedDict=>", sortedArrayTuple)
+                
+                // dictionary cannot be sorted
+                
+                var count = 0
+                
+                for (_, value) in sortedArrayTuple {
+                    
                     if (value["inSession"]! as! Bool == false) {
                         
 //                      var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
@@ -156,10 +190,24 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                             for i in 0...3 {
                                 print("..", self.timeSpent[i])
                             }
-                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: minute))
+                        count += 1
+                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: minute, o: count))
+                        
+                        let startTime = value["startTime"] as! Double
+                        let endTime = value["endTime"] as! Double
+                        let startDate = NSDate(timeIntervalSince1970: startTime)
+                        let endDate = NSDate(timeIntervalSince1970: endTime)
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "hh:mm a"
+                        let startTimeStr = dateFormatter.string(from: startDate as Date)
+                        let endTimeStr = dateFormatter.string(from: endDate as Date)
+                        let timelineStr = "\(startTimeStr) - \(endTimeStr)"
+                        self.timelineArr.append(timeLineClass(tl: timelineStr, o: count))
+                        
                         self.details = self.details.sorted {
-                            $0.duration < $1.duration
+                            $0.order < $1.order
                         }
+                        
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                             
@@ -180,8 +228,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                             for i in 0...3 {
                                 print("...", self.timeSpent[i])
                             }
-
-                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: -1.0))
+                        
+                        count += 1
+                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: -1.0, o: count))
+                        
+                        let startTime = value["startTime"] as! Double
+                        let startDate = NSDate(timeIntervalSince1970: startTime)
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "hh:mm a"
+                        let startTimeStr = dateFormatter.string(from: startDate as Date)
+                        let timelineStr = "\(startTimeStr) - Present"
+                        self.timelineArr.append(timeLineClass(tl: timelineStr, o: count))
+                        
+                        self.details = self.details.sorted {
+                            $0.order < $1.order
+                        }
+                        
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
@@ -213,8 +275,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         if (detail.duration == -1.0) {
             cell.durationMinuteLabel.text = "Currently there"
         } else {
-            cell.durationMinuteLabel.text = String(Double(round(100 * detail.duration)/100)) + " minutes"
+            cell.durationMinuteLabel.text = String(Double(round(100 * detail.duration)/100)) + " min"
         }
+        let timeline = timelineArr[indexPath.row]
+        cell.timeline.text = timeline.timelineStr
         
         return cell
     }
