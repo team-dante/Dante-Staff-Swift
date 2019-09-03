@@ -12,28 +12,25 @@ import Charts
 
 class RoomAndDuration {
     var room : String!
-    var duration : Double!
+    var duration: Int!
+    var startTime: Int!
+    var endTime: Int!
     
-    init(r: String, d: Double) {
-        if (r == "WR") {
-            room = "Waiting Room"
-        }
-        else if (r == "LA1"){
-            room = "Linear Accelerator 1"
-        } else if (r == "TLA") {
-            room = "Trilogy Linear Accelerator"
-        } else if (r == "CT") {
-            room = "CT Simulator"
-        }
+    init(r: String, d: Int, s: Int, e: Int) {
+        room = r
         duration = d
+        startTime = s
+        endTime = e
     }
 }
+
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ChartViewDelegate {
     
     var receivedData : String = ""
-    var details : [RoomAndDuration] = []
-    var rooms : [String] = ["Waiting\nRoom", "Linear\nAccelerator 1", "Trilogy\nLinear\nAccelerator", "CT\nSimulator"]
-    var timeSpent : [Double] = [0, 0, 0, 0]
+    var details = [RoomAndDuration]()
+    
+    // declare ref before viewDidLoad()
+    var ref: DatabaseReference!
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -43,6 +40,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // init ref immediately
+        ref = Database.database().reference()
         
         self.tableViewBackground.layer.cornerRadius = 10.0
         self.tableView.layer.cornerRadius = 10.0
@@ -58,11 +58,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         xAxis.labelFont = .systemFont(ofSize: 12)
         xAxis.labelCount = 4
         xAxis.labelTextColor = UIColor.white
-        xAxis.valueFormatter = IndexAxisValueFormatter(values: rooms)
-        xAxis.granularity = 1
         xAxis.gridColor = UIColor.white
-        
-        
         
         // Modify leftAxis's properties
         let leftAxis = chartView.leftAxis
@@ -76,147 +72,132 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         rightAxis.axisMinimum = 0.0
         rightAxis.gridColor = UIColor.white
         
-        let legendVar = chartView.legend
-        legendVar.form = .circle
-        legendVar.textColor = UIColor.white
-        legendVar.enabled = false
-        
-        
+        // Do not display legend
+        chartView.legend.enabled = false
+    
         chartView.drawBarShadowEnabled = false
         chartView.animate(yAxisDuration: 2)
         chartView.borderColor = UIColor.white
         
         // adjust the height of the barchart to the view's height
         self.chartView.notifyDataSetChanged()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // deselect selected row
-        if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
-            self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
-        }
-        
         print("==>receivedDataFromDateVC=",receivedData)
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        details = []
+        
+        // rows should not be clickable
+        self.tableView.allowsSelection = false
+        
         self.loadRoomAndTime()
     }
     
-    func loadGraph(dataPoints: [String], values: [Double]) {
-        chartView.noDataText = "No data for the chart."
+    func loadRoomAndTime() {
+        let receivedDataArr = receivedData.components(separatedBy: "@")
+        self.dateLabel.text = "Report for \(self.prettifyDate(date: receivedDataArr[1]))"
         
-        var dataEntries : [BarChartDataEntry] = []
-        var valueColors = [UIColor]()
-        
-        for i in 0..<dataPoints.count {
-            let dataEntry = BarChartDataEntry(x: Double(i), y: values[i])
-            dataEntries.append(dataEntry)
-            valueColors.append(UIColor.white)
+        ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])")
+            .observeSingleEvent(of: .value) { (snapshot) in
+            if let timeObjs = snapshot.value as? [String: Any] {
+                for timeObj in timeObjs {
+                    if let obj = timeObj.value as? [String: Any] {
+                        let room = obj["room"] as! String
+                        let inSession = obj["inSession"] as! Bool
+                        let startTime = obj["startTime"] as! Int
+                        var endTime = 0
+                        var timeElapsed = 0
+                        
+                        // current room duration = now() - entry time
+                        if inSession {
+                            timeElapsed = Int(NSDate().timeIntervalSince1970) - startTime
+                        } else {
+                            endTime = obj["endTime"] as! Int
+                            timeElapsed = endTime - startTime
+                        }
+                        // rooms may be repeated (patients may visit some rooms more than once)
+                        self.details.append(RoomAndDuration(r: room, d: timeElapsed, s: startTime, e: endTime))
+                    }
+                }
+                // sort array of Room and Duration by start time
+                self.details.sort(by: {$0.startTime < $1.startTime})
+                // load graph
+                self.loadGraph(dataPoints: self.details)
+                // reload table
+                self.tableView.reloadData()
+            } else {
+                self.details.removeAll()
+                self.tableView.reloadData()
+            }
         }
-        
+    }
+    
+    func loadGraph(dataPoints: [RoomAndDuration]) {
+        // defaultdict
+        var dict: [String:[Int]] = [:]
+        // dataPoints param is an array of RoomAndDuration objects that potentially have duplicate rooms;
+        // use defaultdict to combine dups; e.g. [CT: [1230, 1000]] (in seconds)
+        for data in dataPoints {
+            dict[data.room, default: []].append(data.duration)
+        }
+        // add up all time tracking data for that room of that single day
+        // ex. [CTRoom: 2230]
+        let roomTuple = dict.map { (i) in
+            return (i.key, i.value.reduce(0,+))
+        }
+        // change x-axis to room names
+        self.chartView.noDataText = "No data for the chart."
+        // dump time elapsed into bar charts; assign indexes to x-axis temporaily
+        let dataEntries = (0..<roomTuple.count).map { (i) -> BarChartDataEntry in
+            return BarChartDataEntry(x: Double(i), y: Double(roomTuple[i].1)/60.0)
+        }
+        // set x-axis to room strings
+        let xAxis = self.chartView.xAxis
+        xAxis.valueFormatter = IndexAxisValueFormatter(values: roomTuple.map { i in return i.0})
+        xAxis.granularity = 1
+
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Time spent in each room")
-        // barChartDataset.colors = [UIColor.red,UIColor.orange,UIColor.green,UIColor.black,UIColor.blue]
         chartDataSet.colors = ChartColorTemplates.vordiplom()
         chartDataSet.highlightColor = UIColor.white
         chartDataSet.barBorderColor = UIColor.white
-        chartDataSet.valueColors = valueColors
         chartDataSet.valueFont = UIFont.systemFont(ofSize: 12)
         let chartData = BarChartData(dataSet: chartDataSet)
         chartView.data = chartData
     }
     
-    func loadRoomAndTime() {
-        
-        let receivedDataArr = receivedData.components(separatedBy: "@")
-        self.dateLabel.text = "Report for \(self.prettifyDate(date: receivedDataArr[1]))"
-        var ref : DatabaseReference!
-        ref = Database.database().reference()
-        ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])").observeSingleEvent(of: .value) { (DataSnapshot) in
-            if DataSnapshot.exists() {
-                let dict = DataSnapshot.value as! [String : AnyObject]
-                for (_, value) in dict {
-                    if (value["inSession"]! as! Bool == false) {
-                        
-//                      var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
-                        let minute = ((value["endTime"] as! Double - (value["startTime"] as! Double)) / 60.0)
-                            if (value["room"] as! String == "WR") {
-                                self.timeSpent[0] = (self.timeSpent[0] + Double(minute))
-                            } else if (value["room"] as! String == "LA1") {
-                                self.timeSpent[1] = (self.timeSpent[1] + Double(minute))
-                            } else if (value["room"] as! String == "TLA") {
-                                self.timeSpent[2] = (self.timeSpent[2] + Double(minute))
-                            } else if (value["room"] as! String == "CT") {
-                                self.timeSpent[3] = (self.timeSpent[3] + Double(minute))
-                            }
-                            for i in 0...3 {
-                                print("..", self.timeSpent[i])
-                            }
-                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: minute))
-                        self.details = self.details.sorted {
-                            $0.duration < $1.duration
-                        }
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            
-                        }
-                    }
-                    else {
-                            let now = NSDate().timeIntervalSince1970
-                            let minute = ((Int(now) - (value["startTime"] as! Int)) / 60)
-                            if (value["room"] as! String == "WR") {
-                                self.timeSpent[0] = (self.timeSpent[0] + Double(minute))
-                            } else if (value["room"] as! String == "LA1") {
-                                self.timeSpent[1] = (self.timeSpent[1] + Double(minute))
-                            } else if (value["room"] as! String == "TLA") {
-                                self.timeSpent[2] = (self.timeSpent[2] + Double(minute))
-                            } else if (value["room"] as! String == "CT") {
-                                self.timeSpent[3] = (self.timeSpent[3] + Double(minute))
-                            }
-                            for i in 0...3 {
-                                print("...", self.timeSpent[i])
-                            }
-
-                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: -1.0))
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-            } else {
-                print("==>DataSnapshot does not exist.")
-            }
-            for i in 0...3 {
-                print("==>", self.timeSpent[i])
-            }
-            
-            // loadGraph is called after timeSpent is filled with values.
-            self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
-        }
-    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return details.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = "DetailTableViewCell"
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? DetailTableViewCell else {
-            fatalError("==>The dequeued cell is not an instance of DateTableViewCell.")
-        }
-
-        let detail = details[indexPath.row]
-        cell.roomLabel.text = "\(details.count - indexPath.row). \(detail.room!)"
-        if (detail.duration == -1.0) {
-            cell.durationMinuteLabel.text = "Currently there"
-        } else {
-            cell.durationMinuteLabel.text = String(Double(round(100 * detail.duration)/100)) + " minutes"
-        }
         
-        return cell
+        // if cell exists and/or dequeuesable: return cell
+        // otherwise return empty cell (nothing)
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as? DetailTableViewCell {
+            let detail = details[indexPath.row]
+            cell.roomLabel.text = "\(details.count - indexPath.row). \(detail.room!)"
+            
+            // endTime = 0 means the patient is currently at that particular room
+            if detail.endTime == 0 {
+                cell.durationMinuteLabel.text = "In Session"
+            } else {
+                let timeSpent = (Double(detail.duration) / 60.0 * 100).rounded() / 100
+                cell.durationMinuteLabel.text = "\(timeSpent) min"
+            }
+            return cell
+        }
+        return UITableViewCell()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // avoid memory leak; remove all data when you're about to exit this view
+        self.details.removeAll()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -226,4 +207,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         headerView.addSubview(headerCell)
         return headerView
     }
+    
+//    // use at your discretion: generate random colors to display time tracking data for each room
+//    private func colorsOfCharts(numberOfColor: Int) -> [UIColor] {
+//        var colors = [UIColor]()
+//        for _ in 0..<numberOfColor {
+//            let red = Double(arc4random_uniform(256))
+//            let green = Double(arc4random_uniform(256))
+//            let blue = Double(arc4random_uniform(256))
+//            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
+//            colors.append(color)
+//        }
+//        return colors
+//    }
 }

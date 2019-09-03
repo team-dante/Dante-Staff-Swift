@@ -11,6 +11,22 @@ import UIKit
 
 var vSpinner : UIView?
 extension UIViewController {
+    
+    func prettifyRoom(room: String) -> String {
+        switch room {
+        case "LA1":
+            return "Linear Accelerator 1"
+        case "TLA":
+            return "Trilogy Linear Acc."
+        case "CT":
+            return "CT Simulator"
+        case "WR":
+            return "Waiting Room"
+        default:
+            return ""
+        }
+    }
+    
     func showSpinner(onView : UIView) {
         let spinnerView = UIView.init(frame: onView.bounds)
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
@@ -135,5 +151,3 @@ class CustomButton: UIButton {
         self.layer.shadowOpacity = 0.5
     }
 }
-
-
