@@ -45,7 +45,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var receivedData : String = ""
     var details : [RoomAndDuration] = []
     var timelineArr : [timeLineClass] = []
-    var rooms : [String] = ["Waiting\nRoom", "Linear\nAccelerator 1", "Trilogy\nLinear\nAccelerator", "CT\nSimulator"]
+    var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
     var timeSpent : [Double] = [0, 0, 0, 0]
 
     @IBOutlet weak var dateLabel: UILabel!
@@ -53,6 +53,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var tableViewBackground: UIView!
     @IBOutlet weak var chartView: BarChartView!
     @IBOutlet weak var backgroundChartView: UIView!
+    @IBOutlet weak var totalTimeSpentLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +69,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Modify xAxis's properties
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
-        xAxis.labelFont = .systemFont(ofSize: 12)
+        xAxis.labelFont = .systemFont(ofSize: 17, weight: .medium)
         xAxis.labelCount = 4
         xAxis.labelTextColor = UIColor.white
         xAxis.valueFormatter = IndexAxisValueFormatter(values: rooms)
@@ -82,12 +83,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         leftAxis.labelTextColor = UIColor.white
         leftAxis.axisMinimum = 0.0
         leftAxis.gridColor = UIColor.white
+        leftAxis.labelFont = .systemFont(ofSize: 15, weight: .ultraLight)
         
         // Modify rightAxis's properties
         let rightAxis = chartView.rightAxis
         rightAxis.labelTextColor = UIColor.white
         rightAxis.axisMinimum = 0.0
         rightAxis.gridColor = UIColor.white
+        rightAxis.labelFont = .systemFont(ofSize: 15, weight: .ultraLight)
         
         let legendVar = chartView.legend
         legendVar.form = .circle
@@ -138,7 +141,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         chartDataSet.highlightColor = UIColor.white
         chartDataSet.barBorderColor = UIColor.white
         chartDataSet.valueColors = valueColors
-        chartDataSet.valueFont = UIFont.systemFont(ofSize: 12)
+        chartDataSet.valueFont = UIFont.systemFont(ofSize: 17, weight: .medium)
         let chartData = BarChartData(dataSet: chartDataSet)
         chartView.data = chartData
     }
@@ -252,10 +255,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             } else {
                 print("==>DataSnapshot does not exist.")
             }
-            for i in 0...3 {
-                print("==>", self.timeSpent[i])
-            }
             
+            var displayTotalTime : Double = 0
+            for i in 0...3 {
+                displayTotalTime += self.timeSpent[i]
+            }
+//            String(Double(round(100 * detail.duration)/100)) + " min"
+            self.totalTimeSpentLabel.text = "\(round(100 * displayTotalTime)/100) min"
+                
             // loadGraph is called after timeSpent is filled with values.
             self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
         }

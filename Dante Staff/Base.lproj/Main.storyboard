@@ -2440,7 +2440,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="200" id="Xso-gd-ED1"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -2458,7 +2458,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="200" id="CNS-GM-oc3"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -2487,7 +2487,7 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List of All Patients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yk2-ac-jBc">
                                 <rect key="frame" x="20" y="100" width="374" height="36"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -2551,7 +2551,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="300" id="heS-sY-tam"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -2560,7 +2560,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="300" id="LiQ-Nw-Kut"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -2591,7 +2591,7 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Patient Visit By Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cSX-gA-IuU">
                                 <rect key="frame" x="20" y="100" width="374" height="36"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -2671,7 +2671,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="120" id="Kbs-dv-ezM"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -2680,7 +2680,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="04:28 PM - 04:29 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="liZ-5A-Dch">
                                                             <rect key="frame" x="15" y="42" width="359" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="15"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -2771,17 +2771,17 @@
                                     <constraint firstAttribute="trailing" secondItem="vDr-ez-5y0" secondAttribute="trailing" id="qTR-4W-yUu"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total time spent in each room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAk-VH-4Fe">
-                                <rect key="frame" x="20" y="370" width="374" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Time Spent in Each Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAk-VH-4Fe">
+                                <rect key="frame" x="20" y="365" width="374" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYd-lS-8fg">
-                                <rect key="frame" x="20" y="402" width="374" height="280"/>
+                                <rect key="frame" x="20" y="397" width="374" height="260"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLL-nM-Rya" customClass="BarChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="280"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="260"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -2791,15 +2791,35 @@
                                     <constraint firstItem="zLL-nM-Rya" firstAttribute="leading" secondItem="IYd-lS-8fg" secondAttribute="leading" id="MZg-4c-cIG"/>
                                     <constraint firstItem="zLL-nM-Rya" firstAttribute="top" secondItem="IYd-lS-8fg" secondAttribute="top" id="crT-3i-yMm"/>
                                     <constraint firstAttribute="trailing" secondItem="zLL-nM-Rya" secondAttribute="trailing" id="fcB-3i-WCt"/>
-                                    <constraint firstAttribute="height" constant="280" id="vTT-3U-Jni"/>
+                                    <constraint firstAttribute="height" constant="260" id="vTT-3U-Jni"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vhz-zZ-eAI">
+                                <rect key="frame" x="20" y="665" width="374" height="52.333333333333371"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Time Spent in One Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3f-2q-p0n">
+                                        <rect key="frame" x="0.0" y="0.0" width="262.33333333333331" height="24"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BBw-Cn-K6P">
+                                        <rect key="frame" x="0.0" y="32" width="41.333333333333336" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7u5-iD-vXK" firstAttribute="trailing" secondItem="aoa-dH-DOR" secondAttribute="trailing" constant="20" id="1Xz-sf-gfV"/>
                             <constraint firstItem="IYd-lS-8fg" firstAttribute="leading" secondItem="7u5-iD-vXK" secondAttribute="leading" constant="20" id="3Qa-za-rib"/>
-                            <constraint firstItem="lAk-VH-4Fe" firstAttribute="top" secondItem="aoa-dH-DOR" secondAttribute="bottom" constant="15" id="ACy-P0-aYa"/>
+                            <constraint firstItem="lAk-VH-4Fe" firstAttribute="top" secondItem="aoa-dH-DOR" secondAttribute="bottom" constant="10" id="ACy-P0-aYa"/>
+                            <constraint firstItem="vhz-zZ-eAI" firstAttribute="leading" secondItem="7u5-iD-vXK" secondAttribute="leading" constant="20" id="JTm-ug-Rhf"/>
+                            <constraint firstItem="7u5-iD-vXK" firstAttribute="trailing" secondItem="vhz-zZ-eAI" secondAttribute="trailing" constant="20" id="Ovm-Ne-P1z"/>
+                            <constraint firstItem="vhz-zZ-eAI" firstAttribute="top" secondItem="IYd-lS-8fg" secondAttribute="bottom" constant="8" id="SHK-Q9-NBx"/>
                             <constraint firstItem="aoa-dH-DOR" firstAttribute="leading" secondItem="7u5-iD-vXK" secondAttribute="leading" constant="20" id="V60-vx-E52"/>
                             <constraint firstItem="eRx-hx-0cX" firstAttribute="top" secondItem="7u5-iD-vXK" secondAttribute="top" constant="15" id="Wj4-AG-TDt"/>
                             <constraint firstItem="IYd-lS-8fg" firstAttribute="top" secondItem="lAk-VH-4Fe" secondAttribute="bottom" constant="8" id="XJm-7x-RVc"/>
@@ -2818,6 +2838,7 @@
                         <outlet property="dateLabel" destination="eRx-hx-0cX" id="9CL-sW-JoD"/>
                         <outlet property="tableView" destination="vDr-ez-5y0" id="rz9-E7-Ovi"/>
                         <outlet property="tableViewBackground" destination="aoa-dH-DOR" id="gwd-zY-mez"/>
+                        <outlet property="totalTimeSpentLabel" destination="BBw-Cn-K6P" id="rDc-7L-koL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMS-hA-qn8" userLabel="First Responder" sceneMemberID="firstResponder"/>
