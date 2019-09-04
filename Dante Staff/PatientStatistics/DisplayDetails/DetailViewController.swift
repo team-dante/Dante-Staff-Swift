@@ -77,7 +77,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         xAxis.gridColor = UIColor.white
         
         
-        
         // Modify leftAxis's properties
         let leftAxis = chartView.leftAxis
         leftAxis.labelTextColor = UIColor.white
@@ -109,6 +108,43 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        
+        // iPhone 8 - each view is 220
+        if (UIScreen.main.bounds.height == 667.0) {
+            for constraint in self.backgroundChartView.constraints {
+                if constraint.identifier == "chartHeightConstraint" {
+                    constraint.constant = 220
+                }
+            }
+            
+            for constraint in self.tableViewBackground.constraints {
+                if constraint.identifier == "tableHeightConstraint" {
+                    
+                    constraint.constant = 220
+                }
+            }
+        }
+        
+        // iPhone 8 Plus/ iPhone XS - each view is 260
+        if (UIScreen.main.bounds.height == 736.0 || UIScreen.main.bounds.height == 812.0) {
+            for constraint in self.backgroundChartView.constraints {
+                if constraint.identifier == "chartHeightConstraint" {
+                    constraint.constant = 260
+                }
+            }
+            
+            for constraint in self.tableViewBackground.constraints {
+                if constraint.identifier == "tableHeightConstraint" {
+                    
+                    constraint.constant = 260
+                }
+            }
+        }
+        
+        // update sublayouts
+        self.backgroundChartView.layoutIfNeeded()
+        self.tableViewBackground.layoutIfNeeded()
         
         // deselect selected row
         if let selectionIndexPath = self.tableView.indexPathForSelectedRow {

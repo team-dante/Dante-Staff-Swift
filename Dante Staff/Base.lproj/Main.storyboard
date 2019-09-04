@@ -2638,10 +2638,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aoa-dH-DOR">
-                                <rect key="frame" x="20" y="135" width="374" height="220"/>
+                                <rect key="frame" x="20" y="135" width="374" height="300"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vDr-ez-5y0">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="220"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="300"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -2764,7 +2764,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="220" id="2mg-Wz-0b9"/>
+                                    <constraint firstAttribute="height" constant="300" identifier="tableHeightConstraint" id="2mg-Wz-0b9"/>
                                     <constraint firstAttribute="bottom" secondItem="vDr-ez-5y0" secondAttribute="bottom" id="EMo-d7-2ho"/>
                                     <constraint firstItem="vDr-ez-5y0" firstAttribute="top" secondItem="aoa-dH-DOR" secondAttribute="top" id="Si3-n9-cRO"/>
                                     <constraint firstItem="vDr-ez-5y0" firstAttribute="leading" secondItem="aoa-dH-DOR" secondAttribute="leading" id="bGW-0p-wpi"/>
@@ -2772,16 +2772,16 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Time Spent in Each Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAk-VH-4Fe">
-                                <rect key="frame" x="20" y="365" width="374" height="24"/>
+                                <rect key="frame" x="20" y="445" width="374" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYd-lS-8fg">
-                                <rect key="frame" x="20" y="397" width="374" height="260"/>
+                                <rect key="frame" x="20" y="477" width="374" height="300"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLL-nM-Rya" customClass="BarChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="260"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="300"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -2791,11 +2791,11 @@
                                     <constraint firstItem="zLL-nM-Rya" firstAttribute="leading" secondItem="IYd-lS-8fg" secondAttribute="leading" id="MZg-4c-cIG"/>
                                     <constraint firstItem="zLL-nM-Rya" firstAttribute="top" secondItem="IYd-lS-8fg" secondAttribute="top" id="crT-3i-yMm"/>
                                     <constraint firstAttribute="trailing" secondItem="zLL-nM-Rya" secondAttribute="trailing" id="fcB-3i-WCt"/>
-                                    <constraint firstAttribute="height" constant="260" id="vTT-3U-Jni"/>
+                                    <constraint firstAttribute="height" constant="300" identifier="chartHeightConstraint" id="vTT-3U-Jni"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vhz-zZ-eAI">
-                                <rect key="frame" x="20" y="665" width="374" height="52.333333333333371"/>
+                                <rect key="frame" x="20" y="785" width="374" height="52.333333333333371"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Time Spent in One Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3f-2q-p0n">
                                         <rect key="frame" x="0.0" y="0.0" width="262.33333333333331" height="24"/>
@@ -2891,6 +2891,6 @@
         <image name="white-line" width="170.66667175292969" height="170.66667175292969"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ACy-Rn-aN1"/>
+        <segue reference="SwA-9j-bgT"/>
     </inferredMetricsTieBreakers>
 </document>
