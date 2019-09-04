@@ -23,18 +23,28 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var refresh: UIImageView!
     
     var patients : [Patient] = []
     var passedData : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         backgroundView.layer.cornerRadius = 10.0
         self.tableView.layer.cornerRadius = 10.0
         
         tableView.backgroundColor = UIColor.clear
 
+        refresh.isUserInteractionEnabled = true
+        refresh.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshTapped)))
+    }
+    
+    @objc func refreshTapped(_ recognizer: UITapGestureRecognizer) {
+        self.reload()
+        UIView.animate(withDuration: 1) {
+            self.refresh.transform = self.refresh.transform.rotated(by: CGFloat.pi/1)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

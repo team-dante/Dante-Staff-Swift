@@ -54,6 +54,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var chartView: BarChartView!
     @IBOutlet weak var backgroundChartView: UIView!
     @IBOutlet weak var totalTimeSpentLabel: UILabel!
+    @IBOutlet weak var refresh: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +63,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.layer.cornerRadius = 10.0
         self.backgroundChartView.layer.cornerRadius = 10.0
         
+        refresh.isUserInteractionEnabled = true
+        refresh.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshTapped)))
+        
         // !!! Don't forget to open the idenity inspector of chartView
         // and set the class to BarChartView
         self.chartView.delegate = self
@@ -69,7 +73,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Modify xAxis's properties
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
-        xAxis.labelFont = .systemFont(ofSize: 17, weight: .medium)
+        xAxis.labelFont = .systemFont(ofSize: 15, weight: .ultraLight)
         xAxis.labelCount = 4
         xAxis.labelTextColor = UIColor.white
         xAxis.valueFormatter = IndexAxisValueFormatter(values: rooms)
@@ -104,6 +108,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // adjust the height of the barchart to the view's height
         self.chartView.notifyDataSetChanged()
         
+    }
+    
+    @objc func refreshTapped(_ recognizer: UITapGestureRecognizer) {
+        details = []
+        timeSpent = [0, 0, 0, 0]
+        self.loadRoomAndTime()
+        UIView.animate(withDuration: 1) {
+            self.refresh.transform = self.refresh.transform.rotated(by: CGFloat.pi/1)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -177,7 +190,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         chartDataSet.highlightColor = UIColor.white
         chartDataSet.barBorderColor = UIColor.white
         chartDataSet.valueColors = valueColors
-        chartDataSet.valueFont = UIFont.systemFont(ofSize: 17, weight: .medium)
+        chartDataSet.valueFont = UIFont(name: "HelveticaNeue-Medium", size: 17)!
         let chartData = BarChartData(dataSet: chartDataSet)
         chartView.data = chartData
     }

@@ -35,12 +35,24 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @IBOutlet weak var tableBackground: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var refresh: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableBackground.layer.cornerRadius = 10.0
         self.tableView.layer.cornerRadius = 10.0
+        
+        refresh.isUserInteractionEnabled = true
+        refresh.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshTapped)))
+    }
+    
+    @objc func refreshTapped(_ recognizer: UITapGestureRecognizer) {
+        dates = []
+        loadDates()
+        UIView.animate(withDuration: 1) {
+            self.refresh.transform = self.refresh.transform.rotated(by: CGFloat.pi/1)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
