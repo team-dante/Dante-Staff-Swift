@@ -2613,59 +2613,56 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l0Y-yY-6RT">
-                                <rect key="frame" x="254" y="98" width="150" height="170"/>
+                                <rect key="frame" x="234" y="94" width="170" height="200"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="black-line" translatesAutoresizingMaskIntoConstraints="NO" id="XG4-YJ-HAu">
-                                        <rect key="frame" x="0.0" y="40" width="150" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="X3z-EG-xl9"/>
-                                        </constraints>
-                                    </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="black-line" translatesAutoresizingMaskIntoConstraints="NO" id="CdT-bG-WTd">
-                                        <rect key="frame" x="0.0" y="100" width="150" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="sws-vE-GsH"/>
-                                        </constraints>
-                                    </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="T8P-R6-yiq">
-                                        <rect key="frame" x="19" y="15.666666666666671" width="112" height="139"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="T8P-R6-yiq">
+                                        <rect key="frame" x="10" y="10" width="150" height="180"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBy-Hg-jfG">
-                                                <rect key="frame" x="0.0" y="0.0" width="104" height="33"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="EBn-7v-ecB"/>
+                                                    <constraint firstAttribute="width" constant="150" id="HED-5b-pfV"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <state key="normal" title="View Weekly">
-                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YB-xr-7kB">
-                                                <rect key="frame" x="0.0" y="52.999999999999986" width="112" height="33"/>
+                                                <rect key="frame" x="0.0" y="65" width="150" height="50"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="150" id="ZJA-Ji-Zyz"/>
+                                                    <constraint firstAttribute="height" constant="50" id="im3-ok-Kb0"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <state key="normal" title="View Monthly">
-                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rzJ-pf-yMy">
-                                                <rect key="frame" x="0.0" y="105.99999999999999" width="95" height="33.000000000000014"/>
+                                                <rect key="frame" x="0.0" y="130" width="150" height="50"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="cD2-HX-rTk"/>
+                                                    <constraint firstAttribute="width" constant="150" id="s67-cN-KC5"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <state key="normal" title="View Yearly">
-                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.24797177314758301" green="0.20388847589492798" blue="0.34119081497192383" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstItem="T8P-R6-yiq" firstAttribute="centerY" secondItem="l0Y-yY-6RT" secondAttribute="centerY" id="43D-ix-nq9"/>
-                                    <constraint firstAttribute="trailing" secondItem="CdT-bG-WTd" secondAttribute="trailing" id="E6g-ih-qtG"/>
-                                    <constraint firstAttribute="width" constant="150" id="Ki7-z9-IC9"/>
-                                    <constraint firstAttribute="trailing" secondItem="XG4-YJ-HAu" secondAttribute="trailing" id="OfQ-2G-ss7"/>
-                                    <constraint firstItem="XG4-YJ-HAu" firstAttribute="top" secondItem="l0Y-yY-6RT" secondAttribute="top" constant="40" id="Wrc-L0-twG"/>
-                                    <constraint firstItem="CdT-bG-WTd" firstAttribute="leading" secondItem="l0Y-yY-6RT" secondAttribute="leading" id="Yoc-dQ-G94"/>
-                                    <constraint firstAttribute="height" constant="170" id="fh0-vQ-LG4"/>
-                                    <constraint firstItem="CdT-bG-WTd" firstAttribute="top" secondItem="XG4-YJ-HAu" secondAttribute="bottom" constant="30" id="gKu-xq-buG"/>
+                                    <constraint firstAttribute="width" constant="170" id="Ki7-z9-IC9"/>
+                                    <constraint firstAttribute="height" constant="200" id="fh0-vQ-LG4"/>
                                     <constraint firstItem="T8P-R6-yiq" firstAttribute="centerX" secondItem="l0Y-yY-6RT" secondAttribute="centerX" id="vYj-sh-Oat"/>
-                                    <constraint firstItem="XG4-YJ-HAu" firstAttribute="leading" secondItem="l0Y-yY-6RT" secondAttribute="leading" id="xpo-YD-s4m"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -2673,7 +2670,7 @@
                         <constraints>
                             <constraint firstItem="OIp-4z-1Ut" firstAttribute="trailing" secondItem="cSX-gA-IuU" secondAttribute="trailing" constant="55" id="7tS-Tg-i1H"/>
                             <constraint firstItem="cSX-gA-IuU" firstAttribute="top" secondItem="OIp-4z-1Ut" secondAttribute="top" constant="12" id="H4B-lg-grr"/>
-                            <constraint firstItem="l0Y-yY-6RT" firstAttribute="top" secondItem="OIp-4z-1Ut" secondAttribute="top" constant="10" id="IAC-5j-TGv"/>
+                            <constraint firstItem="l0Y-yY-6RT" firstAttribute="top" secondItem="OIp-4z-1Ut" secondAttribute="top" constant="6" id="IAC-5j-TGv"/>
                             <constraint firstItem="OIp-4z-1Ut" firstAttribute="trailing" secondItem="l0Y-yY-6RT" secondAttribute="trailing" constant="10" id="LCk-Qo-VDX"/>
                             <constraint firstItem="OIp-4z-1Ut" firstAttribute="trailing" secondItem="8uw-0Z-BzY" secondAttribute="trailing" constant="20" id="Vvw-V3-S7b"/>
                             <constraint firstItem="8uw-0Z-BzY" firstAttribute="leading" secondItem="cSX-gA-IuU" secondAttribute="trailing" constant="1" id="WGo-bh-z2a"/>
@@ -2695,6 +2692,9 @@
                         <outlet property="refresh" destination="8uw-0Z-BzY" id="9Mo-xi-KNW"/>
                         <outlet property="tableBackground" destination="yWK-Ya-gZ1" id="APe-pk-ssu"/>
                         <outlet property="tableView" destination="sfR-gG-xM5" id="nUu-hZ-mRz"/>
+                        <outlet property="viewMonthlyBtn" destination="8YB-xr-7kB" id="R4J-MY-cBB"/>
+                        <outlet property="viewWeeklyBtn" destination="yBy-Hg-jfG" id="fE1-Jh-qIJ"/>
+                        <outlet property="viewYearlyBtn" destination="rzJ-pf-yMy" id="4yH-Fl-Nzt"/>
                         <segue destination="QRd-1x-V8d" kind="show" identifier="next" id="hPh-qE-3ma"/>
                     </connections>
                 </viewController>
@@ -2961,7 +2961,6 @@
     <resources>
         <image name="avatar_placeholder" width="512" height="512"/>
         <image name="background" width="125" height="270.66665649414062"/>
-        <image name="black-line" width="512" height="512"/>
         <image name="broadcast-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="checked-box" width="170.66667175292969" height="170.66667175292969"/>
         <image name="create-acc-icon" width="170.66667175292969" height="170.66667175292969"/>

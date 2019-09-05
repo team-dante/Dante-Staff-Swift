@@ -33,28 +33,35 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var passedData : String = ""
     var dates : [DateCustom] = []
     var toggle = true
+    var rightBarButton : UIButton!
 
     @IBOutlet weak var tableBackground: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var refresh: UIImageView!
     @IBOutlet weak var filterPopupView: UIView!
+    @IBOutlet weak var viewWeeklyBtn: UIButton!
+    @IBOutlet weak var viewMonthlyBtn: UIButton!
+    @IBOutlet weak var viewYearlyBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.viewWeeklyBtn.layer.cornerRadius = 10.0
+        self.viewMonthlyBtn.layer.cornerRadius = 10.0
+        self.viewYearlyBtn.layer.cornerRadius = 10.0
         self.filterPopupView.layer.cornerRadius = 10.0
         
-        let button = UIButton(type: .custom)
+        rightBarButton = UIButton(type: .custom)
         let image = UIImage(named: "filter.png")
-        button.setImage(image, for: .normal)
+        rightBarButton.setImage(image, for: .normal)
         // use background color for debugging
-//        button.backgroundColor = UIColor.red
-        button.imageView?.contentMode = .scaleAspectFit
+//        rightBarButton.backgroundColor = UIColor.red
+        rightBarButton.imageView?.contentMode = .scaleAspectFit
         // add padding top and bottom to image and text
-        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        rightBarButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 0)
         // To remove left and right inset, set width constraint for the button. Do not use UIEdgeInsets to remove inset
-        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+        rightBarButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         
         self.tableBackground.layer.cornerRadius = 10.0
@@ -66,9 +73,12 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @objc func popupView(_ recognizer: UITapGestureRecognizer) {
         if (toggle == true) {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(popupView(_:)))
             self.filterPopupView.isHidden = false
             toggle = false
         } else if (toggle == false) {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
+            self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
             self.filterPopupView.isHidden = true
             toggle = true
         }
