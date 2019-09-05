@@ -47,7 +47,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var timelineArr : [timeLineClass] = []
     var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
     var timeSpent : [Double] = [0, 0, 0, 0]
+    var toggle = true
 
+    @IBOutlet weak var mapAnnotation: UIView!
+    @IBOutlet weak var questionMarkImageBtn: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewBackground: UIView!
@@ -119,9 +122,25 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    @objc func popupAnnotation(_ recognizer: UITapGestureRecognizer) {
+        if (toggle == true) {
+            self.mapAnnotation.isHidden = false
+            questionMarkImageBtn.image = UIImage(named: "ic_clear.png")
+            toggle = false
+        } else if (toggle == false) {
+            self.mapAnnotation.isHidden = true
+            questionMarkImageBtn.image = UIImage(named: "question?.png")
+            toggle = true
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.mapAnnotation.isHidden = true
+        self.mapAnnotation.layer.cornerRadius = 10.0
+        self.questionMarkImageBtn.isUserInteractionEnabled = true
+        self.questionMarkImageBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupAnnotation(_:))))
         
         // iPhone 8 - each view is 220
         if (UIScreen.main.bounds.height == 667.0) {

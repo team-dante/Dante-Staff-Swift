@@ -31,6 +31,9 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var receivedData : String = ""
     var passedData : String = ""
+    var passedDataWeekly : String!
+    var passedDataMonthly: String!
+    var passedDataYearly: String!
     var dates : [DateCustom] = []
     var toggle = true
     var rightBarButton : UIButton!
@@ -42,6 +45,33 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var viewWeeklyBtn: UIButton!
     @IBOutlet weak var viewMonthlyBtn: UIButton!
     @IBOutlet weak var viewYearlyBtn: UIButton!
+    
+    
+    @IBAction func viewWeeklyPressed(_ sender: Any) {
+        self.passedDataWeekly = receivedData
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
+        self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
+        self.filterPopupView.isHidden = true
+        self.toggle = true
+        self.performSegue(withIdentifier: "weekly", sender: self)
+    }
+    
+    @IBAction func viewMonthlyPressed(_ sender: Any) {
+        self.passedDataWeekly = receivedData
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
+        self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
+        self.filterPopupView.isHidden = true
+        self.toggle = true
+        self.performSegue(withIdentifier: "monthly", sender: self)
+    }
+    
+    @IBAction func viewYearlyPressed(_ sender: Any) {
+        self.passedDataWeekly = receivedData
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
+        self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
+        self.filterPopupView.isHidden = true
+        self.toggle = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -176,8 +206,17 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! DetailViewController
-        vc.receivedData = self.passedData
+        if segue.identifier == "next" {
+            if let vc = segue.destination as? DetailViewController {
+                vc.receivedData = self.passedData
+            }
+        }
+        else if segue.identifier == "weekly" {
+            if let vc = segue.destination as? ViewByWeekViewController {
+                vc.receivedData = self.passedDataWeekly
+            }
+        }
+        
     }
 
 }
