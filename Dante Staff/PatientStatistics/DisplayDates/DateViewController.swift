@@ -32,19 +32,46 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var receivedData : String = ""
     var passedData : String = ""
     var dates : [DateCustom] = []
+    var toggle = true
 
     @IBOutlet weak var tableBackground: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var refresh: UIImageView!
+    @IBOutlet weak var filterPopupView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.filterPopupView.layer.cornerRadius = 10.0
+        
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "filter.png")
+        button.setImage(image, for: .normal)
+        // use background color for debugging
+//        button.backgroundColor = UIColor.red
+        button.imageView?.contentMode = .scaleAspectFit
+        // add padding top and bottom to image and text
+        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        // To remove left and right inset, set width constraint for the button. Do not use UIEdgeInsets to remove inset
+        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         
         self.tableBackground.layer.cornerRadius = 10.0
         self.tableView.layer.cornerRadius = 10.0
         
         refresh.isUserInteractionEnabled = true
         refresh.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshTapped)))
+    }
+    
+    @objc func popupView(_ recognizer: UITapGestureRecognizer) {
+        if (toggle == true) {
+            self.filterPopupView.isHidden = false
+            toggle = false
+        } else if (toggle == false) {
+            self.filterPopupView.isHidden = true
+            toggle = true
+        }
     }
     
     @objc func refreshTapped(_ recognizer: UITapGestureRecognizer) {
@@ -60,6 +87,8 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
         }
+        
+        self.filterPopupView.isHidden = true
         
         print("==>receivedDataFromPatientVC=", receivedData)
         
