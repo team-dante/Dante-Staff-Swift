@@ -11,10 +11,17 @@ import Firebase
 
 class Monthly {
     var monthName : String!
+    var totalTimeSpent : Double!
+    var timeSpentPerVisit : Double!
+    var numberOfDaysVisited : Int!
     
-    init(mn: String) {
+    init(mn: String, time: Double, tspv: Double, nodv: Int) {
         monthName = mn
+        totalTimeSpent = time
+        timeSpentPerVisit = tspv
+        numberOfDaysVisited = nodv
     }
+
 }
 
 class DateCustom {
@@ -217,7 +224,7 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             
             for (key, _) in self.monthDict {
-                self.months.append(Monthly(mn: key))
+                self.months.append(Monthly(mn: key, time: 0.0, tspv: 0.0, nodv: 0))
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -226,8 +233,62 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             print("@@@@@@@")
             for (key, value) in self.monthDict {
                 print("\(key) - \(value)")
+                self.getTotalMinutesPerMonth(input: value)
             }
         }
+    }
+    
+    func getTotalMinutesPerMonth(input: Set<String>) {
+        
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        
+        for eachDate in input {
+            ref.child("PatientVisitsByDates/\(receivedData)/\(eachDate)").observeSingleEvent(of: .value) { (DataSnapshot) in
+                if DataSnapshot.exists() {
+                    let dict = DataSnapshot.value as! [String : AnyObject]
+                    // add up total hours for each month
+                    var totalTime = 0.0
+                    for (_, val) in dict {
+                        if (val["inSession"] as! Bool == false) {
+                            let minute = ((val["endTime"] as! Double - (val["startTime"] as! Double)) / 60.0)
+                            for eachObject in self.months {
+                                if eachObject.monthName == eachDate.prefix(7) {
+                                    eachObject.totalTimeSpent += minute
+                                    totalTime += minute
+                                }
+                            }
+                        } else {
+                            let now = NSDate().timeIntervalSince1970
+                            let minute = ((Double(now) - (val["startTime"] as! Double)) / 60)
+                            for eachObject in self.months {
+                                if eachObject.monthName == eachDate.prefix(7) {
+                                    eachObject.totalTimeSpent += minute
+                                    totalTime += minute
+                                }
+                            }
+                        }
+                    }
+                    
+                    // get average of minutes per visit in one month (total minutes visited / number of days)
+                    for eachObject in self.months {
+                        if eachObject.monthName == eachDate.prefix(7) {
+                            let visitPerMonth = self.monthDict[String(eachDate.prefix(7))]
+                            eachObject.timeSpentPerVisit = (eachObject.totalTimeSpent / Double(visitPerMonth!.count))
+                            eachObject.numberOfDaysVisited = visitPerMonth!.count
+                        }
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                } else {
+                    print("==>DataSnapshot does not exist")
+                }
+            }
+        }
+        
+
     }
     
     func loadDates() {
@@ -287,7 +348,7 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (tableTypes == "monthly") {
             let month = months[indexPath.row]
             cell.date.text = self.prettifyMonth(input: month.monthName)
-            cell.daysLeft.text = ""
+            cell.daysLeft.text = "Spent \(month.numberOfDaysVisited!) days in total"
             
             return cell
         }
@@ -319,15 +380,7 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 vc.receivedData = self.passedData
             }
         }
-        else if segue.identifier == "weekly" {
-            if let vc = segue.destination as? ViewWeeklyViewController {
-                vc.receivedDataWeekly = self.passedDataWeekly
-            }
-        } else if segue.identifier == "monthly" {
-            if let vc = segue.destination as? ViewMonthlyViewController {
-                vc.receivedDataMonthly = self.passedDataMonthly
-            }
-        }
+
         
     }
 
