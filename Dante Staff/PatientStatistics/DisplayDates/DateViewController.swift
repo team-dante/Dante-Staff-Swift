@@ -9,6 +9,14 @@
 import UIKit
 import Firebase
 
+class Monthly {
+    var monthName : String!
+    
+    init(mn: String) {
+        monthName = mn
+    }
+}
+
 class DateCustom {
     var rawDate : String!
     var date : String!
@@ -34,6 +42,9 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var passedDataWeekly : String!
     var passedDataMonthly: String!
     var passedDataYearly: String!
+    var months : [Monthly] = []
+    var monthDict = Dictionary<String, Set<String>>()
+    var tableTypes : String!
     var dates : [DateCustom] = []
     var toggle = true
     var rightBarButton : UIButton!
@@ -42,10 +53,11 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var refresh: UIImageView!
     @IBOutlet weak var filterPopupView: UIView!
+    @IBOutlet weak var viewDailyBtn: UIButton!
     @IBOutlet weak var viewWeeklyBtn: UIButton!
     @IBOutlet weak var viewMonthlyBtn: UIButton!
     @IBOutlet weak var viewYearlyBtn: UIButton!
-    
+    @IBOutlet weak var headerLabel: UILabel!
     
     @IBAction func viewWeeklyPressed(_ sender: Any) {
         self.passedDataWeekly = receivedData
@@ -53,20 +65,37 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
         self.toggle = true
-        self.performSegue(withIdentifier: "weekly", sender: self)
+
     }
     
-    @IBAction func viewMonthlyPressed(_ sender: Any) {
-        self.passedDataWeekly = receivedData
+    @IBAction func viewDailyPressed(_ sender: Any) {
+        self.passedDataMonthly = receivedData
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
         self.toggle = true
-        self.performSegue(withIdentifier: "monthly", sender: self)
+        
+        self.tableTypes = ""
+        self.headerLabel.text = "Patient Visit By Date"
+        dates = []
+        loadDates()
+    }
+    
+    @IBAction func viewMonthlyPressed(_ sender: Any) {
+        self.passedDataMonthly = receivedData
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
+        self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
+        self.filterPopupView.isHidden = true
+        self.toggle = true
+        
+        self.tableTypes = "monthly"
+        self.headerLabel.text = "Patient Visit By Month"
+        months = []
+        self.loadMonths()
     }
     
     @IBAction func viewYearlyPressed(_ sender: Any) {
-        self.passedDataWeekly = receivedData
+        self.passedDataYearly = receivedData
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
@@ -76,6 +105,7 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.viewDailyBtn.layer.cornerRadius = 10.0
         self.viewWeeklyBtn.layer.cornerRadius = 10.0
         self.viewMonthlyBtn.layer.cornerRadius = 10.0
         self.viewYearlyBtn.layer.cornerRadius = 10.0
@@ -115,8 +145,13 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @objc func refreshTapped(_ recognizer: UITapGestureRecognizer) {
-        dates = []
-        loadDates()
+        if (tableTypes == "monthly") {
+            months = []
+            loadMonths()
+        } else {
+            dates = []
+            loadDates()
+        }
         UIView.animate(withDuration: 1) {
             self.refresh.transform = self.refresh.transform.rotated(by: CGFloat.pi/1)
         }
@@ -137,6 +172,62 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.tableView.dataSource = self
         dates = []
         loadDates()
+    }
+    
+    func loadMonths() {
+        var ref : DatabaseReference!
+        
+        ref = Database.database().reference()
+        
+        ref.child("PatientVisitsByDates/\(receivedData)").observeSingleEvent(of: .value) { (DataSnapshot) in
+            if DataSnapshot.exists() {
+                let dict = DataSnapshot.value as! [String : AnyObject]
+                let sortedDict = dict.sorted {
+                    $0.0 < $1.0
+                }
+                // print(sortedDict)
+                
+                // extract [month : [set of dates in that month]
+                // 2019-08 - ["2019-08-26", "2019-08-21", "2019-08-22", "2019-08-06"]
+                // 2019-09 - ["2019-09-02", "2019-09-03"]
+                // 2019-07 - ["2019-07-29"]
+                var tempKey = ""
+                var monthSet = Set<String>()
+                for (key, _) in sortedDict {
+                    print("key=>\(key)")
+                    if (tempKey == "" ) {
+                        tempKey = String(key.prefix(7))
+                        monthSet.insert(key)
+                    }
+                    else if (key.prefix(7) != tempKey) {
+                        self.monthDict[tempKey] = monthSet
+                        tempKey = String(key.prefix(7))
+                        monthSet = Set<String>()
+                        monthSet.insert(key)
+                        
+                    } else if key.prefix(7) == tempKey {
+                        monthSet.insert(key)
+                    }
+                }
+                self.monthDict[tempKey] = monthSet
+                monthSet = Set<String>()
+                
+            } else {
+                print("==>DataSnapshot does not exist")
+            }
+            
+            for (key, _) in self.monthDict {
+                self.months.append(Monthly(mn: key))
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+            print("@@@@@@@")
+            for (key, value) in self.monthDict {
+                print("\(key) - \(value)")
+            }
+        }
     }
     
     func loadDates() {
@@ -180,6 +271,10 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (tableTypes == "monthly") {
+            return months.count
+        }
+            
         return dates.count
     }
     
@@ -187,6 +282,14 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cellIdentifier = "DateTableViewCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? DateTableViewCell else {
             fatalError("==>The dequeued cell is not an instance of DateTableViewCell.")
+        }
+        
+        if (tableTypes == "monthly") {
+            let month = months[indexPath.row]
+            cell.date.text = self.prettifyMonth(input: month.monthName)
+            cell.daysLeft.text = ""
+            
+            return cell
         }
         
         let date = dates[indexPath.row]
@@ -197,9 +300,14 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let date = dates[indexPath.row]
-        self.passedData = self.receivedData + "@" + date.rawDate
-        self.performSegue(withIdentifier: "next", sender: self)
+        if (tableTypes == "monthly") {
+            let month = months[indexPath.row]
+            print(month)
+        } else {
+            let date = dates[indexPath.row]
+            self.passedData = self.receivedData + "@" + date.rawDate
+            self.performSegue(withIdentifier: "next", sender: self)
+        }
     }
     
     // MARK: - Navigation
@@ -212,8 +320,12 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         }
         else if segue.identifier == "weekly" {
-            if let vc = segue.destination as? ViewByWeekViewController {
-                vc.receivedData = self.passedDataWeekly
+            if let vc = segue.destination as? ViewWeeklyViewController {
+                vc.receivedDataWeekly = self.passedDataWeekly
+            }
+        } else if segue.identifier == "monthly" {
+            if let vc = segue.destination as? ViewMonthlyViewController {
+                vc.receivedDataMonthly = self.passedDataMonthly
             }
         }
         

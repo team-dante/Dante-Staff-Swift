@@ -2607,16 +2607,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="refresh" translatesAutoresizingMaskIntoConstraints="NO" id="8uw-0Z-BzY">
-                                <rect key="frame" x="360" y="94" width="34" height="45"/>
+                                <rect key="frame" x="360" y="94" width="31" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="Kmi-yT-A5P"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l0Y-yY-6RT">
-                                <rect key="frame" x="234" y="94" width="170" height="200"/>
+                                <rect key="frame" x="234" y="94" width="170" height="270"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="T8P-R6-yiq">
-                                        <rect key="frame" x="10" y="10" width="150" height="180"/>
+                                        <rect key="frame" x="10" y="12.666666666666686" width="150" height="245"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBy-Hg-jfG">
                                                 <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
@@ -2626,15 +2626,30 @@
                                                     <constraint firstAttribute="width" constant="150" id="HED-5b-pfV"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <state key="normal" title="View Weekly">
+                                                <state key="normal" title="View Daily">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="viewWeeklyPressed:" destination="xMz-Kf-9yd" eventType="touchUpInside" id="84K-R0-UTS"/>
+                                                    <action selector="viewDailyPressed:" destination="xMz-Kf-9yd" eventType="touchUpInside" id="jSV-Gt-jkB"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWK-su-iPO">
+                                                <rect key="frame" x="0.0" y="64.999999999999986" width="150" height="50"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="N5m-Kp-UD0"/>
+                                                    <constraint firstAttribute="width" constant="150" id="fWy-a0-2eP"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <state key="normal" title="View Weekly">
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="viewWeeklyPressed:" destination="xMz-Kf-9yd" eventType="touchUpInside" id="7jJ-70-TY5"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YB-xr-7kB">
-                                                <rect key="frame" x="0.0" y="65" width="150" height="50"/>
+                                                <rect key="frame" x="0.0" y="130" width="150" height="50"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="150" id="ZJA-Ji-Zyz"/>
@@ -2649,7 +2664,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rzJ-pf-yMy">
-                                                <rect key="frame" x="0.0" y="130" width="150" height="50"/>
+                                                <rect key="frame" x="0.0" y="195" width="150" height="50"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="cD2-HX-rTk"/>
@@ -2670,7 +2685,7 @@
                                 <constraints>
                                     <constraint firstItem="T8P-R6-yiq" firstAttribute="centerY" secondItem="l0Y-yY-6RT" secondAttribute="centerY" id="43D-ix-nq9"/>
                                     <constraint firstAttribute="width" constant="170" id="Ki7-z9-IC9"/>
-                                    <constraint firstAttribute="height" constant="200" id="fh0-vQ-LG4"/>
+                                    <constraint firstAttribute="height" constant="270" id="fh0-vQ-LG4"/>
                                     <constraint firstItem="T8P-R6-yiq" firstAttribute="centerX" secondItem="l0Y-yY-6RT" secondAttribute="centerX" id="vYj-sh-Oat"/>
                                 </constraints>
                             </view>
@@ -2681,7 +2696,7 @@
                             <constraint firstItem="cSX-gA-IuU" firstAttribute="top" secondItem="OIp-4z-1Ut" secondAttribute="top" constant="12" id="H4B-lg-grr"/>
                             <constraint firstItem="l0Y-yY-6RT" firstAttribute="top" secondItem="OIp-4z-1Ut" secondAttribute="top" constant="6" id="IAC-5j-TGv"/>
                             <constraint firstItem="OIp-4z-1Ut" firstAttribute="trailing" secondItem="l0Y-yY-6RT" secondAttribute="trailing" constant="10" id="LCk-Qo-VDX"/>
-                            <constraint firstItem="OIp-4z-1Ut" firstAttribute="trailing" secondItem="8uw-0Z-BzY" secondAttribute="trailing" constant="20" id="Vvw-V3-S7b"/>
+                            <constraint firstItem="OIp-4z-1Ut" firstAttribute="trailing" secondItem="8uw-0Z-BzY" secondAttribute="trailing" constant="23" id="Vvw-V3-S7b"/>
                             <constraint firstItem="8uw-0Z-BzY" firstAttribute="leading" secondItem="cSX-gA-IuU" secondAttribute="trailing" constant="1" id="WGo-bh-z2a"/>
                             <constraint firstItem="yWK-Ya-gZ1" firstAttribute="leading" secondItem="OIp-4z-1Ut" secondAttribute="leading" constant="20" id="bOe-Le-h1Q"/>
                             <constraint firstItem="OIp-4z-1Ut" firstAttribute="trailing" secondItem="yWK-Ya-gZ1" secondAttribute="trailing" constant="20" id="nHD-WI-npz"/>
@@ -2698,11 +2713,13 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="filterPopupView" destination="l0Y-yY-6RT" id="ft6-sy-wGL"/>
+                        <outlet property="headerLabel" destination="cSX-gA-IuU" id="r9K-qe-nDn"/>
                         <outlet property="refresh" destination="8uw-0Z-BzY" id="9Mo-xi-KNW"/>
                         <outlet property="tableBackground" destination="yWK-Ya-gZ1" id="APe-pk-ssu"/>
                         <outlet property="tableView" destination="sfR-gG-xM5" id="nUu-hZ-mRz"/>
+                        <outlet property="viewDailyBtn" destination="yBy-Hg-jfG" id="pWR-GB-EfU"/>
                         <outlet property="viewMonthlyBtn" destination="8YB-xr-7kB" id="R4J-MY-cBB"/>
-                        <outlet property="viewWeeklyBtn" destination="yBy-Hg-jfG" id="fE1-Jh-qIJ"/>
+                        <outlet property="viewWeeklyBtn" destination="YWK-su-iPO" id="j7e-IX-ZKB"/>
                         <outlet property="viewYearlyBtn" destination="rzJ-pf-yMy" id="4yH-Fl-Nzt"/>
                         <segue destination="QRd-1x-V8d" kind="show" identifier="next" id="hPh-qE-3ma"/>
                         <segue destination="tSq-k5-uxl" kind="show" identifier="weekly" id="Z1x-L0-LuQ"/>
@@ -2716,7 +2733,7 @@
         <!--Weekly-->
         <scene sceneID="YRM-Jv-eNj">
             <objects>
-                <viewController title="Weekly" id="tSq-k5-uxl" customClass="ViewByWeekViewController" customModule="Dante_Staff" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Weekly" id="tSq-k5-uxl" customClass="ViewWeeklyViewController" customModule="Dante_Staff" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pza-Bg-Qq5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

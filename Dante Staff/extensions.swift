@@ -34,6 +34,46 @@ extension UIViewController {
         }
     }
     
+    func prettifyMonth(input: String) -> String {
+        let inputArr = input.components(separatedBy: "-")
+        
+        var month : String = ""
+        
+        switch inputArr[1] {
+        case "01":
+            month = "January"
+        case "02":
+            month = "Febuary"
+        case "03":
+            month = "March"
+        case "04":
+            month = "April"
+        case "05":
+            month = "May"
+        case "06":
+            month = "June"
+        case "07":
+            month = "July"
+        case "08":
+            month = "August"
+        case "09":
+            month = "September"
+        case "10":
+            month = "October"
+        case "11":
+            month = "November"
+        case "12":
+            month = "December"
+        default:
+            month = "N/A"
+            break
+        }
+        
+        let newMonth = month + " " + inputArr[0]
+        
+        return newMonth
+    }
+    
     func prettifyDate(date: String) -> String {
         let dateArr = date.components(separatedBy: "-")
         

@@ -220,7 +220,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.dateLabel.text = "Report for \(self.prettifyDate(date: receivedDataArr[1]))"
         var ref : DatabaseReference!
         ref = Database.database().reference()
-        ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])").queryOrdered(byChild: "startTime").observeSingleEvent(of: .value) { (DataSnapshot) in
+        ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])").observeSingleEvent(of: .value) { (DataSnapshot) in
             if DataSnapshot.exists() {
                 let dict = DataSnapshot.value as! [String : AnyObject]
                 
