@@ -21,7 +21,6 @@ class Monthly {
         timeSpentPerVisit = tspv
         numberOfDaysVisited = nodv
     }
-
 }
 
 class DateCustom {
@@ -225,16 +224,13 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             for (key, _) in self.monthDict {
                 self.months.append(Monthly(mn: key, time: 0.0, tspv: 0.0, nodv: 0))
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
             }
             
-            print("@@@@@@@")
             for (key, value) in self.monthDict {
                 print("\(key) - \(value)")
                 self.getTotalMinutesPerMonth(input: value)
             }
+            
         }
     }
     
@@ -348,7 +344,12 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (tableTypes == "monthly") {
             let month = months[indexPath.row]
             cell.date.text = self.prettifyMonth(input: month.monthName)
-            cell.daysLeft.text = "Spent \(month.numberOfDaysVisited!) days in total"
+            if (month.numberOfDaysVisited == 0 || month.numberOfDaysVisited == 1) {
+                cell.daysLeft.text = "Spent \(month.numberOfDaysVisited!) day in total"
+            } else {
+                cell.daysLeft.text = "Spent \(month.numberOfDaysVisited!) days in total"
+            }
+            
             
             return cell
         }
