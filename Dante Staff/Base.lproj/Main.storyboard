@@ -2967,31 +2967,43 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHN-3O-NDf">
-                                <rect key="frame" x="155" y="472" width="240" height="128"/>
+                                <rect key="frame" x="155" y="472" width="240" height="180"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="lpw-Qk-hZ9">
-                                        <rect key="frame" x="11.333333333333343" y="14.666666666666686" width="217.33333333333334" height="99"/>
+                                        <rect key="frame" x="11.333333333333343" y="10.666666666666686" width="217.33333333333334" height="159"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WR - Waiting Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5s2-4E-tRY">
-                                                <rect key="frame" x="0.0" y="0.0" width="133.33333333333334" height="18"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5s2-4E-tRY">
+                                                <rect key="frame" x="0.0" y="0.0" width="57.333333333333336" height="24"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unit - Minute (min)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FEX-Rj-qNB" userLabel="Unit - Minute (min)">
+                                                <rect key="frame" x="0.0" y="32.999999999999943" width="129.66666666666666" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WR - Waiting Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVd-MG-hlt">
+                                                <rect key="frame" x="0.0" y="59.999999999999943" width="133.33333333333334" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LA1 - Linear Accelerator 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejy-C7-Tfp">
-                                                <rect key="frame" x="0.0" y="26.999999999999943" width="175" height="18"/>
+                                                <rect key="frame" x="0.0" y="86.999999999999943" width="175" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TLA - Trilogy Linear Accelerator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaw-Id-ImT">
-                                                <rect key="frame" x="0.0" y="53.999999999999943" width="217.33333333333334" height="18"/>
+                                                <rect key="frame" x="0.0" y="113.99999999999994" width="217.33333333333334" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CT - CT Simulator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HBV-Ka-pOS">
-                                                <rect key="frame" x="0.0" y="80.999999999999943" width="122.66666666666667" height="18"/>
+                                                <rect key="frame" x="0.0" y="140.99999999999994" width="122.66666666666667" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -3002,7 +3014,7 @@
                                 <color key="backgroundColor" red="0.24797177314758301" green="0.20388847589492798" blue="0.34119081497192383" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="2OV-5D-vYo"/>
-                                    <constraint firstAttribute="height" constant="128" id="HFN-Xo-HEo"/>
+                                    <constraint firstAttribute="height" constant="180" id="HFN-Xo-HEo"/>
                                     <constraint firstItem="lpw-Qk-hZ9" firstAttribute="centerY" secondItem="zHN-3O-NDf" secondAttribute="centerY" id="VpO-R3-2f3"/>
                                     <constraint firstItem="lpw-Qk-hZ9" firstAttribute="centerX" secondItem="zHN-3O-NDf" secondAttribute="centerX" id="qP4-vL-JNe"/>
                                 </constraints>
@@ -3048,6 +3060,7 @@
                         <outlet property="tableView" destination="vDr-ez-5y0" id="rz9-E7-Ovi"/>
                         <outlet property="tableViewBackground" destination="aoa-dH-DOR" id="gwd-zY-mez"/>
                         <outlet property="totalTimeSpentLabel" destination="BBw-Cn-K6P" id="rDc-7L-koL"/>
+                        <outlet property="unitLabel" destination="FEX-Rj-qNB" id="Sao-ol-0Tr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMS-hA-qn8" userLabel="First Responder" sceneMemberID="firstResponder"/>

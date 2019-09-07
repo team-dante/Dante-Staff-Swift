@@ -74,6 +74,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var toggle = true
     var tableTypes : String = ""
 
+    @IBOutlet weak var unitLabel: UILabel!
     @IBOutlet weak var mapAnnotation: UIView!
     @IBOutlet weak var questionMarkImageBtn: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
@@ -238,6 +239,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             print("==>receivedDataFromDateVC=",receivedData)
             
             self.lastLabel.text = "Total Time Spent in This Month"
+            self.unitLabel.text = "Unit - Hour (hr)"
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.detailsMonthly = [
@@ -253,6 +255,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         else if tableTypes == "yearly" {
             print("==>receivedDataFromDateVC=",receivedData)
             self.lastLabel.text = "Total Time Spent in This Year"
+            self.unitLabel.text = "Unit - Hour (Hr)"
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.detailsYearly = [
