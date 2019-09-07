@@ -9,6 +9,18 @@
 import UIKit
 import Firebase
 
+class Yearly {
+    var yearName : String!
+    var numberOfDaysVisited : Int!
+    var allVisits : Set<String>
+    
+    init(yn: String, nodv: Int, av: Set<String>) {
+        yearName = yn
+        numberOfDaysVisited = nodv
+        allVisits = av
+    }
+}
+
 class Monthly {
     // get "August 2019, September 2019, July 2019"
     var monthName : String!
@@ -53,7 +65,9 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var receivedData : String = ""
     var passedData : String = ""
     var months : [Monthly] = []
+    var years : [Yearly] = []
     var monthDict = Dictionary<String, Set<String>>()
+    var yearDict = Dictionary<String, Set<String>>()
     var tableTypes : String!
     var dates : [DateCustom] = []
     var toggle = true
@@ -106,6 +120,11 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
         self.toggle = true
+        
+        self.tableTypes = "yearly"
+        self.headerLabel.text = "Patient Visit By Year"
+        years = []
+        self.loadYears()
     }
     
     override func viewDidLoad() {
@@ -154,7 +173,12 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (tableTypes == "monthly") {
             months = []
             loadMonths()
-        } else {
+        }
+        else if tableTypes == "yearly" {
+            years = []
+            loadYears()
+        }
+        else {
             dates = []
             loadDates()
         }
@@ -178,6 +202,64 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.tableView.dataSource = self
         dates = []
         loadDates()
+    }
+    
+    func loadYears() {
+        var ref : DatabaseReference!
+        
+        ref = Database.database().reference()
+        ref.child("PatientVisitsByDates/\(receivedData)").observeSingleEvent(of: .value) { (DataSnapshot) in
+            if DataSnapshot.exists() {
+                let dict = DataSnapshot.value as! [String : AnyObject]
+                let sortedDict = dict.sorted {
+                    $0.0 < $1.0
+                }
+                
+                // extract [year: [set of dates in that year]
+                // 2019 - ["2019-07-27", "2019-07-29", "2019-09-03", "2019-08-20",            "2019-08-26", "2019-08-22", "2019-08-31",                          "2019-07-28", "2019-08-23", "2019-08-21"]
+                var tempKey = ""
+                var yearSet = Set<String>()
+                for (key, _) in sortedDict {
+                    if tempKey == "" {
+                        tempKey = String(key.prefix(4))
+                        yearSet.insert(key)
+                    }
+                    else if key.prefix(4) != tempKey {
+                        self.yearDict[tempKey] = yearSet
+                        tempKey = String(key.prefix(4))
+                        yearSet = Set<String>()
+                        yearSet.insert(key)
+                    }
+                    else if key.prefix(4) == tempKey {
+                        yearSet.insert(key)
+                    }
+                }
+                self.yearDict[tempKey] = yearSet
+                yearSet = Set<String>()
+                
+                for (key, _) in self.yearDict {
+                    let yearSet = self.yearDict[key]
+                    let yearSetCount = yearSet?.count
+                    self.years.append(Yearly(yn: key, nodv: yearSetCount!,av: yearSet!))
+                }
+                
+                self.years = self.years.sorted {
+                    $0.yearName > $1.yearName
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+                // debugging
+                for i in self.years {
+                    print("\(i.yearName!) - \(i.numberOfDaysVisited!) - \(i.allVisits)")
+                }
+                
+            } else {
+                print("==>DataSnapshot does not exist")
+            }
+        }
     }
     
     func loadMonths() {
@@ -340,6 +422,8 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (tableTypes == "monthly") {
             return months.count
+        } else if tableTypes == "yearly" {
+            return years.count
         }
             
         return dates.count
@@ -359,14 +443,22 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             } else {
                 cell.daysLeft.text = "Spent \(month.numberOfDaysVisited!) days in total"
             }
-            
-            
-            return cell
         }
-        
-        let date = dates[indexPath.row]
-        cell.date.text = date.date
-        cell.daysLeft.text = date.daysAgo
+        else if tableTypes == "yearly" {
+            let year = years[indexPath.row]
+            cell.date.text = year.yearName
+            if year.numberOfDaysVisited == 0 || year.numberOfDaysVisited == 1 {
+                cell.daysLeft.text = "Spent \(year.numberOfDaysVisited!) day in total"
+            }
+            else {
+                cell.daysLeft.text = "Spent \(year.numberOfDaysVisited!) days in total"
+            }
+        }
+        else {
+            let date = dates[indexPath.row]
+            cell.date.text = date.date
+            cell.daysLeft.text = date.daysAgo
+        }
         
         return cell
     }
@@ -388,7 +480,22 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.passedData = data
             self.performSegue(withIdentifier: "next", sender: self)
             
-        } else {
+        }
+        else if tableTypes == "yearly" {
+            let year = years[indexPath.row]
+            let setToArray = [String](year.allVisits)
+            var data = tableTypes + "%" + receivedData + "%"
+            for eachDate in setToArray {
+                if eachDate == String(setToArray.last!) {
+                    data += eachDate
+                } else {
+                    data += eachDate + "%"
+                }
+            }
+            self.passedData = data
+            self.performSegue(withIdentifier: "next", sender: self)
+        }
+        else {
             let date = dates[indexPath.row]
             self.passedData = self.receivedData + "@" + date.rawDate
             self.performSegue(withIdentifier: "next", sender: self)
