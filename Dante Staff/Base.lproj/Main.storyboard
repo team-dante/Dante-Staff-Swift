@@ -2871,7 +2871,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XBu-bN-gzH">
                                                             <rect key="frame" x="215" y="0.0" width="144" height="30.333333333333332"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time spent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mct-VV-4WY">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Spent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mct-VV-4WY">
                                                                     <rect key="frame" x="0.0" y="0.0" width="140" height="30.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2903,7 +2903,9 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
+                                                    <outlet property="leftHeaderView" destination="zaj-ku-fQg" id="Clc-eW-DaF"/>
                                                     <outlet property="locationLabel" destination="Hmp-1q-jXH" id="GoK-je-Aus"/>
+                                                    <outlet property="timeLabel" destination="Mct-VV-4WY" id="AH0-cT-Ukn"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -3039,6 +3041,7 @@
                         <outlet property="backgroundChartView" destination="IYd-lS-8fg" id="Ws4-1l-xFX"/>
                         <outlet property="chartView" destination="zLL-nM-Rya" id="MTT-Pq-PSo"/>
                         <outlet property="dateLabel" destination="eRx-hx-0cX" id="9CL-sW-JoD"/>
+                        <outlet property="lastLabel" destination="G3f-2q-p0n" id="pSb-o2-Zrw"/>
                         <outlet property="mapAnnotation" destination="zHN-3O-NDf" id="Jed-qF-Za4"/>
                         <outlet property="questionMarkImageBtn" destination="t6N-L9-Ktn" id="BS4-Sa-FVs"/>
                         <outlet property="refresh" destination="fRy-67-cbj" id="xDO-HQ-KPO"/>

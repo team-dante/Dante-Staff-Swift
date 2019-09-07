@@ -10,16 +10,23 @@ import UIKit
 import Firebase
 
 class Monthly {
+    // get "August 2019, September 2019, July 2019"
     var monthName : String!
+    // get total minutes in each month
     var totalTimeSpent : Double!
+    // get average minute spent per visit in each month. (total minutes / number of days) in one month
     var timeSpentPerVisit : Double!
+    // "Spent 4 days in total" -> get the total number of visit per day in one month
     var numberOfDaysVisited : Int!
+    // a set of ["2019-08-21", "2019-08-22", "2019-08-26", "2019-08-06"]
+    var allVisits : Set<String>
     
-    init(mn: String, time: Double, tspv: Double, nodv: Int) {
+    init(mn: String, time: Double, tspv: Double, nodv: Int, av: Set<String>) {
         monthName = mn
         totalTimeSpent = time
         timeSpentPerVisit = tspv
         numberOfDaysVisited = nodv
+        allVisits = av
     }
 }
 
@@ -45,9 +52,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var receivedData : String = ""
     var passedData : String = ""
-    var passedDataWeekly : String!
-    var passedDataMonthly: String!
-    var passedDataYearly: String!
     var months : [Monthly] = []
     var monthDict = Dictionary<String, Set<String>>()
     var tableTypes : String!
@@ -66,7 +70,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var headerLabel: UILabel!
     
     @IBAction func viewWeeklyPressed(_ sender: Any) {
-        self.passedDataWeekly = receivedData
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
@@ -75,7 +78,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func viewDailyPressed(_ sender: Any) {
-        self.passedDataMonthly = receivedData
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
@@ -88,7 +90,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func viewMonthlyPressed(_ sender: Any) {
-        self.passedDataMonthly = receivedData
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
@@ -101,7 +102,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func viewYearlyPressed(_ sender: Any) {
-        self.passedDataYearly = receivedData
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
@@ -200,7 +200,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 var tempKey = ""
                 var monthSet = Set<String>()
                 for (key, _) in sortedDict {
-                    print("key=>\(key)")
                     if (tempKey == "" ) {
                         tempKey = String(key.prefix(7))
                         monthSet.insert(key)
@@ -222,19 +221,24 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 print("==>DataSnapshot does not exist")
             }
             
+            var count = 0
             for (key, _) in self.monthDict {
-                self.months.append(Monthly(mn: key, time: 0.0, tspv: 0.0, nodv: 0))
+                self.months.append(Monthly(mn: key, time: 0.0, tspv: 0.0, nodv: 0, av: Set<String>()))
+                count += 1
+            }
+            self.months = self.months.sorted {
+                $0.monthName > $1.monthName
             }
             
             for (key, value) in self.monthDict {
                 print("\(key) - \(value)")
-                self.getTotalMinutesPerMonth(input: value)
+                self.updateEachObject(input: value)
             }
             
         }
     }
     
-    func getTotalMinutesPerMonth(input: Set<String>) {
+    func updateEachObject(input: Set<String>) {
         
         var ref: DatabaseReference!
         ref = Database.database().reference()
@@ -242,38 +246,44 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         for eachDate in input {
             ref.child("PatientVisitsByDates/\(receivedData)/\(eachDate)").observeSingleEvent(of: .value) { (DataSnapshot) in
                 if DataSnapshot.exists() {
-                    let dict = DataSnapshot.value as! [String : AnyObject]
-                    // add up total hours for each month
-                    var totalTime = 0.0
-                    for (_, val) in dict {
-                        if (val["inSession"] as! Bool == false) {
-                            let minute = ((val["endTime"] as! Double - (val["startTime"] as! Double)) / 60.0)
-                            for eachObject in self.months {
-                                if eachObject.monthName == eachDate.prefix(7) {
-                                    eachObject.totalTimeSpent += minute
-                                    totalTime += minute
-                                }
-                            }
-                        } else {
-                            let now = NSDate().timeIntervalSince1970
-                            let minute = ((Double(now) - (val["startTime"] as! Double)) / 60)
-                            for eachObject in self.months {
-                                if eachObject.monthName == eachDate.prefix(7) {
-                                    eachObject.totalTimeSpent += minute
-                                    totalTime += minute
-                                }
-                            }
-                        }
-                    }
+//                    let dict = DataSnapshot.value as! [String : AnyObject]
+//                    // add up total hours for each month
+//                    var totalTime = 0.0
+//                    for (_, val) in dict {
+//                        if (val["inSession"] as! Bool == false) {
+//                            let minute = ((val["endTime"] as! Double - (val["startTime"] as! Double)) / 60.0)
+//                            for eachObject in self.months {
+//                                if eachObject.monthName == eachDate.prefix(7) {
+//                                    eachObject.totalTimeSpent += minute
+//                                    totalTime += minute
+//                                }
+//                            }
+//                        } else {
+//                            let now = NSDate().timeIntervalSince1970
+//                            let minute = ((Double(now) - (val["startTime"] as! Double)) / 60)
+//                            for eachObject in self.months {
+//                                if eachObject.monthName == eachDate.prefix(7) {
+//                                    eachObject.totalTimeSpent += minute
+//                                    totalTime += minute
+//                                }
+//                            }
+//                        }
+//                    }
                     
                     // get average of minutes per visit in one month (total minutes visited / number of days)
                     for eachObject in self.months {
                         if eachObject.monthName == eachDate.prefix(7) {
                             let visitPerMonth = self.monthDict[String(eachDate.prefix(7))]
+                            // add "average minute per visit for each month"
                             eachObject.timeSpentPerVisit = (eachObject.totalTimeSpent / Double(visitPerMonth!.count))
+                            // add ["2019-08-20", "2019-08-23", "2019-08-21", "2019-08-26", "2019-08-22", "2019-08-31"] to the Monthly object
+                            eachObject.allVisits = visitPerMonth!
+                            // add "Spent 6 days in total" for each month
                             eachObject.numberOfDaysVisited = visitPerMonth!.count
                         }
                     }
+                    
+                    
                     
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -364,7 +374,20 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (tableTypes == "monthly") {
             let month = months[indexPath.row]
-            print(month)
+            // Convert set to array
+            let setToArray = [String](month.allVisits)
+            var data = tableTypes + "%" +  receivedData + "%"
+            for eachDate in setToArray {
+                if (eachDate == String(setToArray.last!)) {
+                    data += eachDate
+                }
+                else {
+                    data += eachDate + "%"
+                }
+            }
+            self.passedData = data
+            self.performSegue(withIdentifier: "next", sender: self)
+            
         } else {
             let date = dates[indexPath.row]
             self.passedData = self.receivedData + "@" + date.rawDate
@@ -376,13 +399,9 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "next" {
-            if let vc = segue.destination as? DetailViewController {
-                vc.receivedData = self.passedData
-            }
+        if let vc = segue.destination as? DetailViewController {
+            vc.receivedData = self.passedData
         }
-
-        
     }
 
 }

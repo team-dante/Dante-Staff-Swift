@@ -29,10 +29,13 @@ class DetailTableViewCell: UITableViewCell {
 
 class CustomHeaderDetailTableViewCell : UITableViewCell {
     
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var leftHeaderView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         // add separator to custom cell
 //        let lineFrame = CGRect(x: 15, y: contentView.frame.size.height, width: contentView.frame.size.width, height: 1)
 //        let line = UIView(frame: lineFrame)

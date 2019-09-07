@@ -43,11 +43,14 @@ class RoomAndDuration {
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ChartViewDelegate {
     
     var receivedData : String = ""
+    var numberOfVisitPerRoom : [Int] = [0, 0, 0, 0]
     var details : [RoomAndDuration] = []
+    var detailsMonthly : [RoomAndDuration] = []
     var timelineArr : [timeLineClass] = []
     var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
     var timeSpent : [Double] = [0, 0, 0, 0]
     var toggle = true
+    var tableTypes : String = ""
 
     @IBOutlet weak var mapAnnotation: UIView!
     @IBOutlet weak var questionMarkImageBtn: UIImageView!
@@ -58,10 +61,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var backgroundChartView: UIView!
     @IBOutlet weak var totalTimeSpentLabel: UILabel!
     @IBOutlet weak var refresh: UIImageView!
+    @IBOutlet weak var lastLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableTypes = receivedData.components(separatedBy: "%")[0]
+
         self.tableViewBackground.layer.cornerRadius = 10.0
         self.tableView.layer.cornerRadius = 10.0
         self.backgroundChartView.layer.cornerRadius = 10.0
@@ -110,13 +116,25 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         // adjust the height of the barchart to the view's height
         self.chartView.notifyDataSetChanged()
-        
+
     }
     
     @objc func refreshTapped(_ recognizer: UITapGestureRecognizer) {
-        details = []
-        timeSpent = [0, 0, 0, 0]
-        self.loadRoomAndTime()
+        if (tableTypes == "monthly") {
+            self.detailsMonthly = [
+                RoomAndDuration(r: "WR", d: 0.0, o: 0),
+                RoomAndDuration(r: "LA1", d: 0.0, o: 1),
+                RoomAndDuration(r: "TLA", d: 0.0, o: 2),
+                RoomAndDuration(r: "CT",  d: 0.0, o: 3)
+            ]
+            timeSpent = [0, 0, 0, 0]
+            numberOfVisitPerRoom = [0, 0, 0, 0]
+            loadRoomAndMonth()
+        } else {
+            details = []
+            timeSpent = [0, 0, 0, 0]
+            self.loadRoomAndTime()
+        }
         UIView.animate(withDuration: 1) {
             self.refresh.transform = self.refresh.transform.rotated(by: CGFloat.pi/1)
         }
@@ -183,12 +201,31 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
         }
         
-        print("==>receivedDataFromDateVC=",receivedData)
-        
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        details = []
-        self.loadRoomAndTime()
+        if (tableTypes == "monthly") {
+            print("==>receivedDataFromDateVC=",receivedData)
+            
+            self.lastLabel.text = "Total Time Spent in This Month"
+            self.tableView.delegate = self
+            self.tableView.dataSource = self
+            self.detailsMonthly = [
+                RoomAndDuration(r: "WR", d: 0.0, o: 0),
+                RoomAndDuration(r: "LA1", d: 0.0, o: 1),
+                RoomAndDuration(r: "TLA", d: 0.0, o: 2),
+                RoomAndDuration(r: "CT",  d: 0.0, o: 3)
+            ]
+            timeSpent = [0, 0, 0, 0]
+            numberOfVisitPerRoom = [0, 0, 0, 0]
+            loadRoomAndMonth()
+        }
+        else {
+            
+            print("==>receivedDataFromDateVC=",receivedData)
+            
+            self.tableView.delegate = self
+            self.tableView.dataSource = self
+            details = []
+            self.loadRoomAndTime()
+        }
     }
     
     func loadGraph(dataPoints: [String], values: [Double]) {
@@ -212,6 +249,112 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         chartDataSet.valueFont = UIFont(name: "HelveticaNeue-Medium", size: 17)!
         let chartData = BarChartData(dataSet: chartDataSet)
         chartView.data = chartData
+    }
+    
+    func loadRoomAndMonth() {
+        let receivedDataArr = receivedData.components(separatedBy: "%")
+        self.dateLabel.text = "Report for \(self.prettifyMonth(input: String(receivedDataArr[2].prefix(7))))"
+        var ref : DatabaseReference!
+        ref = Database.database().reference()
+        
+        // retrieve all dates from receivedData
+        var dateArray : [String] = []
+        for i in 2..<receivedDataArr.count {
+            dateArray.append(receivedDataArr[i])
+        }
+        
+        // reverse sort the array to get the dates from latest to oldest
+        dateArray = Array(dateArray.sorted().reversed())
+        
+        let dispatchGroup = DispatchGroup()
+        for eachDate in dateArray {
+            dispatchGroup.enter()
+            ref.child("PatientVisitsByDates/\(receivedDataArr[1])/\(eachDate)").observeSingleEvent(of: .value) { (DataSnapshot) in
+                if DataSnapshot.exists() {
+                    let dict = DataSnapshot.value as! [String : AnyObject]
+
+                    for (_, value) in dict {
+                        if value["inSession"] as! Bool == false {
+                            let hour = ((value["endTime"] as! Double - (value["startTime"] as! Double)) / 3600.0)
+                            if (value["room"] as! String == "WR") {
+                                self.timeSpent[0] = (self.timeSpent[0] + Double(hour))
+                                self.detailsMonthly[0].duration = self.detailsMonthly[0].duration + hour
+                                self.numberOfVisitPerRoom[0] = self.numberOfVisitPerRoom[0] + 1
+                            } else if (value["room"] as! String == "LA1") {
+                                self.timeSpent[1] = (self.timeSpent[1] + Double(hour))
+                                self.detailsMonthly[1].duration = self.detailsMonthly[1].duration + hour
+                                self.numberOfVisitPerRoom[1] = self.numberOfVisitPerRoom[1] + 1
+                            } else if (value["room"] as! String == "TLA") {
+                                self.timeSpent[2] = (self.timeSpent[2] + Double(hour))
+                                self.detailsMonthly[2].duration = self.detailsMonthly[2].duration + hour
+                                self.numberOfVisitPerRoom[2] = self.numberOfVisitPerRoom[2] + 1
+                            } else if (value["room"] as! String == "CT") {
+                                self.timeSpent[3] = (self.timeSpent[3] + Double(hour))
+                                self.detailsMonthly[3].duration = self.detailsMonthly[3].duration + hour
+                                self.numberOfVisitPerRoom[3] = self.numberOfVisitPerRoom[3] + 1
+                            }
+                            
+
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                         } else {
+                            let now = NSDate().timeIntervalSince1970
+                            let hour = ((Double(now) - (value["startTime"] as! Double)) / 3600.0)
+                            if (value["room"] as! String == "WR") {
+                                self.timeSpent[0] = (self.timeSpent[0] + Double(hour))
+                                self.detailsMonthly[0].duration = self.detailsMonthly[0].duration + hour
+                                self.numberOfVisitPerRoom[0] = self.numberOfVisitPerRoom[0] + 1
+                            } else if (value["room"] as! String == "LA1") {
+                                self.timeSpent[1] = (self.timeSpent[1] + Double(hour))
+                                self.detailsMonthly[1].duration = self.detailsMonthly[1].duration + hour
+                                self.numberOfVisitPerRoom[1] = self.numberOfVisitPerRoom[1] + 1
+                            } else if (value["room"] as! String == "TLA") {
+                                self.timeSpent[2] = (self.timeSpent[2] + Double(hour))
+                                self.detailsMonthly[2].duration = self.detailsMonthly[2].duration + hour
+                                self.numberOfVisitPerRoom[2] = self.numberOfVisitPerRoom[2] + 1
+                            } else if (value["room"] as! String == "CT") {
+                                self.timeSpent[3] = (self.timeSpent[3] + Double(hour))
+                                self.detailsMonthly[3].duration = self.detailsMonthly[3].duration + hour
+                                self.numberOfVisitPerRoom[3] = self.numberOfVisitPerRoom[3] + 1
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                            
+                        }
+                    }
+                } else {
+                    print("==>DataSnapshot does not exist.")
+                }
+                // put dispatch at the end of the closure
+                dispatchGroup.leave()
+            }
+        }
+        
+        // Execute code below only after Firebase is done processing data
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            print("All Done")
+            print(self.timeSpent)
+            self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
+            var totalTimeSpentInMonth : Double = 0
+            for i in self.timeSpent {
+                totalTimeSpentInMonth += i
+            }
+            self.totalTimeSpentLabel.text = "\(round(100 * totalTimeSpentInMonth)/100) hr"
+                        for i in 0..<self.detailsMonthly.count {
+                            print("\(self.detailsMonthly[i].room! ) - \(String(describing: self.detailsMonthly[i].duration!) )")
+                        }
+                        print("##################")
+                        for i in 0..<self.timeSpent.count {
+                            print("\(self.timeSpent[i])")
+                        }
+                        print("[WR, LA1, TLA, CT]")
+                        for i in 0..<self.numberOfVisitPerRoom.count {
+                            print("\(self.numberOfVisitPerRoom[i])")
+                        }
+        }
     }
     
     func loadRoomAndTime() {
@@ -336,24 +479,42 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (tableTypes == "monthly") {
+            return detailsMonthly.count
+        }
         return details.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cellIdentifier = "DetailTableViewCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? DetailTableViewCell else {
             fatalError("==>The dequeued cell is not an instance of DateTableViewCell.")
         }
-
-        let detail = details[indexPath.row]
-        cell.roomLabel.text = "\(details.count - indexPath.row). \(detail.room!)"
-        if (detail.duration == -1.0) {
-            cell.durationMinuteLabel.text = "Currently there"
+        
+        
+        if (tableTypes == "monthly") {
+            let detailMonthly = detailsMonthly[indexPath.row]
+            let numberOfVisit = numberOfVisitPerRoom[indexPath.row]
+            cell.roomLabel.text = "\(detailMonthly.room!)"
+            cell.durationMinuteLabel.text = String(Double(round(100 * detailMonthly.duration)/100)) + " hr"
+//            let timeline = timelineArr[indexPath.row]
+            if (numberOfVisit == 0 || numberOfVisit == 1) {
+                cell.timeline.text = "Visited \(numberOfVisit) time"
+            } else {
+                cell.timeline.text = "Visited \(numberOfVisit) times"
+            }
         } else {
-            cell.durationMinuteLabel.text = String(Double(round(100 * detail.duration)/100)) + " min"
+            let detail = details[indexPath.row]
+            cell.roomLabel.text = "\(details.count - indexPath.row). \(detail.room!)"
+            if (detail.duration == -1.0) {
+                cell.durationMinuteLabel.text = "Currently there"
+            } else {
+                cell.durationMinuteLabel.text = String(Double(round(100 * detail.duration)/100)) + " min"
+            }
+            let timeline = timelineArr[indexPath.row]
+            cell.timeline.text = timeline.timelineStr
         }
-        let timeline = timelineArr[indexPath.row]
-        cell.timeline.text = timeline.timelineStr
         
         return cell
     }
@@ -362,7 +523,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let headerView = UIView()
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "CustomHeaderDetailTableViewCell") as! CustomHeaderDetailTableViewCell
         headerView.autoresizingMask = []
+        if tableTypes == "monthly" {
+            headerCell.locationLabel.text = "List of All Locations"
+            headerCell.timeLabel.text = "Total Time"
+        }
         headerView.addSubview(headerCell)
+        
         return headerView
     }
 }
