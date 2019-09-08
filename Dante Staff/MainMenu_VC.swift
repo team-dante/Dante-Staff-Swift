@@ -19,6 +19,9 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     var handle: AuthStateDidChangeListenerHandle?
     var ref: DatabaseReference!
     
+    // modify width constraint for width=414 devices
+    @IBOutlet var imageWidthConstraint: [NSLayoutConstraint]!
+    
     @IBOutlet weak var hamburgerImage: UIImageView!
     @IBOutlet weak var view1x1: UIView!
     @IBOutlet weak var view1x2: UIView!
@@ -27,6 +30,8 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
     @IBOutlet weak var view3x1: UIView!
     @IBOutlet weak var view3x2: UIView!
     @IBOutlet weak var staffLastName: UILabel!
+    
+    
     @IBAction func btnPressed1x1(_ sender: Any) {
         self.viewColor = self.view1x1.backgroundColor
         self.view1x1.backgroundColor = UIColor(white: 1, alpha: 0.5)
@@ -163,7 +168,8 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
                     for eachDoctor in snapshot.children.allObjects as! [DataSnapshot] {
                         let dict = eachDoctor.value as? [String : String] ?? [:]
                         if (String(dict["phoneNum"]!) == String(phoneNum)) {
-                            self.staffLastName.text = "Welcome, Staff \(dict["lastName"] ?? "")"
+                            self.staffLastName.text = "Welcome, Staff \(dict["lastName"] ?? "N/A")"
+//                                self.staffLastName.text = "Welcome, Staff AppleIphone11New" -> cuts off at 1... for 375 screen and no cut off for 414 screen
                         }
                     }
                 }) { (error) in
@@ -198,6 +204,13 @@ class MainMenu_VC: UIViewController, UIImagePickerControllerDelegate, UINavigati
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // iPhone 8+ and iPhone XS Max
+        if UIScreen.main.bounds.width == 414.0 {
+            for widthConstraint in self.imageWidthConstraint {
+                widthConstraint.constant = 192
+            }
+        }
         
         // allow sliding left from the left edge of the screen
         let panGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(panAction(sender:)))
