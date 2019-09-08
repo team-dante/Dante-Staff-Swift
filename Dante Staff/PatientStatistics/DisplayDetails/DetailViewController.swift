@@ -10,13 +10,26 @@ import UIKit
 import Firebase
 import Charts
 
-class timeLineClass {
-    var timelineStr : String!
+class RoomAndDurationDates {
+    var room : String!
+    var duration : Double!
     var order : Int!
+    var timeline : String!
     
-    init(tl: String, o: Int) {
-        timelineStr = tl
+    init(r: String, d: Double, o: Int, tl: String) {
+        if (r == "WR") {
+            room = "Waiting Room"
+        }
+        else if (r == "LA1"){
+            room = "Linear Accelerator 1"
+        } else if (r == "TLA") {
+            room = "Trilogy Linear Acc."
+        } else if (r == "CT") {
+            room = "CT Simulator"
+        }
+        duration = d
         order = o
+        timeline = tl
     }
 }
 
@@ -41,12 +54,12 @@ class RoomAndDurationYearly {
     }
 }
 
-class RoomAndDuration {
+class RoomAndDurationMonthly {
     var room : String!
     var duration : Double!
-    var order : Int!
+    var numberOfVisit : Int!
     
-    init(r: String, d: Double, o: Int) {
+    init(r: String, d: Double, nov: Int) {
         if (r == "WR") {
             room = "Waiting Room"
         }
@@ -58,17 +71,16 @@ class RoomAndDuration {
             room = "CT Simulator"
         }
         duration = d
-        order = o
+        numberOfVisit = nov
     }
 }
+
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ChartViewDelegate {
     
     var receivedData : String = ""
-    var numberOfVisitPerRoom : [Int] = [0, 0, 0, 0]
-    var details : [RoomAndDuration] = []
-    var detailsMonthly : [RoomAndDuration] = []
+    var details : [RoomAndDurationDates] = []
+    var detailsMonthly : [RoomAndDurationMonthly] = []
     var detailsYearly : [RoomAndDurationYearly] = []
-    var timelineArr : [timeLineClass] = []
     var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
     var timeSpent : [Double] = [0, 0, 0, 0]
     var toggle = true
@@ -145,13 +157,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func refreshTapped(_ recognizer: UITapGestureRecognizer) {
         if (tableTypes == "monthly") {
             self.detailsMonthly = [
-                RoomAndDuration(r: "WR", d: 0.0, o: 0),
-                RoomAndDuration(r: "LA1", d: 0.0, o: 1),
-                RoomAndDuration(r: "TLA", d: 0.0, o: 2),
-                RoomAndDuration(r: "CT",  d: 0.0, o: 3)
+                RoomAndDurationMonthly(r: "WR", d: 0.0, nov: 0),
+                RoomAndDurationMonthly(r: "LA1", d: 0.0, nov: 0),
+                RoomAndDurationMonthly(r: "TLA", d: 0.0, nov: 0),
+                RoomAndDurationMonthly(r: "CT",  d: 0.0, nov: 0)
             ]
             timeSpent = [0, 0, 0, 0]
-            numberOfVisitPerRoom = [0, 0, 0, 0]
             loadRoomAndMonth()
         }
         else if tableTypes == "yearly" {
@@ -243,13 +254,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.detailsMonthly = [
-                RoomAndDuration(r: "WR", d: 0.0, o: 0),
-                RoomAndDuration(r: "LA1", d: 0.0, o: 1),
-                RoomAndDuration(r: "TLA", d: 0.0, o: 2),
-                RoomAndDuration(r: "CT",  d: 0.0, o: 3)
+                RoomAndDurationMonthly(r: "WR", d: 0.0, nov: 0),
+                RoomAndDurationMonthly(r: "LA1", d: 0.0, nov: 0),
+                RoomAndDurationMonthly(r: "TLA", d: 0.0, nov: 0),
+                RoomAndDurationMonthly(r: "CT",  d: 0.0, nov: 0)
             ]
             timeSpent = [0, 0, 0, 0]
-            numberOfVisitPerRoom = [0, 0, 0, 0]
             loadRoomAndMonth()
         }
         else if tableTypes == "yearly" {
@@ -265,11 +275,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 RoomAndDurationYearly(r: "CT", d: 0.0, nov: 0)
             ]
             
-            // Don't need these variables, init to avoid error
             timeSpent = [0, 0, 0, 0]
-            numberOfVisitPerRoom = [0, 0, 0, 0]
-            // Don't need these variables, init to avoid error
-            
             self.loadRoomAndYear()
         }
         else {
@@ -440,19 +446,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                             if (value["room"] as! String == "WR") {
                                 self.timeSpent[0] = (self.timeSpent[0] + Double(hour))
                                 self.detailsMonthly[0].duration = self.detailsMonthly[0].duration + hour
-                                self.numberOfVisitPerRoom[0] = self.numberOfVisitPerRoom[0] + 1
+                                self.detailsMonthly[0].numberOfVisit = self.detailsMonthly[0].numberOfVisit + 1
                             } else if (value["room"] as! String == "LA1") {
                                 self.timeSpent[1] = (self.timeSpent[1] + Double(hour))
                                 self.detailsMonthly[1].duration = self.detailsMonthly[1].duration + hour
-                                self.numberOfVisitPerRoom[1] = self.numberOfVisitPerRoom[1] + 1
+                                self.detailsMonthly[1].numberOfVisit = self.detailsMonthly[1].numberOfVisit + 1
                             } else if (value["room"] as! String == "TLA") {
                                 self.timeSpent[2] = (self.timeSpent[2] + Double(hour))
                                 self.detailsMonthly[2].duration = self.detailsMonthly[2].duration + hour
-                                self.numberOfVisitPerRoom[2] = self.numberOfVisitPerRoom[2] + 1
+                                self.detailsMonthly[2].numberOfVisit = self.detailsMonthly[2].numberOfVisit + 1
                             } else if (value["room"] as! String == "CT") {
                                 self.timeSpent[3] = (self.timeSpent[3] + Double(hour))
                                 self.detailsMonthly[3].duration = self.detailsMonthly[3].duration + hour
-                                self.numberOfVisitPerRoom[3] = self.numberOfVisitPerRoom[3] + 1
+                                self.detailsMonthly[3].numberOfVisit = self.detailsMonthly[3].numberOfVisit + 1
                             }
                             
 
@@ -465,19 +471,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                             if (value["room"] as! String == "WR") {
                                 self.timeSpent[0] = (self.timeSpent[0] + Double(hour))
                                 self.detailsMonthly[0].duration = self.detailsMonthly[0].duration + hour
-                                self.numberOfVisitPerRoom[0] = self.numberOfVisitPerRoom[0] + 1
+                                self.detailsMonthly[0].numberOfVisit = self.detailsMonthly[0].numberOfVisit + 1
                             } else if (value["room"] as! String == "LA1") {
                                 self.timeSpent[1] = (self.timeSpent[1] + Double(hour))
                                 self.detailsMonthly[1].duration = self.detailsMonthly[1].duration + hour
-                                self.numberOfVisitPerRoom[1] = self.numberOfVisitPerRoom[1] + 1
+                                self.detailsMonthly[1].numberOfVisit = self.detailsMonthly[1].numberOfVisit + 1
                             } else if (value["room"] as! String == "TLA") {
                                 self.timeSpent[2] = (self.timeSpent[2] + Double(hour))
                                 self.detailsMonthly[2].duration = self.detailsMonthly[2].duration + hour
-                                self.numberOfVisitPerRoom[2] = self.numberOfVisitPerRoom[2] + 1
+                                self.detailsMonthly[2].numberOfVisit = self.detailsMonthly[2].numberOfVisit + 1
                             } else if (value["room"] as! String == "CT") {
                                 self.timeSpent[3] = (self.timeSpent[3] + Double(hour))
                                 self.detailsMonthly[3].duration = self.detailsMonthly[3].duration + hour
-                                self.numberOfVisitPerRoom[3] = self.numberOfVisitPerRoom[3] + 1
+                                self.detailsMonthly[3].numberOfVisit = self.detailsMonthly[3].numberOfVisit + 1
                             }
                             
                             DispatchQueue.main.async {
@@ -515,17 +521,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             }
             
             // debugging
-            for i in 0..<self.detailsMonthly.count {
-                print("\(self.detailsMonthly[i].room! ) - \(String(describing: self.detailsMonthly[i].duration!) )")
-            }
-            print("##################")
-            for i in 0..<self.timeSpent.count {
-                print("\(self.timeSpent[i])")
-            }
-            print("[WR, LA1, TLA, CT]")
-            for i in 0..<self.numberOfVisitPerRoom.count {
-                print("\(self.numberOfVisitPerRoom[i])")
-            }
+//            for i in 0..<self.detailsMonthly.count {
+//                print("\(self.detailsMonthly[i].room! ) - \(String(describing: self.detailsMonthly[i].duration!) )")
+//            }
+//            print("##################")
+//            for i in 0..<self.timeSpent.count {
+//                print("\(self.timeSpent[i])")
+//            }
+//            print("[WR, LA1, TLA, CT]")
+
         }
     }
     
@@ -576,8 +580,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                             for i in 0...3 {
                                 print("..", self.timeSpent[i])
                             }
-                        count += 1
-                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: minute, o: count))
                         
                         let startTime = value["startTime"] as! Double
                         let endTime = value["endTime"] as! Double
@@ -588,7 +590,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         let startTimeStr = dateFormatter.string(from: startDate as Date)
                         let endTimeStr = dateFormatter.string(from: endDate as Date)
                         let timelineStr = "\(startTimeStr) - \(endTimeStr)"
-                        self.timelineArr.append(timeLineClass(tl: timelineStr, o: count))
+                        
+                        count += 1
+                        self.details.append(RoomAndDurationDates(r: value["room"] as! String, d: minute, o: count, tl: timelineStr))
                         
                         self.details = self.details.sorted {
                             $0.order < $1.order
@@ -615,8 +619,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                                 print("...", self.timeSpent[i])
                             }
                         
-                        count += 1
-                        self.details.append(RoomAndDuration(r: value["room"] as! String, d: -1.0, o: count))
                         
                         let startTime = value["startTime"] as! Double
                         let startDate = NSDate(timeIntervalSince1970: startTime)
@@ -624,7 +626,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         dateFormatter.dateFormat = "hh:mm a"
                         let startTimeStr = dateFormatter.string(from: startDate as Date)
                         let timelineStr = "\(startTimeStr) - Present"
-                        self.timelineArr.append(timeLineClass(tl: timelineStr, o: count))
+                        
+                        count += 1
+                        self.details.append(RoomAndDurationDates(r: value["room"] as! String, d: -1.0, o: count, tl: timelineStr))
                         
                         self.details = self.details.sorted {
                             $0.order < $1.order
@@ -675,7 +679,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         if (tableTypes == "monthly") {
             let detailMonthly = detailsMonthly[indexPath.row]
-            let numberOfVisit = numberOfVisitPerRoom[indexPath.row]
             cell.roomLabel.text = "\(detailMonthly.room!)"
             if detailMonthly.duration <= 1.0 {
                 cell.durationMinuteLabel.text = String(Double(round(100 * detailMonthly.duration)/100)) + " hr"
@@ -683,10 +686,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.durationMinuteLabel.text = String(Double(round(100 * detailMonthly.duration)/100)) + " hrs"
             }
 //            let timeline = timelineArr[indexPath.row]
-            if (numberOfVisit == 0 || numberOfVisit == 1) {
-                cell.timeline.text = "Visited \(numberOfVisit) time"
+            if (detailMonthly.numberOfVisit == 0 || detailMonthly.numberOfVisit == 1) {
+                cell.timeline.text = "Visited \(detailMonthly.numberOfVisit!) time"
             } else {
-                cell.timeline.text = "Visited \(numberOfVisit) times"
+                cell.timeline.text = "Visited \(detailMonthly.numberOfVisit!) times"
             }
         }
         else if tableTypes == "yearly" {
@@ -715,8 +718,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             } else if detail.duration > 1.0 {
                 cell.durationMinuteLabel.text = String(Double(round(100 * detail.duration)/100)) + " mins"
             }
-            let timeline = timelineArr[indexPath.row]
-            cell.timeline.text = timeline.timelineStr
+            cell.timeline.text = detail.timeline
         }
         
         return cell
