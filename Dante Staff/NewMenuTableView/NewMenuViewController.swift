@@ -119,7 +119,7 @@ class NewMenuViewController: UIViewController, UITableViewDataSource, UITableVie
         } else if sender.tag == 10 {
             self.performSegue(withIdentifier: "lookupAcc", sender: self)
         } else if sender.tag == 1 {
-           // Display patient's location self.performSegue(withIdentifier: "lookupAcc", sender: self)
+            self.performSegue(withIdentifier: "patientMap", sender: self)
         } else if sender.tag == 11 {
             self.performSegue(withIdentifier: "goToStats", sender: self)
         } else if sender.tag == 2 {

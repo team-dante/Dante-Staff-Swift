@@ -1943,33 +1943,40 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="2722" y="1535"/>
+            <point key="canvasLocation" x="2722" y="1112"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="rPE-rz-nt8">
+        <scene sceneID="7Id-eo-jyF">
             <objects>
-                <viewController id="ZGB-vr-qEB" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Saj-Ow-4uS">
+                <viewController id="aIr-KT-k1x" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hSd-HF-ucz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="bQs-iO-FBD">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="cVU-8B-occ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clinic-map" translatesAutoresizingMaskIntoConstraints="NO" id="6CD-rD-qvG">
+                                <rect key="frame" x="0.0" y="148" width="414" height="600"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="600" id="Obm-qH-SRR"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="bQs-iO-FBD" firstAttribute="top" secondItem="Saj-Ow-4uS" secondAttribute="top" id="3tS-cn-ipc"/>
-                            <constraint firstItem="bQs-iO-FBD" firstAttribute="leading" secondItem="Vzg-7H-Ocp" secondAttribute="leading" id="5fg-VI-Pwb"/>
-                            <constraint firstAttribute="bottom" secondItem="bQs-iO-FBD" secondAttribute="bottom" id="UNy-5K-m2n"/>
-                            <constraint firstItem="bQs-iO-FBD" firstAttribute="trailing" secondItem="Vzg-7H-Ocp" secondAttribute="trailing" id="fsk-PA-Wtz"/>
+                            <constraint firstItem="6CD-rD-qvG" firstAttribute="centerY" secondItem="hSd-HF-ucz" secondAttribute="centerY" id="4dq-NJ-Usd"/>
+                            <constraint firstItem="6CD-rD-qvG" firstAttribute="trailing" secondItem="pep-Rw-DLs" secondAttribute="trailing" id="Iaw-Lj-N1c"/>
+                            <constraint firstItem="6CD-rD-qvG" firstAttribute="leading" secondItem="pep-Rw-DLs" secondAttribute="leading" id="bhg-I9-TuD"/>
+                            <constraint firstItem="6CD-rD-qvG" firstAttribute="centerX" secondItem="hSd-HF-ucz" secondAttribute="centerX" id="xOP-Vr-Wjt"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Vzg-7H-Ocp"/>
+                        <viewLayoutGuide key="safeArea" id="pep-Rw-DLs"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9KZ-lv-H8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qhd-8Z-eBa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3563.7681159420295" y="1471.875"/>
+            <point key="canvasLocation" x="3513" y="1499"/>
         </scene>
         <!--Patient Account Information -->
         <scene sceneID="2MN-ze-C70">
@@ -3342,6 +3349,7 @@
                         <segue destination="qBC-jV-E9b" kind="show" identifier="goToStats" id="Bdb-Ao-Vqm"/>
                         <segue destination="0UW-lx-0VJ" kind="show" identifier="lookupAcc" id="5fi-Zl-zVK"/>
                         <segue destination="RAn-rR-PhA" kind="show" identifier="goToFeedback" id="cPG-3n-Flb"/>
+                        <segue destination="aIr-KT-k1x" kind="show" identifier="patientMap" id="JdW-uV-c2f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pFr-a8-slI" userLabel="First Responder" sceneMemberID="firstResponder"/>
