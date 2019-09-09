@@ -798,7 +798,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFr-pq-AEp">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="420"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uci-map" translatesAutoresizingMaskIntoConstraints="NO" id="Mcf-Zq-df0">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clinic-map" translatesAutoresizingMaskIntoConstraints="NO" id="Mcf-Zq-df0">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="420"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gvF-I4-hie" userLabel="CTS">
@@ -1945,6 +1945,32 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2722" y="1535"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="rPE-rz-nt8">
+            <objects>
+                <viewController id="ZGB-vr-qEB" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Saj-Ow-4uS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="bQs-iO-FBD">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bQs-iO-FBD" firstAttribute="top" secondItem="Saj-Ow-4uS" secondAttribute="top" id="3tS-cn-ipc"/>
+                            <constraint firstItem="bQs-iO-FBD" firstAttribute="leading" secondItem="Vzg-7H-Ocp" secondAttribute="leading" id="5fg-VI-Pwb"/>
+                            <constraint firstAttribute="bottom" secondItem="bQs-iO-FBD" secondAttribute="bottom" id="UNy-5K-m2n"/>
+                            <constraint firstItem="bQs-iO-FBD" firstAttribute="trailing" secondItem="Vzg-7H-Ocp" secondAttribute="trailing" id="fsk-PA-Wtz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Vzg-7H-Ocp"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9KZ-lv-H8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3563.7681159420295" y="1471.875"/>
         </scene>
         <!--Patient Account Information -->
         <scene sceneID="2MN-ze-C70">
@@ -3334,6 +3360,7 @@
         <image name="background" width="125" height="270.66665649414062"/>
         <image name="broadcast-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="checked-box" width="170.66667175292969" height="170.66667175292969"/>
+        <image name="clinic-map" width="3418" height="3492"/>
         <image name="create-acc-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="feedback-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="hamburger-icon" width="170.66667175292969" height="170.66667175292969"/>
@@ -3354,7 +3381,6 @@
         <image name="test7" width="352" height="1052"/>
         <image name="test8" width="352" height="1052"/>
         <image name="test9" width="352" height="1052"/>
-        <image name="uci-map" width="1139.3333740234375" height="1164"/>
         <image name="white-line" width="170.66667175292969" height="170.66667175292969"/>
     </resources>
     <inferredMetricsTieBreakers>
