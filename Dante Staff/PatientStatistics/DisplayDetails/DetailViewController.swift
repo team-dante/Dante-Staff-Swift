@@ -362,7 +362,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     func loadRoomAndWeek() {
         let receivedDataArr = receivedData.components(separatedBy: "%")
-        self.dateLabel.text = "Weekly Report for \(receivedDataArr[2])"
+        if receivedDataArr[2].count == 11 {
+            self.dateLabel.text = "Weekly Report for \(receivedDataArr[2])"
+        } else {
+            self.dateLabel.text = "Weekly Report: \(receivedDataArr[2])"
+        }
+        
         
         var ref : DatabaseReference!
         ref = Database.database().reference()
@@ -794,6 +799,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
         }
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (tableTypes == "monthly") {
             return detailsMonthly.count
