@@ -89,10 +89,12 @@ class NewMenuViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.leftImage.image = UIImage(named: row.leftImage)
         cell.rightImage.image = UIImage(named: row.rightImage)
         cell.leftButton.tag = indexPath.row
+        cell.leftButton.layer.cornerRadius = 10.0
         cell.leftLabel.text = row.leftLabel
         cell.leftView.layer.cornerRadius = 10.0
         cell.leftButton.addTarget(self, action: #selector(next(_:)), for: .touchUpInside)
         cell.rightButton.tag = indexPath.row + 10
+        cell.rightButton.layer.cornerRadius = 10.0
         cell.rightView.layer.cornerRadius = 10.0
         cell.rightLabel.text = row.rightLabel
         cell.rightButton.addTarget(self, action: #selector(next(_:)), for: .touchUpInside)

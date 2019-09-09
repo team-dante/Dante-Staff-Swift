@@ -33,6 +33,27 @@ class RoomAndDurationDates {
     }
 }
 
+class RoomAndDurationWeeky {
+    var room : String!
+    var duration : Double!
+    var numberOfVisit : Int!
+    
+    init(r: String, d: Double, nov: Int) {
+        if (r == "WR") {
+            room = "Waiting Room"
+        }
+        else if (r == "LA1"){
+            room = "Linear Accelerator 1"
+        } else if (r == "TLA") {
+            room = "Trilogy Linear Acc."
+        } else if (r == "CT") {
+            room = "CT Simulator"
+        }
+        duration = d
+        numberOfVisit = nov
+    }
+}
+
 class RoomAndDurationYearly {
     var room : String!
     var duration : Double!
@@ -81,6 +102,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var details : [RoomAndDurationDates] = []
     var detailsMonthly : [RoomAndDurationMonthly] = []
     var detailsYearly : [RoomAndDurationYearly] = []
+    var detailsWeekly : [RoomAndDurationWeeky] = []
     var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
     var timeSpent : [Double] = [0, 0, 0, 0]
     var toggle = true
@@ -174,6 +196,16 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             ]
             timeSpent = [0, 0, 0, 0]
             self.loadRoomAndYear()
+        }
+        else if tableTypes == "weekly" {
+            self.detailsWeekly = [
+                RoomAndDurationWeeky(r: "WR", d: 0.0, nov: 0),
+                RoomAndDurationWeeky(r: "LA1", d: 0.0, nov: 0),
+                RoomAndDurationWeeky(r: "TLA", d: 0.0, nov: 0),
+                RoomAndDurationWeeky(r: "CT", d: 0.0, nov: 0)
+            ]
+            timeSpent = [0, 0, 0, 0]
+            self.loadRoomAndWeek()
         }
         else {
             details = []
@@ -278,6 +310,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             timeSpent = [0, 0, 0, 0]
             self.loadRoomAndYear()
         }
+        else if tableTypes == "weekly" {
+            print("==>receivedDataFromDateVC=",receivedData)
+            self.lastLabel.text = "Total Time Spent in This Week"
+            self.unitLabel.text = "Unit - Hour (Hr)"
+            self.tableView.delegate = self
+            self.tableView.dataSource = self
+            self.detailsWeekly = [
+                RoomAndDurationWeeky(r: "WR", d: 0.0, nov: 0),
+                RoomAndDurationWeeky(r: "LA1", d: 0.0, nov: 0),
+                RoomAndDurationWeeky(r: "TLA", d: 0.0, nov: 0),
+                RoomAndDurationWeeky(r: "CT", d: 0.0, nov: 0)
+            ]
+            
+            timeSpent = [0, 0, 0, 0]
+            self.loadRoomAndWeek()
+        }
         else {
             
             print("==>receivedDataFromDateVC=",receivedData)
@@ -310,6 +358,93 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         chartDataSet.valueFont = UIFont(name: "HelveticaNeue-Medium", size: 17)!
         let chartData = BarChartData(dataSet: chartDataSet)
         chartView.data = chartData
+    }
+    
+    func loadRoomAndWeek() {
+        let receivedDataArr = receivedData.components(separatedBy: "%")
+        self.dateLabel.text = "Weekly Report for \(receivedDataArr[2])"
+        
+        var ref : DatabaseReference!
+        ref = Database.database().reference()
+        
+        var dateArray : [String] = []
+        for i in 3..<receivedDataArr.count {
+            dateArray.append(receivedDataArr[i])
+        }
+        dateArray = Array(dateArray.sorted().reversed())
+        
+        let dispatchGroup = DispatchGroup()
+        
+        for eachDate in dateArray {
+            dispatchGroup.enter()
+            ref.child("PatientVisitsByDates/\(receivedDataArr[1])/\(eachDate)").observeSingleEvent(of: .value) { (DataSnapshot) in
+                if DataSnapshot.exists() {
+                    let dict = DataSnapshot.value as! [String : AnyObject]
+                    for (_, value) in dict {
+                        if value["inSession"] as! Bool == false {
+                            let hour = ((value["endTime"] as! Double - (value["startTime"] as! Double)) / 3600.0)
+                            if (value["room"] as! String == "WR") {
+                                self.detailsWeekly[0].duration = self.detailsWeekly[0].duration + hour
+                                self.detailsWeekly[0].numberOfVisit = self.detailsWeekly[0].numberOfVisit + 1
+                            } else if (value["room"] as! String == "LA1") {
+                                self.detailsWeekly[1].duration = self.detailsWeekly[1].duration + hour
+                                self.detailsWeekly[1].numberOfVisit = self.detailsWeekly[1].numberOfVisit + 1
+                            } else if (value["room"] as! String == "TLA") {
+                                self.detailsWeekly[2].duration = self.detailsWeekly[2].duration + hour
+                                self.detailsWeekly[2].numberOfVisit = self.detailsWeekly[2].numberOfVisit + 1
+                            } else if (value["room"] as! String == "CT") {
+                                self.detailsWeekly[3].duration = self.detailsWeekly[3].duration + hour
+                                self.detailsWeekly[3].numberOfVisit = self.detailsWeekly[3].numberOfVisit + 1
+                            }
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        } else {
+                            let now = NSDate().timeIntervalSince1970
+                            let hour = ((Double(now) - (value["startTime"] as! Double)) / 3600.0)
+                            if (value["room"] as! String == "WR") {
+                                self.detailsWeekly[0].duration = self.detailsWeekly[0].duration + hour
+                                self.detailsWeekly[0].numberOfVisit = self.detailsWeekly[0].numberOfVisit + 1
+                            } else if (value["room"] as! String == "LA1") {
+                                self.detailsWeekly[1].duration = self.detailsWeekly[1].duration + hour
+                                self.detailsWeekly[1].numberOfVisit = self.detailsWeekly[1].numberOfVisit + 1
+                            } else if (value["room"] as! String == "TLA") {
+                                self.detailsWeekly[2].duration = self.detailsWeekly[2].duration + hour
+                                self.detailsWeekly[2].numberOfVisit = self.detailsWeekly[2].numberOfVisit + 1
+                            } else if (value["room"] as! String == "CT") {
+                                self.detailsWeekly[3].duration = self.detailsWeekly[3].duration + hour
+                                self.detailsWeekly[3].numberOfVisit = self.detailsWeekly[3].numberOfVisit + 1
+                            }
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                } else {
+                    print("==>DataSnapshot does not exist.")
+                }
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            print("============> All Done <============")
+            var indexTimeSpent = 0
+            var totalTime = 0.0
+            for eachObject in self.detailsWeekly {
+                self.timeSpent[indexTimeSpent] = eachObject.duration
+                totalTime += eachObject.duration
+                indexTimeSpent += 1
+            }
+            if (totalTime <= 1.0) {
+                self.totalTimeSpentLabel.text = "\(round(100 * totalTime)/100) hr"
+            }
+            else {
+                self.totalTimeSpentLabel.text = "\(round(100 * totalTime)/100) hrs"
+            }
+            
+            self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
+        }
     }
     
     func loadRoomAndYear() {
@@ -418,7 +553,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     func loadRoomAndMonth() {
         let receivedDataArr = receivedData.components(separatedBy: "%")
-        self.dateLabel.text = "Report for \(self.prettifyMonth(input: String(receivedDataArr[2].prefix(7))))"
+        self.dateLabel.text = "Monthly Report for \(self.prettifyMonth(input: String(receivedDataArr[2].prefix(7))))"
         var ref : DatabaseReference!
         ref = Database.database().reference()
         
@@ -536,7 +671,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func loadRoomAndTime() {
         
         let receivedDataArr = receivedData.components(separatedBy: "@")
-        self.dateLabel.text = "Report for \(self.prettifyDate(date: receivedDataArr[1]))"
+        self.dateLabel.text = "Daily Report for \(self.prettifyDate(date: receivedDataArr[1]))"
         var ref : DatabaseReference!
         ref = Database.database().reference()
         ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])").observeSingleEvent(of: .value) { (DataSnapshot) in
@@ -666,6 +801,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         else if tableTypes == "yearly" {
             return detailsYearly.count
         }
+        else if tableTypes == "weekly" {
+            return detailsWeekly.count
+        }
         return details.count
     }
     
@@ -708,6 +846,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.timeline.text = "Visited \(detailYearly.numberOfVisit!) times"
             }
         }
+        else if tableTypes == "weekly" {
+            let detailWeekly = detailsWeekly[indexPath.row]
+            cell.roomLabel.text = "\(detailWeekly.room!)"
+            
+            if detailWeekly.duration <= 1.0 {
+                cell.durationMinuteLabel.text = String(Double(round(100 * detailWeekly.duration)/100)) + " hr"
+            }
+            else  {
+                cell.durationMinuteLabel.text = String(Double(round(100 * detailWeekly.duration)/100)) + " hrs"
+            }
+            if detailWeekly.numberOfVisit == 0 || detailWeekly.numberOfVisit == 1 {
+                cell.timeline.text = "Visited \(detailWeekly.numberOfVisit!) time"
+            } else {
+                cell.timeline.text = "Visited \(detailWeekly.numberOfVisit!) times"
+            }
+        }
         else {
             let detail = details[indexPath.row]
             cell.roomLabel.text = "\(details.count - indexPath.row). \(detail.room!)"
@@ -728,7 +882,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let headerView = UIView()
         let headerCell = tableView.dequeueReusableCell(withIdentifier: "CustomHeaderDetailTableViewCell") as! CustomHeaderDetailTableViewCell
         headerView.autoresizingMask = []
-        if tableTypes == "monthly" || tableTypes == "yearly" {
+        if tableTypes == "monthly" || tableTypes == "yearly" || tableTypes == "weekly" {
             headerCell.locationLabel.text = "List of All Locations"
             headerCell.timeLabel.text = "Total Time"
         }

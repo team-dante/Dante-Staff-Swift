@@ -2688,16 +2688,16 @@
                                                     <action selector="viewDailyPressed:" destination="xMz-Kf-9yd" eventType="touchUpInside" id="jSV-Gt-jkB"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWK-su-iPO">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWK-su-iPO">
                                                 <rect key="frame" x="0.0" y="64.999999999999986" width="150" height="50"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="N5m-Kp-UD0"/>
                                                     <constraint firstAttribute="width" constant="150" id="fWy-a0-2eP"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <state key="normal" title="View Weekly">
-                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="viewWeeklyPressed:" destination="xMz-Kf-9yd" eventType="touchUpInside" id="7jJ-70-TY5"/>
@@ -3367,7 +3367,7 @@
         <image name="iconfinder_check_1930264" width="170.66667175292969" height="170.66667175292969"/>
         <image name="lookup-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="mike-c-valdivia-kZokA2VTKn4-unsplash" width="1824" height="1216"/>
-        <image name="qr-code-icon" width="170.66667175292969" height="170.66667175292969"/>
+        <image name="qr-code-icon" width="512" height="512"/>
         <image name="question?" width="512" height="512"/>
         <image name="refresh" width="512" height="512"/>
         <image name="stat-icon" width="170.66667175292969" height="170.66667175292969"/>

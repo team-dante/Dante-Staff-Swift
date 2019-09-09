@@ -21,6 +21,18 @@ class Yearly {
     }
 }
 
+class Weekly {
+    var weekName : String!
+    var numberOfDaysVisited : Int!
+    var allVisits : Set<String>
+    
+    init(wn: String, nodv: Int, av: Set<String>) {
+        weekName = wn
+        numberOfDaysVisited = nodv
+        allVisits = av
+    }
+}
+
 class Monthly {
     // get "August 2019, September 2019, July 2019"
     var monthName : String!
@@ -64,8 +76,10 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var receivedData : String = ""
     var passedData : String = ""
+    var weeks : [Weekly] = []
     var months : [Monthly] = []
     var years : [Yearly] = []
+    var weekDict = Dictionary<String, Set<String>>()
     var monthDict = Dictionary<String, Set<String>>()
     var yearDict = Dictionary<String, Set<String>>()
     var tableTypes : String!
@@ -88,6 +102,11 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.navigationItem.rightBarButtonItem?.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(popupView(_:))))
         self.filterPopupView.isHidden = true
         self.toggle = true
+        
+        self.tableTypes = "weekly"
+        self.headerLabel.text = "Patient Visit By Week"
+        weeks = []
+        loadWeeks()
 
     }
     
@@ -178,6 +197,10 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             years = []
             loadYears()
         }
+        else if tableTypes == "weekly" {
+            weeks = []
+            loadWeeks()
+        }
         else {
             dates = []
             loadDates()
@@ -202,6 +225,86 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.tableView.dataSource = self
         dates = []
         loadDates()
+    }
+    
+    func loadWeeks() {
+        var ref : DatabaseReference!
+        
+        ref = Database.database().reference()
+        ref.child("PatientVisitsByDates/\(receivedData)").observeSingleEvent(of: .value) { (DataSnapshot) in
+            if DataSnapshot.exists() {
+                let dict = DataSnapshot.value as! [String : AnyObject]
+                let sortedDict = dict.sorted {
+                    $0.0 < $1.0
+                }
+                
+                // extract [week range: [set of dates in that week range]
+                // September 2 - 8 : ["2019-07-27", "2019-07-29", "2019-09-03", "2019-08-20"]
+                // find the week range based on the date provided
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+//                var strDate = "2019-07-27"
+//                var newDate = dateFormatter.date(from: strDate)
+//                let startWeek = newDate!.startOfWeek
+//                let endWeek = newDate!.endOfWeek
+//                dateFormatter.string(from: startWeek!)
+//                dateFormatter.string(from: endWeek!)
+                var tempKey = ""
+                var weekSet = Set<String>()
+                var singleWeekRange = ""
+                for (key, _) in sortedDict {
+                    // get week range based on key (aka date)
+                    let startDate : Date = dateFormatter.date(from: String(key))!
+                    let endDate : Date = dateFormatter.date(from: String(key))!
+                    let startWeek = startDate.startOfWeek
+                    let endWeek = endDate.endOfWeek
+                    let startWeekStr = dateFormatter.string(from: startWeek!)
+                    let endWeekStr = dateFormatter.string(from: endWeek!)
+                    let rawWeekRange = startWeekStr + "-" + endWeekStr
+                    print(self.prettifyWeek(week: rawWeekRange))
+                    singleWeekRange = self.prettifyWeek(week: rawWeekRange)
+                    
+                    if tempKey == "" {
+                        tempKey = singleWeekRange
+                        weekSet.insert(key)
+                    }
+                    else if singleWeekRange != tempKey {
+                        self.weekDict[tempKey] = weekSet
+                        tempKey = singleWeekRange
+                        weekSet = Set<String>()
+                        weekSet.insert(key)
+                    }
+                    else if singleWeekRange == tempKey {
+                        weekSet.insert(key)
+                    }
+                }
+                self.weekDict[tempKey] = weekSet
+                weekSet = Set<String>()
+                
+                for (key, _) in self.weekDict {
+                    let weekSet = self.weekDict[key]
+                    let weekSetCount = weekSet?.count
+                    self.weeks.append(Weekly(wn: key, nodv: weekSetCount!, av: weekSet!))
+                }
+                
+                self.weeks = self.weeks.sorted {
+                    $0.weekName > $1.weekName
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+                // debugging
+                for i in self.weeks {
+                    print("\(i.weekName!) - \(i.numberOfDaysVisited!) - \(i.allVisits)")
+                }
+                
+            }
+            else {
+                print("==>DataSnapshot does not exist")
+            }
+        }
     }
     
     func loadYears() {
@@ -328,30 +431,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         for eachDate in input {
             ref.child("PatientVisitsByDates/\(receivedData)/\(eachDate)").observeSingleEvent(of: .value) { (DataSnapshot) in
                 if DataSnapshot.exists() {
-//                    let dict = DataSnapshot.value as! [String : AnyObject]
-//                    // add up total hours for each month
-//                    var totalTime = 0.0
-//                    for (_, val) in dict {
-//                        if (val["inSession"] as! Bool == false) {
-//                            let minute = ((val["endTime"] as! Double - (val["startTime"] as! Double)) / 60.0)
-//                            for eachObject in self.months {
-//                                if eachObject.monthName == eachDate.prefix(7) {
-//                                    eachObject.totalTimeSpent += minute
-//                                    totalTime += minute
-//                                }
-//                            }
-//                        } else {
-//                            let now = NSDate().timeIntervalSince1970
-//                            let minute = ((Double(now) - (val["startTime"] as! Double)) / 60)
-//                            for eachObject in self.months {
-//                                if eachObject.monthName == eachDate.prefix(7) {
-//                                    eachObject.totalTimeSpent += minute
-//                                    totalTime += minute
-//                                }
-//                            }
-//                        }
-//                    }
-                    
                     // get average of minutes per visit in one month (total minutes visited / number of days)
                     for eachObject in self.months {
                         if eachObject.monthName == eachDate.prefix(7) {
@@ -364,8 +443,6 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             eachObject.numberOfDaysVisited = visitPerMonth!.count
                         }
                     }
-                    
-                    
                     
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -424,6 +501,8 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return months.count
         } else if tableTypes == "yearly" {
             return years.count
+        } else if tableTypes == "weekly" {
+            return weeks.count
         }
             
         return dates.count
@@ -452,6 +531,16 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             else {
                 cell.daysLeft.text = "Spent \(year.numberOfDaysVisited!) days in total"
+            }
+        }
+        else if tableTypes == "weekly" {
+            let week = weeks[indexPath.row]
+            cell.date.text = week.weekName
+            if week.numberOfDaysVisited == 0 || week.numberOfDaysVisited == 1 {
+                cell.daysLeft.text = "Spent \(week.numberOfDaysVisited!) day in total"
+            }
+            else {
+                cell.daysLeft.text = "Spent \(week.numberOfDaysVisited!) days in total"
             }
         }
         else {
@@ -485,6 +574,20 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let year = years[indexPath.row]
             let setToArray = [String](year.allVisits)
             var data = tableTypes + "%" + receivedData + "%"
+            for eachDate in setToArray {
+                if eachDate == String(setToArray.last!) {
+                    data += eachDate
+                } else {
+                    data += eachDate + "%"
+                }
+            }
+            self.passedData = data
+            self.performSegue(withIdentifier: "next", sender: self)
+        }
+        else if tableTypes == "weekly" {
+            let week = weeks[indexPath.row]
+            let setToArray = [String](week.allVisits)
+            var data = tableTypes + "%" + receivedData + "%" + week.weekName + "%"
             for eachDate in setToArray {
                 if eachDate == String(setToArray.last!) {
                     data += eachDate

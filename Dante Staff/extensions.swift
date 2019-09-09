@@ -9,8 +9,22 @@
 import Foundation
 import UIKit
 
-var vSpinner : UIView?
 
+extension Date {
+    var startOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 0, to: sunday)
+    }
+    
+    var endOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 6, to: sunday)
+    }
+}
+
+var vSpinner : UIView?
 extension UIViewController {
     func showSpinner(onView : UIView) {
         let spinnerView = UIView.init(frame: onView.bounds)
@@ -34,42 +48,120 @@ extension UIViewController {
         }
     }
     
-    func prettifyMonth(input: String) -> String {
-        let inputArr = input.components(separatedBy: "-")
+    func prettifyWeek(week: String) -> String {
+        let weekArr = week.components(separatedBy: "-")
         
-        var month : String = ""
+        var month1 : String = ""
         
-        switch inputArr[1] {
+        switch weekArr[1] {
         case "01":
-            month = "January"
+            month1 = "Jan"
         case "02":
-            month = "Febuary"
+            month1 = "Feb"
         case "03":
-            month = "March"
+            month1 = "Mar"
         case "04":
-            month = "April"
+            month1 = "Apr"
         case "05":
-            month = "May"
+            month1 = "May"
         case "06":
-            month = "June"
+            month1 = "Jun"
         case "07":
-            month = "July"
+            month1 = "Jul"
         case "08":
-            month = "August"
+            month1 = "Aug"
         case "09":
-            month = "September"
+            month1 = "Sep"
         case "10":
-            month = "October"
+            month1 = "Oct"
         case "11":
-            month = "November"
+            month1 = "Nov"
         case "12":
-            month = "December"
+            month1 = "Dec"
         default:
-            month = "N/A"
+            month1 = "N/A"
             break
         }
         
-        let newMonth = month + " " + inputArr[0]
+        var month2 : String = ""
+        
+        switch weekArr[4] {
+        case "01":
+            month2 = "Jan"
+        case "02":
+            month2 = "Feb"
+        case "03":
+            month2 = "Mar"
+        case "04":
+            month2 = "Apr"
+        case "05":
+            month2 = "May"
+        case "06":
+            month2 = "Jun"
+        case "07":
+            month2 = "Jul"
+        case "08":
+            month2 = "Aug"
+        case "09":
+            month2 = "Sep"
+        case "10":
+            month2 = "Oct"
+        case "11":
+            month2 = "Nov"
+        case "12":
+            month2 = "Dec"
+        default:
+            month2 = "N/A"
+            break
+        }
+        
+        var newWeek = ""
+        if month1 == month2 {
+            newWeek = month1 + " "  + weekArr[2] + " - " + weekArr[5]
+        }
+        else {
+            newWeek = month1 + " "  + weekArr[2] + " - " + month2 + " " + weekArr[5]
+        }
+        
+        return newWeek
+    }
+    
+    func prettifyMonth(input: String) -> String {
+        let inputArr = input.components(separatedBy: "-")
+        
+        var month1 : String = ""
+        
+        switch inputArr[1] {
+        case "01":
+            month1 = "Jan"
+        case "02":
+            month1 = "Feb"
+        case "03":
+            month1 = "Mar"
+        case "04":
+            month1 = "Apr"
+        case "05":
+            month1 = "May"
+        case "06":
+            month1 = "Jun"
+        case "07":
+            month1 = "Jul"
+        case "08":
+            month1 = "Aug"
+        case "09":
+            month1 = "Sep"
+        case "10":
+            month1 = "Oct"
+        case "11":
+            month1 = "Nov"
+        case "12":
+            month1 = "Dec"
+        default:
+            month1 = "N/A"
+            break
+        }
+        
+        let newMonth = month1 + " " + inputArr[0]
         
         return newMonth
     }
@@ -77,39 +169,39 @@ extension UIViewController {
     func prettifyDate(date: String) -> String {
         let dateArr = date.components(separatedBy: "-")
         
-        var month : String = ""
+        var month1 : String = ""
         
         switch dateArr[1] {
         case "01":
-            month = "January"
+            month1 = "Jan"
         case "02":
-            month = "Febuary"
+            month1 = "Feb"
         case "03":
-            month = "March"
+            month1 = "Mar"
         case "04":
-            month = "April"
+            month1 = "Apr"
         case "05":
-            month = "May"
+            month1 = "May"
         case "06":
-            month = "June"
+            month1 = "Jun"
         case "07":
-            month = "July"
+            month1 = "Jul"
         case "08":
-            month = "August"
+            month1 = "Aug"
         case "09":
-            month = "September"
+            month1 = "Sep"
         case "10":
-            month = "October"
+            month1 = "Oct"
         case "11":
-            month = "November"
+            month1 = "Nov"
         case "12":
-            month = "December"
+            month1 = "Dec"
         default:
-            month = "N/A"
+            month1 = "N/A"
             break
         }
         
-        let newDate = month + " "  + dateArr[2] + ", " + dateArr[0]
+        let newDate = month1 + " "  + dateArr[2] + ", " + dateArr[0]
         
         return newDate
     }
