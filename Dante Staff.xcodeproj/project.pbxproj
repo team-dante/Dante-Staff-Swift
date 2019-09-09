@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		240CFAD42325986600D3F17F /* NewMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240CFAD32325986600D3F17F /* NewMenuViewController.swift */; };
+		240CFAD623259A2D00D3F17F /* NewMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240CFAD523259A2D00D3F17F /* NewMenuTableViewCell.swift */; };
 		2419E2BC231B47B500BA99D5 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2419E2BB231B47B500BA99D5 /* DateViewController.swift */; };
 		2419E2BE231B523200BA99D5 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2419E2BD231B523200BA99D5 /* DateTableViewCell.swift */; };
 		241D1D3B22E39ADE00EC2EF3 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		240CFAD32325986600D3F17F /* NewMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMenuViewController.swift; sourceTree = "<group>"; };
+		240CFAD523259A2D00D3F17F /* NewMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMenuTableViewCell.swift; sourceTree = "<group>"; };
 		2419E2BB231B47B500BA99D5 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		2419E2BD231B523200BA99D5 /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
 		241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
@@ -86,6 +90,15 @@
 			name = Charts;
 			sourceTree = "<group>";
 		};
+		240CFAD723259A3200D3F17F /* NewMenuTableView */ = {
+			isa = PBXGroup;
+			children = (
+				240CFAD523259A2D00D3F17F /* NewMenuTableViewCell.swift */,
+				240CFAD32325986600D3F17F /* NewMenuViewController.swift */,
+			);
+			path = NewMenuTableView;
+			sourceTree = "<group>";
+		};
 		2419E2BA231B380E00BA99D5 /* DisplayAllPatients */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +143,7 @@
 				2458444A22F65BE0000775AC /* FloatingPanel */,
 				243EF9C022D7D74E0067E2CC /* Assets.xcassets */,
 				243EF9BD22D7D74C0067E2CC /* Main.storyboard */,
+				240CFAD723259A3200D3F17F /* NewMenuTableView */,
 				243EF9C222D7D74E0067E2CC /* LaunchScreen.storyboard */,
 				248CAE552319AE9900ADF0CF /* PatientStatistics */,
 				DB568A7A22E96076000E1B2C /* extensions.swift */,
@@ -405,9 +419,11 @@
 				2458C081231A07D0003234FE /* PatientViewController.swift in Sources */,
 				248CAE5223188E8000ADF0CF /* PatientTableViewCell.swift in Sources */,
 				2490B74D22F61FED00E5B8CA /* BarChartVC.swift in Sources */,
+				240CFAD42325986600D3F17F /* NewMenuViewController.swift in Sources */,
 				241D1D3B22E39ADE00EC2EF3 /* CreateAccountVC.swift in Sources */,
 				243EF9BA22D7D74C0067E2CC /* AppDelegate.swift in Sources */,
 				24B153F222E437AA00FF2452 /* DisplayAccVC.swift in Sources */,
+				240CFAD623259A2D00D3F17F /* NewMenuTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
