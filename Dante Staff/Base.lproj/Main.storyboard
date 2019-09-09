@@ -744,9 +744,8 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VwB-44-7fa">
-                                                <rect key="frame" x="138" y="0.0" width="30" height="50"/>
+                                                <rect key="frame" x="138" y="5" width="30" height="40"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="T7L-1b-LB6"/>
                                                     <constraint firstAttribute="width" constant="30" id="pww-bm-k7d"/>
                                                 </constraints>
                                             </imageView>
@@ -756,9 +755,9 @@
                                             <constraint firstAttribute="bottom" secondItem="YBk-Wx-WEh" secondAttribute="bottom" id="ErJ-1u-gzj"/>
                                             <constraint firstAttribute="trailing" secondItem="YBk-Wx-WEh" secondAttribute="trailing" constant="38" id="Kfb-ay-PLb"/>
                                             <constraint firstItem="YBk-Wx-WEh" firstAttribute="top" secondItem="yI1-WF-Cw5" secondAttribute="top" id="Mka-RW-xNj"/>
-                                            <constraint firstItem="VwB-44-7fa" firstAttribute="top" secondItem="yI1-WF-Cw5" secondAttribute="top" id="OzA-oC-wy0"/>
+                                            <constraint firstItem="VwB-44-7fa" firstAttribute="top" secondItem="yI1-WF-Cw5" secondAttribute="top" constant="5" id="OzA-oC-wy0"/>
                                             <constraint firstItem="YBk-Wx-WEh" firstAttribute="leading" secondItem="yI1-WF-Cw5" secondAttribute="leading" id="acI-3K-4gf"/>
-                                            <constraint firstAttribute="bottom" secondItem="VwB-44-7fa" secondAttribute="bottom" id="gui-WW-D53"/>
+                                            <constraint firstAttribute="bottom" secondItem="VwB-44-7fa" secondAttribute="bottom" constant="5" id="gui-WW-D53"/>
                                             <constraint firstItem="VwB-44-7fa" firstAttribute="leading" secondItem="yI1-WF-Cw5" secondAttribute="leading" constant="138" id="rHw-d5-BgO"/>
                                             <constraint firstAttribute="trailing" secondItem="VwB-44-7fa" secondAttribute="trailing" id="zKO-WX-hgv"/>
                                         </constraints>
@@ -772,7 +771,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a64-n4-yNe" userLabel="descriptionView">
-                                <rect key="frame" x="0.0" y="140" width="414" height="50"/>
+                                <rect key="frame" x="0.0" y="143" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQ2-tI-6GS">
                                         <rect key="frame" x="8" y="0.0" width="398" height="50"/>
@@ -793,12 +792,12 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="LqI-Wm-zPJ">
-                                <rect key="frame" x="0.0" y="192" width="414" height="420"/>
+                                <rect key="frame" x="0.0" y="198" width="414" height="420"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFr-pq-AEp">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="420"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clinic-map" translatesAutoresizingMaskIntoConstraints="NO" id="Mcf-Zq-df0">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clinic-map" translatesAutoresizingMaskIntoConstraints="NO" id="Mcf-Zq-df0">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="420"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gvF-I4-hie" userLabel="CTS">
@@ -1445,11 +1444,11 @@
                             <constraint firstItem="MGB-mY-XQu" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="FaQ-EJ-DhL"/>
                             <constraint firstItem="MGB-mY-XQu" firstAttribute="leading" secondItem="nwN-kJ-s2G" secondAttribute="leading" id="GC5-ov-xhP"/>
                             <constraint firstItem="a64-n4-yNe" firstAttribute="leading" secondItem="nwN-kJ-s2G" secondAttribute="leading" id="GLi-4v-nFB"/>
-                            <constraint firstItem="LqI-Wm-zPJ" firstAttribute="top" secondItem="a64-n4-yNe" secondAttribute="bottom" constant="2" id="IqR-Zi-Fc5"/>
+                            <constraint firstItem="LqI-Wm-zPJ" firstAttribute="top" secondItem="a64-n4-yNe" secondAttribute="bottom" constant="5" id="IqR-Zi-Fc5"/>
                             <constraint firstItem="n7s-lb-xQq" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="Ix3-nz-hG2"/>
                             <constraint firstItem="Q9f-h5-azW" firstAttribute="top" secondItem="oDh-or-OS3" secondAttribute="top" id="JcB-Eq-F4o"/>
                             <constraint firstAttribute="bottom" secondItem="MGB-mY-XQu" secondAttribute="bottom" id="Php-a3-s9I"/>
-                            <constraint firstItem="a64-n4-yNe" firstAttribute="top" secondItem="n7s-lb-xQq" secondAttribute="bottom" constant="2" id="RDl-NT-vmt"/>
+                            <constraint firstItem="a64-n4-yNe" firstAttribute="top" secondItem="n7s-lb-xQq" secondAttribute="bottom" constant="5" id="RDl-NT-vmt"/>
                             <constraint firstItem="Q9f-h5-azW" firstAttribute="leading" secondItem="nwN-kJ-s2G" secondAttribute="leading" id="c3g-np-xx1"/>
                             <constraint firstItem="Q9f-h5-azW" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="qIh-Wk-zbu"/>
                             <constraint firstItem="LqI-Wm-zPJ" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="qhA-5R-Xcu"/>
@@ -3360,7 +3359,7 @@
         <image name="background" width="125" height="270.66665649414062"/>
         <image name="broadcast-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="checked-box" width="170.66667175292969" height="170.66667175292969"/>
-        <image name="clinic-map" width="3418" height="3492"/>
+        <image name="clinic-map" width="3751" height="4504"/>
         <image name="create-acc-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="feedback-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="hamburger-icon" width="170.66667175292969" height="170.66667175292969"/>
