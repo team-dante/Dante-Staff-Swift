@@ -15,6 +15,8 @@ class CreateAccountVC: UIViewController {
     
     var qrcodeCIImage: CIImage!
     var qrcodeData : NSData!
+    var usedColors = [String]()
+    var ref: DatabaseReference!
     
     @IBOutlet weak var emptyValLabel: UILabel!
     @IBOutlet weak var firstNameTF: CustomFieldRounded!
@@ -22,6 +24,15 @@ class CreateAccountVC: UIViewController {
     @IBOutlet weak var phoneNumTF: CustomFieldRounded!
     @IBOutlet weak var pinTF: CustomFieldRounded!
     @IBOutlet weak var createBtn: CustomButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        emptyValLabel.isHidden = true
+        
+        self.addDoneButtonOnKeyboard()
+    }
+    
     @IBAction func createBtnPressed(_ sender: Any) {
         ViewController().showSpinner(onView: self.view)
         let opfn = self.firstNameTF.text
@@ -88,14 +99,33 @@ class CreateAccountVC: UIViewController {
                                 "qrCodeLink" : url!.absoluteString
                             ]
                             Database.database().reference().child("Patients").childByAutoId().setValue(dict)
-                            // QR code is uploaded successfully -> Display success message
+                            
+                            // after generating a user account, assign a random color for the newly user
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                ViewController().removeSpinner()
-                                self.firstNameTF.text = ""
-                                self.lastNameTF.text = ""
-                                self.phoneNumTF.text = ""
-                                self.pinTF.text = ""
-                                self.performSegue(withIdentifier: "success", sender: self)
+                                var colorStr = ""
+                                let existedColors = self.existedColors()
+                                
+                                // generate a random color for that patient; if the color has been used by another patient,
+                                // generate another one until no color repeats
+                                repeat {
+                                    colorStr = self.randomColor()
+                                } while (existedColors.contains(colorStr))
+                                
+                                // upload the newly used color to server
+                                Database.database().reference().child("ColorUsedPatient").childByAutoId().setValue(colorStr)
+                                
+                                // under /PatientLocation, set patient name, pinColor (as string) and room (Private by default)
+                                Database.database().reference().child("PatientLocation/\(oppn!)").setValue(["name": "\(opfn!) \(opln!)", "pinColor": colorStr, "room": "Private"])
+                                
+                                // QR code is uploaded successfully & color has been generated, perform segue to display success message
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    ViewController().removeSpinner()
+                                    self.firstNameTF.text = ""
+                                    self.lastNameTF.text = ""
+                                    self.phoneNumTF.text = ""
+                                    self.pinTF.text = ""
+                                    self.performSegue(withIdentifier: "success", sender: self)
+                                }
                             }
                         }
                     }
@@ -141,13 +171,6 @@ class CreateAccountVC: UIViewController {
         self.emptyValLabel.text = ""
         self.emptyValLabel.isHidden = true
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        emptyValLabel.isHidden = true
-        
-        self.addDoneButtonOnKeyboard()
-    }
     
     // add Done to the top of the keyboard
     func addDoneButtonOnKeyboard()
@@ -174,4 +197,28 @@ class CreateAccountVC: UIViewController {
         phoneNumTF.resignFirstResponder()
         pinTF.resignFirstResponder()
     }
+    
+    // pull down all used colors
+    func existedColors() -> [String] {
+        Database.database().reference().child("ColorUsedPatient").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let colors = snapshot.value as? [String: Any] {
+                for color in colors {
+                    if let color = color.value as? String {
+                        self.usedColors.append(color)
+                    }
+                }
+            }
+        })
+        return self.usedColors
+    }
+    
+    // assign a random pin color for a new patient
+    private func randomColor() -> String {
+        let red = Int(Double(arc4random_uniform(256)))
+        let green = Int(Double(arc4random_uniform(256)))
+        let blue = Int(Double(arc4random_uniform(256)))
+        
+        return "\(red)-\(green)-\(blue)"
+    }
+    
 }

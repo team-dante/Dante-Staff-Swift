@@ -48,6 +48,21 @@ extension UIViewController {
         }
     }
     
+    func prettifyRoom(room: String) -> String {
+        switch room {
+        case "LA1":
+            return "Linear Accelerator 1"
+        case "TLA":
+            return "Trilogy Linear Acc."
+        case "CT":
+            return "CT Simulator"
+        case "WR":
+            return "Waiting Room"
+        default:
+            return ""
+        }
+    }
+    
     func prettifyWeek(week: String) -> String {
         let weekArr = week.components(separatedBy: "-")
         

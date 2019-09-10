@@ -238,19 +238,6 @@ class BroadcastLocationViewController: UIViewController, UIScrollViewDelegate, F
         firstLoading = false
     }
     
-    func prettifyRoom(room: String) -> String{
-        switch room {
-        case "LA1":
-            return "Linear Accelerator 1"
-        case "TLA":
-            return "Trilogy Linear Accelerator"
-        case "CT":
-            return "CT Simulator"
-        default:
-            return room
-        }
-    }
-    
 }
 
 extension BroadcastLocationViewController: KTKBeaconManagerDelegate {
