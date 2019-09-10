@@ -674,16 +674,43 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func loadRoomAndTime() {
+        // Closure implementation! Execute the code below after callFirebaseForDates is done processing data.
+        callFirebaseForDates(completion: { (success) in
+            print("success=\(success)")
+            if success {
+                print("============> All Done <============")
+                for i in 0...3 {
+                    print("..", self.timeSpent[i])
+                }
+                var displayTotalTime : Double = 0
+                for i in 0...3 {
+                    displayTotalTime += self.timeSpent[i]
+                }
+                //            String(Double(round(100 * detail.duration)/100)) + " min"
+                if displayTotalTime <= 1.0 {
+                    self.totalTimeSpentLabel.text = "\(round(100 * displayTotalTime)/100) min"
+                } else {
+                    self.totalTimeSpentLabel.text = "\(round(100 * displayTotalTime)/100) mins"
+                }
+                
+                // loadGraph is called after timeSpent is filled with values.
+                self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
+            } else {
+                print("----> Couldn't get the data")
+            }
+        })
+    }
+    
+    func callFirebaseForDates(completion: @escaping (Bool) -> ()) {
         
         let receivedDataArr = receivedData.components(separatedBy: "@")
         self.dateLabel.text = "Daily Report for \(self.prettifyDate(date: receivedDataArr[1]))"
         var ref : DatabaseReference!
         ref = Database.database().reference()
+        
         ref.child("PatientVisitsByDates/\(receivedDataArr[0])/\(receivedDataArr[1])").observeSingleEvent(of: .value) { (DataSnapshot) in
             if DataSnapshot.exists() {
                 let dict = DataSnapshot.value as! [String : AnyObject]
-                
-                print("oldDict=>", dict)
                 
                 var newDict : [Int : AnyObject] = [:]
                 
@@ -692,11 +719,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     newDict[startTimeKey] = value
                 }
                 
-                print("newDict=>", newDict)
-                
                 let sortedArrayTuple = newDict.sorted() { $0.key > $1.key }
-                
-                print("sortedDict=>", sortedArrayTuple)
                 
                 // dictionary cannot be sorted
                 
@@ -706,20 +729,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     
                     if (value["inSession"]! as! Bool == false) {
                         
-//                      var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
+                        //                  var rooms : [String] = ["WR", "LA1", "TLA", "CT"]
                         let minute = ((value["endTime"] as! Double - (value["startTime"] as! Double)) / 60.0)
-                            if (value["room"] as! String == "WR") {
-                                self.timeSpent[0] = (self.timeSpent[0] + Double(minute))
-                            } else if (value["room"] as! String == "LA1") {
-                                self.timeSpent[1] = (self.timeSpent[1] + Double(minute))
-                            } else if (value["room"] as! String == "TLA") {
-                                self.timeSpent[2] = (self.timeSpent[2] + Double(minute))
-                            } else if (value["room"] as! String == "CT") {
-                                self.timeSpent[3] = (self.timeSpent[3] + Double(minute))
-                            }
-                            for i in 0...3 {
-                                print("..", self.timeSpent[i])
-                            }
+                        if (value["room"] as! String == "WR") {
+                            self.timeSpent[0] = (self.timeSpent[0] + minute)
+                        } else if (value["room"] as! String == "LA1") {
+                            self.timeSpent[1] = (self.timeSpent[1] + minute)
+                        } else if (value["room"] as! String == "TLA") {
+                            self.timeSpent[2] = (self.timeSpent[2] + minute)
+                        } else if (value["room"] as! String == "CT") {
+                            self.timeSpent[3] = (self.timeSpent[3] + minute)
+                        }
                         
                         let startTime = value["startTime"] as! Double
                         let endTime = value["endTime"] as! Double
@@ -744,21 +764,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         }
                     }
                     else {
-                            let now = NSDate().timeIntervalSince1970
-                            let minute = ((Int(now) - (value["startTime"] as! Int)) / 60)
-                            if (value["room"] as! String == "WR") {
-                                self.timeSpent[0] = (self.timeSpent[0] + Double(minute))
-                            } else if (value["room"] as! String == "LA1") {
-                                self.timeSpent[1] = (self.timeSpent[1] + Double(minute))
-                            } else if (value["room"] as! String == "TLA") {
-                                self.timeSpent[2] = (self.timeSpent[2] + Double(minute))
-                            } else if (value["room"] as! String == "CT") {
-                                self.timeSpent[3] = (self.timeSpent[3] + Double(minute))
-                            }
-                            for i in 0...3 {
-                                print("...", self.timeSpent[i])
-                            }
-                        
+                        let now = NSDate().timeIntervalSince1970
+                        let minute = ((Double(now) - (value["startTime"] as! Double)) / 60.0)
+                        if (value["room"] as! String == "WR") {
+                            self.timeSpent[0] = (self.timeSpent[0] + minute)
+                        } else if (value["room"] as! String == "LA1") {
+                            self.timeSpent[1] = (self.timeSpent[1] + minute)
+                        } else if (value["room"] as! String == "TLA") {
+                            self.timeSpent[2] = (self.timeSpent[2] + minute)
+                        } else if (value["room"] as! String == "CT") {
+                            self.timeSpent[3] = (self.timeSpent[3] + minute)
+                        }
                         
                         let startTime = value["startTime"] as! Double
                         let startDate = NSDate(timeIntervalSince1970: startTime)
@@ -779,24 +795,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         }
                     }
                 }
+                completion(true)
             } else {
                 print("==>DataSnapshot does not exist.")
             }
-            
-            var displayTotalTime : Double = 0
-            for i in 0...3 {
-                displayTotalTime += self.timeSpent[i]
-            }
-//            String(Double(round(100 * detail.duration)/100)) + " min"
-            if displayTotalTime <= 1.0 {
-                self.totalTimeSpentLabel.text = "\(round(100 * displayTotalTime)/100) min"
-            } else {
-                self.totalTimeSpentLabel.text = "\(round(100 * displayTotalTime)/100) mins"
-            }
-            
-                
-            // loadGraph is called after timeSpent is filled with values.
-            self.loadGraph(dataPoints: self.rooms, values: self.timeSpent)
         }
     }
     

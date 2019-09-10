@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import LocalAuthentication
+import Firebase
 
 class ViewController: UIViewController {
     
@@ -46,22 +47,35 @@ class ViewController: UIViewController {
         email += "@email.com"
         password += "ABCDEFG"
         self.showSpinner(onView: self.view)
-        Auth.auth().signIn(withEmail: email, password: password) {
-            [weak self] user, error in
-            guard let strongSelf = self else { return }
-            
-            strongSelf.removeSpinner()
-            if let error = error {
-                strongSelf.errorLabel.text = error.localizedDescription
-                strongSelf.errorLabel.isHidden = false
+    Database.database().reference().ref.child("Patients").queryOrdered(byChild: "patientPhoneNumber").queryEqual(toValue: phoneTextField.text).observeSingleEvent(of: .value) { (DataSnapshot) in
+        if DataSnapshot.exists() {
+            print("==>Staff logged in using Patient Account detected")
+            self.removeSpinner()
+            self.errorLabel.text = "Invalid credentials!"
+            self.errorLabel.isHidden = false
+            self.phoneTextField.text = ""
+            self.pinTextField.text = ""
+        }
+        else {
+            print("==>Staff logged in using approriate credentials.")
+            Auth.auth().signIn(withEmail: email, password: password) {
+                [weak self] user, error in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.removeSpinner()
+                if let error = error {
+                    strongSelf.errorLabel.text = error.localizedDescription
+                    strongSelf.errorLabel.isHidden = false
+                    strongSelf.phoneTextField.text = ""
+                    strongSelf.pinTextField.text = ""
+                    return
+                }
                 strongSelf.phoneTextField.text = ""
                 strongSelf.pinTextField.text = ""
-                return
+                strongSelf.performSegue (withIdentifier: "loginToMenu", sender: strongSelf)
             }
-            strongSelf.phoneTextField.text = ""
-            strongSelf.pinTextField.text = ""
-            strongSelf.performSegue (withIdentifier: "loginToMenu", sender: strongSelf)
         }
+    }
     }
     
     override func viewWillAppear(_ animated: Bool) {

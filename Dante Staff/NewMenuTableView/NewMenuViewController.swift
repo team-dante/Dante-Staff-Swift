@@ -163,7 +163,7 @@ class NewMenuViewController: UIViewController, UITableViewDataSource, UITableVie
                     for eachDoctor in snapshot.children.allObjects as! [DataSnapshot] {
                         let dict = eachDoctor.value as? [String : String] ?? [:]
                         if (String(dict["phoneNum"]!) == String(phoneNum)) {
-                            self.staffLastName.text = "Welcome, Staff \(dict["lastName"] ?? "N/A")"
+                            self.staffLastName.text = "Welcome, Staff \(dict["lastName"] ?? "Error!")"
                             // self.staffLastName.text = "Welcome, Staff AppleIphone11New" -> cuts off at 1... for 375 screen and no cut off for 414 screen
                         }
                     }

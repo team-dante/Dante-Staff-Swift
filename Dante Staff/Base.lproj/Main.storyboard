@@ -771,7 +771,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a64-n4-yNe" userLabel="descriptionView">
-                                <rect key="frame" x="0.0" y="143" width="414" height="50"/>
+                                <rect key="frame" x="0.0" y="140" width="414" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQ2-tI-6GS">
                                         <rect key="frame" x="8" y="0.0" width="398" height="50"/>
@@ -792,7 +792,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="LqI-Wm-zPJ">
-                                <rect key="frame" x="0.0" y="198" width="414" height="420"/>
+                                <rect key="frame" x="0.0" y="192" width="414" height="420"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFr-pq-AEp">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="420"/>
@@ -1444,11 +1444,11 @@
                             <constraint firstItem="MGB-mY-XQu" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="FaQ-EJ-DhL"/>
                             <constraint firstItem="MGB-mY-XQu" firstAttribute="leading" secondItem="nwN-kJ-s2G" secondAttribute="leading" id="GC5-ov-xhP"/>
                             <constraint firstItem="a64-n4-yNe" firstAttribute="leading" secondItem="nwN-kJ-s2G" secondAttribute="leading" id="GLi-4v-nFB"/>
-                            <constraint firstItem="LqI-Wm-zPJ" firstAttribute="top" secondItem="a64-n4-yNe" secondAttribute="bottom" constant="5" id="IqR-Zi-Fc5"/>
+                            <constraint firstItem="LqI-Wm-zPJ" firstAttribute="top" secondItem="a64-n4-yNe" secondAttribute="bottom" constant="2" id="IqR-Zi-Fc5"/>
                             <constraint firstItem="n7s-lb-xQq" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="Ix3-nz-hG2"/>
                             <constraint firstItem="Q9f-h5-azW" firstAttribute="top" secondItem="oDh-or-OS3" secondAttribute="top" id="JcB-Eq-F4o"/>
                             <constraint firstAttribute="bottom" secondItem="MGB-mY-XQu" secondAttribute="bottom" id="Php-a3-s9I"/>
-                            <constraint firstItem="a64-n4-yNe" firstAttribute="top" secondItem="n7s-lb-xQq" secondAttribute="bottom" constant="5" id="RDl-NT-vmt"/>
+                            <constraint firstItem="a64-n4-yNe" firstAttribute="top" secondItem="n7s-lb-xQq" secondAttribute="bottom" constant="2" id="RDl-NT-vmt"/>
                             <constraint firstItem="Q9f-h5-azW" firstAttribute="leading" secondItem="nwN-kJ-s2G" secondAttribute="leading" id="c3g-np-xx1"/>
                             <constraint firstItem="Q9f-h5-azW" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="qIh-Wk-zbu"/>
                             <constraint firstItem="LqI-Wm-zPJ" firstAttribute="trailing" secondItem="nwN-kJ-s2G" secondAttribute="trailing" id="qhA-5R-Xcu"/>
