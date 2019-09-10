@@ -37,6 +37,10 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
         tableView.rowHeight = 80
         
         ref = Database.database().reference()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
         let bottomBorder = CALayer()
         bottomBorder.frame = CGRect(x: 0, y: titleView.frame.height - 3, width: titleView.frame.width, height: 3.0)

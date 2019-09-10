@@ -19,6 +19,7 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var mapUIView: UIView!
     @IBOutlet weak var mapImageView: UIImageView!
+    @IBOutlet weak var bottomViewHeight: NSLayoutConstraint!
     
     var mapDict: [String: [(Double, Double)]] = [
         "LA1": [(0.38, 0.7), (0.41, 0.75), (0.46, 0.75), (0.48, 0.7), (0.39, 0.8)],
@@ -70,6 +71,17 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
         self.scrollView.delegate = self
         self.scrollView.minimumZoomScale = 1.0
         self.scrollView.maximumZoomScale = 4.0
+        
+        let height = UIScreen.main.bounds.height
+        if height == 896.0 {
+            bottomViewHeight.constant = 290.0
+        } else if height == 812.0 {
+            bottomViewHeight.constant = 270.0
+        } else if height == 736.0 || height == 667.0 {
+            bottomViewHeight.constant = 200.0
+        } else {
+            bottomViewHeight.constant = 160.0
+        }
     }
     
     // if FloatingPanel's position is at tip, then it will be at half
@@ -208,6 +220,7 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
 }
 
 class MyFloatingPanelLayout: FloatingPanelLayout {
+    
     public var initialPosition: FloatingPanelPosition {
         return .tip
     }
@@ -215,8 +228,19 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
     public func insetFor(position: FloatingPanelPosition) -> CGFloat? {
         switch position {
         case .full: return 120.0 // A top inset from safe area
-        case .half: return 300.0 // A bottom inset from the safe area
-        case .tip: return 200.0 // A bottom inset from the safe area
+        case .half: return UIScreen.main.bounds.height/2.0 // A bottom inset from the safe area
+        case .tip:
+            let height = UIScreen.main.bounds.height
+            if height == 896.0 {
+                print("executed")
+                return 260.0
+            } else if height == 812.0 {
+                return 230.0
+            } else if height == 736.0 || height == 667.0 {
+                return 192.0
+            } else {
+                return 156.0
+            }
         default: return nil // Or case .hidden: return nil
         }
     }

@@ -771,7 +771,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a64-n4-yNe" userLabel="descriptionView">
+<<<<<<< HEAD
+                                <rect key="frame" x="0.0" y="140" width="414" height="50"/>
+=======
                                 <rect key="frame" x="0.0" y="143" width="375" height="50"/>
+>>>>>>> 00fabc21738561882a622dcd303c86bd3c4effc6
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQ2-tI-6GS">
                                         <rect key="frame" x="8" y="0.0" width="359" height="50"/>
@@ -792,7 +796,11 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="LqI-Wm-zPJ">
+<<<<<<< HEAD
+                                <rect key="frame" x="0.0" y="192" width="414" height="420"/>
+=======
                                 <rect key="frame" x="0.0" y="198" width="375" height="420"/>
+>>>>>>> 00fabc21738561882a622dcd303c86bd3c4effc6
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFr-pq-AEp">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="420"/>
