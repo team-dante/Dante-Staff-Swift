@@ -19,7 +19,6 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var mapUIView: UIView!
     @IBOutlet weak var mapImageView: UIImageView!
-    @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeight: NSLayoutConstraint!
     
     var mapDict: [String: [(Double, Double)]] = [
