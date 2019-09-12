@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		240CFAD42325986600D3F17F /* NewMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240CFAD32325986600D3F17F /* NewMenuViewController.swift */; };
-		240CFAD623259A2D00D3F17F /* NewMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240CFAD523259A2D00D3F17F /* NewMenuTableViewCell.swift */; };
 		2419E2BC231B47B500BA99D5 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2419E2BB231B47B500BA99D5 /* DateViewController.swift */; };
 		2419E2BE231B523200BA99D5 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2419E2BD231B523200BA99D5 /* DateTableViewCell.swift */; };
 		241D1D3B22E39ADE00EC2EF3 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */; };
@@ -36,11 +35,11 @@
 		DB225CA72327354D0048D14E /* PatientPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB225CA62327354D0048D14E /* PatientPinViewController.swift */; };
 		DB225CA92327356B0048D14E /* PatientPinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB225CA82327356B0048D14E /* PatientPinTableViewCell.swift */; };
 		DB568A7B22E96076000E1B2C /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB568A7A22E96076000E1B2C /* extensions.swift */; };
+		DBA6BF0C232A130500A11441 /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA6BF0B232A130500A11441 /* MenuCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		240CFAD32325986600D3F17F /* NewMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMenuViewController.swift; sourceTree = "<group>"; };
-		240CFAD523259A2D00D3F17F /* NewMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMenuTableViewCell.swift; sourceTree = "<group>"; };
 		2419E2BB231B47B500BA99D5 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		2419E2BD231B523200BA99D5 /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
 		241D1D3A22E39ADE00EC2EF3 /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		DB225CA62327354D0048D14E /* PatientPinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientPinViewController.swift; sourceTree = "<group>"; };
 		DB225CA82327356B0048D14E /* PatientPinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientPinTableViewCell.swift; sourceTree = "<group>"; };
 		DB568A7A22E96076000E1B2C /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		DBA6BF0B232A130500A11441 /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,13 +96,13 @@
 			name = Charts;
 			sourceTree = "<group>";
 		};
-		240CFAD723259A3200D3F17F /* NewMenuTableView */ = {
+		240CFAD723259A3200D3F17F /* NewMenuCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				240CFAD523259A2D00D3F17F /* NewMenuTableViewCell.swift */,
 				240CFAD32325986600D3F17F /* NewMenuViewController.swift */,
+				DBA6BF0B232A130500A11441 /* MenuCollectionViewCell.swift */,
 			);
-			path = NewMenuTableView;
+			path = NewMenuCollectionView;
 			sourceTree = "<group>";
 		};
 		2419E2BA231B380E00BA99D5 /* DisplayAllPatients */ = {
@@ -142,7 +142,7 @@
 				2458445022F65C5E000775AC /* Login */,
 				2458444B22F65BFA000775AC /* CreatePatientAccount */,
 				2458444E22F65C3A000775AC /* MainMenu */,
-				240CFAD723259A3200D3F17F /* NewMenuTableView */,
+				240CFAD723259A3200D3F17F /* NewMenuCollectionView */,
 				2458444C22F65C11000775AC /* LookUpPatient */,
 				2458444D22F65C2C000775AC /* BroadcastLocation */,
 				2404DCB722F63DED00B96AD3 /* Charts */,
@@ -431,6 +431,7 @@
 				242DB5952327144900EA9004 /* PatientLocationViewController.swift in Sources */,
 				2467E1632301039B00689EB7 /* FeedbackVC.swift in Sources */,
 				2458D60E22E23E010020EA39 /* MainMenu_VC.swift in Sources */,
+				DBA6BF0C232A130500A11441 /* MenuCollectionViewCell.swift in Sources */,
 				2444211C22EDB15F0088A545 /* SlidingViewVC.swift in Sources */,
 				24DA2D13231C71950077229B /* DetailViewController.swift in Sources */,
 				242E22D722ED867B00EDD730 /* DoctorListVC.swift in Sources */,
@@ -443,7 +444,6 @@
 				241D1D3B22E39ADE00EC2EF3 /* CreateAccountVC.swift in Sources */,
 				243EF9BA22D7D74C0067E2CC /* AppDelegate.swift in Sources */,
 				24B153F222E437AA00FF2452 /* DisplayAccVC.swift in Sources */,
-				240CFAD623259A2D00D3F17F /* NewMenuTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
