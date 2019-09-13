@@ -1,19 +1,18 @@
 //
-//  PatientPinTableViewCell.swift
+//  StaffPinTableViewCell.swift
 //  Dante Staff
 //
-//  Created by Xinhao Liang on 9/9/19.
-//  Updated by Hung Phan on 9/12/19.
+//  Created by Hung Phan on 9/12/19.
 //  Copyright © 2019 Hung Phan. All rights reserved.
 //
 
 import UIKit
 
-class PatientPinTableViewCell: UITableViewCell {
+class StaffPinTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var patientLabel: UILabel!
-    @IBOutlet weak var roomLabel: UILabel!
-    
+    @IBOutlet weak var staffCircleColor: UIView!
+    @IBOutlet weak var staffLocation: UILabel!
+    @IBOutlet weak var staffName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

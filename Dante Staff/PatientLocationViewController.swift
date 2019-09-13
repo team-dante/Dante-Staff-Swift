@@ -3,6 +3,7 @@
 //  Dante Patient
 //
 //  Created by Xinhao Liang on 7/1/19.
+//  Updated by Hung Phan on 9/12/19
 //  Copyright © 2019 Xinhao Liang. All rights reserved.
 //
 import UIKit
@@ -24,7 +25,7 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
     var mapDict: [String: [(Double, Double)]] = [
         "LA1": [(0.38, 0.7), (0.41, 0.75), (0.46, 0.75), (0.48, 0.7), (0.39, 0.8)],
         "TLA": [(0.9, 0.36), (0.95, 0.5), (0.83, 0.54), (0.8, 0.5), (0.86, 0.4)],
-        "CT": [(0.0, 0.7), (0.03, 0.75), (0.12, 0.75), (0.06, 0.7), (0.04, 0.8)],
+        "CT": [(0.09, 0.7), (0.03, 0.75), (0.12, 0.75), (0.06, 0.7), (0.04, 0.8)],
         "WR": [(0.27, 0.41), (0.3, 0.41), (0.27, 0.47), (0.31, 0.47), (0.33, 0.45)]
     ]
     
@@ -41,12 +42,8 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
         
         // Initialize FloatingPanelController and add the view
         fpc.surfaceView.backgroundColor = .clear
-        if #available(iOS 11, *) {
-            fpc.surfaceView.cornerRadius = 9.0
-        } else {
-            fpc.surfaceView.cornerRadius = 0.0
-        }
-        fpc.surfaceView.shadowHidden = false
+        fpc.surfaceView.cornerRadius = 24.0
+        fpc.surfaceView.shadowHidden = true
         
         pinRef = storyboard?.instantiateViewController(withIdentifier: "PatientPinViewController") as? PatientPinViewController
         
@@ -58,10 +55,6 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
         let surfaceTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleSurface(tapGesture:)))
         fpc.surfaceView.addGestureRecognizer(surfaceTapGesture)
         
-        // tap on backdrop to trigger events
-        let backdropTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleBackdrop(tapGesture:)))
-        fpc.backdropView.addGestureRecognizer(backdropTapGesture)
-        
         //  Add FloatingPanel to a view with animation.
         fpc.addPanel(toParent: self, animated: true)
         
@@ -72,28 +65,18 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
         self.scrollView.minimumZoomScale = 1.0
         self.scrollView.maximumZoomScale = 4.0
         
-        let height = UIScreen.main.bounds.height
-        if height == 896.0 {
-            bottomViewHeight.constant = 290.0
-        } else if height == 812.0 {
-            bottomViewHeight.constant = 270.0
-        } else if height == 736.0 || height == 667.0 {
-            bottomViewHeight.constant = 200.0
-        } else {
-            bottomViewHeight.constant = 160.0
-        }
+        
     }
     
     // if FloatingPanel's position is at tip, then it will be at half
     @objc func handleSurface(tapGesture: UITapGestureRecognizer) {
         if fpc.position == .tip {
-            fpc.move(to: .half, animated: true)
+            fpc.move(to: .full, animated: true)
+        } else if fpc.position == .full {
+            fpc.move(to: .tip, animated: true)
+        } else if fpc.position == .half {
+            fpc.move(to: .full, animated: true)
         }
-    }
-    
-    // tap on backdrop will move down the FloatingPanel
-    @objc func handleBackdrop(tapGesture: UITapGestureRecognizer) {
-        fpc.move(to: .tip, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -160,18 +143,18 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
         let circleLayer = CAShapeLayer()
         circleLayer.path = UIBezierPath(ovalIn: CGRect(x: coords.0, y: coords.1, width: coords.2, height: coords.2)).cgPath
         circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
-        circleLayer.strokeColor = UIColor.black.cgColor
+        circleLayer.strokeColor = UIColor.white.cgColor
         
         // pin stand: right under the circle, has width of 4, height = total height - circle height
-        let rectLayer = CAShapeLayer()
-        rectLayer.path = UIBezierPath(rect: CGRect(x: coords.0 + coords.2 / 2.0 - 1.0, y: coords.1 + coords.2, width: 2, height: coords.3 - coords.2)).cgPath
-        rectLayer.fillColor = UIColor.black.cgColor
+//        let rectLayer = CAShapeLayer()
+//        rectLayer.path = UIBezierPath(rect: CGRect(x: coords.0 + coords.2 / 2.0 - 1.0, y: coords.1 + coords.2, width: 2, height: coords.3 - coords.2)).cgPath
+//        rectLayer.fillColor = UIColor.white.cgColor
         
         self.mapUIView.layer.addSublayer(circleLayer)
-        self.mapUIView.layer.addSublayer(rectLayer)
+//        self.mapUIView.layer.addSublayer(rectLayer)
         
         // each patient pin is represented by a circle and a rectangle
-        self.allLayers[patient] = [circleLayer, rectLayer]
+        self.allLayers[patient] = [circleLayer]
     }
     
     // change the default floatingPanel layout
@@ -227,21 +210,21 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
     
     public func insetFor(position: FloatingPanelPosition) -> CGFloat? {
         switch position {
-        case .full: return 120.0 // A top inset from safe area
-        case .half: return UIScreen.main.bounds.height/2.0 // A bottom inset from the safe area
+        case .full: return 16.0 // A top inset from safe area
+        case .half: return UIScreen.main.bounds.height / 2.0 // A bottom inset from the safe area
         case .tip:
             let height = UIScreen.main.bounds.height
-            if height == 896.0 {
-                print("executed")
-                return 260.0
-            } else if height == 812.0 {
-                return 230.0
-            } else if height == 736.0 || height == 667.0 {
-                return 192.0
-            } else {
-                return 156.0
+            if height == 896.0 { // iPhone 11 Pro Max
+                return 250.0
+            } else if height == 812.0 { // iPhone 11 Pro
+                return 140.0
+            } else if height == 736.0 { // iPhone 8 Plus
+                return 120.0
+            } else if height == 667.0 { // iPhone 8
+                return 100.0
             }
         default: return nil // Or case .hidden: return nil
         }
+        return nil
     }
 }

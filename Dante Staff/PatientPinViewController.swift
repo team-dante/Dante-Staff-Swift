@@ -3,6 +3,7 @@
 //  Dante Staff
 //
 //  Created by Xinhao Liang on 9/9/19.
+//  Updated by Hung Phan on 9/12/19
 //  Copyright © 2019 Hung Phan. All rights reserved.
 //
 
@@ -11,6 +12,7 @@
 //  Dante Patient
 //
 //  Created by Xinhao Liang on 7/12/19.
+//  Updated by Hung Phan on 9/12/19
 //  Copyright © 2019 Xinhao Liang. All rights reserved.
 //
 
@@ -44,7 +46,7 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
         
         let bottomBorder = CALayer()
         bottomBorder.frame = CGRect(x: 0, y: titleView.frame.height - 3, width: titleView.frame.width, height: 3.0)
-        bottomBorder.backgroundColor = UIColor.lightGray.cgColor
+        bottomBorder.backgroundColor = UIColor.white.cgColor
         titleView.layer.addSublayer(bottomBorder)
     }
     
@@ -94,19 +96,19 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
             let b = CGFloat(Int(rgb[2])!)
             
             let circleLayer = CAShapeLayer()
-            circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 20.0, y: 18.0, width: 18.0, height: 18.0)).cgPath
+            circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 20.0, y: 30.0, width: 18.0, height: 18.0)).cgPath
             circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
-            circleLayer.strokeColor = UIColor.black.cgColor
+            circleLayer.strokeColor = UIColor.white.cgColor
             
-            let rectLayer = CAShapeLayer()
-            rectLayer.path = UIBezierPath(rect: CGRect(x: 28.0, y: 36.0, width: 2.0, height: 20.0)).cgPath
-            rectLayer.fillColor = UIColor.black.cgColor
+//            let rectLayer = CAShapeLayer()
+//            rectLayer.path = UIBezierPath(rect: CGRect(x: 28.0, y: 36.0, width: 2.0, height: 20.0)).cgPath
+//            rectLayer.fillColor = UIColor.white.cgColor
             
             cell.layer.addSublayer(circleLayer)
-            cell.layer.addSublayer(rectLayer)
+//            cell.layer.addSublayer(rectLayer)
             
             cell.patientLabel.text = patient["patientName"]
-            cell.roomLabel.text = patient["room"]
+            cell.roomLabel.text = "Currently in " + patient["room"]!
             
             cell.setNeedsDisplay()
             
@@ -124,11 +126,12 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
         } else {
             let defaultLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             defaultLabel.text = "There are no patients in the clinic at the meantime"
-            defaultLabel.textColor = UIColor.lightGray
+            defaultLabel.textColor = UIColor.white
             defaultLabel.textAlignment = .center
             defaultLabel.numberOfLines = 0
             tableView.backgroundView = defaultLabel
             tableView.separatorStyle = .none
+            tableView.separatorColor = .white
         }
         return numOfSections
     }
