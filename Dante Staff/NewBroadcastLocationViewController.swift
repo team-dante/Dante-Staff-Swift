@@ -17,16 +17,42 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     
     @IBOutlet weak var scrollViewContent: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var yourPinColorText: UILabel!
+    @IBOutlet weak var firstView: UIView!
+    
     var fpc : FloatingPanelController!
     var staffVC : StaffPinViewController!
-    var beaconManager : KTKBeaconManager!
-    var region : KTKBeaconRegion!
-    var ref: DatabaseReference!
-    var staffPhoneNumber : String!
+    
+    var beaconManager: KTKBeaconManager!
+    var region: KTKBeaconRegion!
+    var staffPhoneNumber : String?
+    // records a queue of 10 distances for each beacon
+    var roomDict: [Int: [Double]] = [1: [], 2: [], 3:[]]
+    // map beacon major to the real clinic room
+    let majorToRoom = [ 1: "LA1", 2: "TLA", 3: "CT" ]
+    // map beacon major to its corresponding cutoff value (1m)
+    let cutoff = [1: 1.5, 2: 1.5, 3: 1.5]
+    // after 5 rounds, perform stats analysis
+    let threshold = 5
+    var count = 0
+    var currRoom = ""
+    var staffColor : [String:String] = [
+        "111": "255-220-36",
+        "222": "255-0-0",
+        "333": "0-255-240",
+        "444": "20-255-0",
+        "555": "20-122-46",
+        "666": "35-145-152",
+        "777": "48-93-209",
+        "888": "157-48-209",
+        "999": "0-19-118",
+        "1000": "255-255-255"
+    ]
+    
     // an array of dictionary with both key and value are String.
     var staffs = [[String:String]]()
+    // when map's height changes, these coordinates MUST be changed
     var mapDict : [String: [(Double, Double)]] = [
         "LA1" : [(158, 352), (185, 370)],
         "TLA" : [(361, 269), (390, 207)],
@@ -36,9 +62,13 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController!.navigationBar.topItem!.title = "Stop"
+        if UIScreen.main.bounds.width == 414 {
+            imageView.image = UIImage(named: "clinic-map-414")
+        } else if UIScreen.main.bounds.width == 375 {
+            imageView.image = UIImage(named: "clinic-map-375")
+        }
         
-        staffPhoneNumber = String((Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? "N/A"))
+        self.navigationController!.navigationBar.topItem!.title = "Stop"
         
         // Initialize FloatingPanelController
         fpc = FloatingPanelController()
@@ -67,13 +97,40 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         // used for zooming imageView
         scrollViewContent.delegate = self
         
-        // get user pin color
+        staffPhoneNumber = String((Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? "N/A"))
         
-        if UIScreen.main.bounds.width == 414 {
-            imageView.image = UIImage(named: "clinic-map-414")
-        } else if UIScreen.main.bounds.width == 375 {
-            imageView.image = UIImage(named: "clinic-map-375")
-        }
+        // update staff pin color
+        self.getCurrentStaffPinColor(input: staffPhoneNumber!)
+        
+        Kontakt.setAPIKey("IKLlxikqjxJwiXbyAgokGeLkcZqipAnc")
+        
+        // Initialize Beacon Manager
+        beaconManager = KTKBeaconManager(delegate: self)
+        beaconManager.requestLocationAlwaysAuthorization()
+        
+        // Create Beacon Region
+        region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "region-identifier")
+        
+        beaconManager.startRangingBeacons(in: region)
+    }
+    
+    func getCurrentStaffPinColor(input : String) {
+        let color = staffColor[input]
+        let rgb = color!.split(separator: "-")
+        let r = CGFloat(Int(rgb[0])!)
+        let g = CGFloat(Int(rgb[1])!)
+        let b = CGFloat(Int(rgb[2])!)
+
+        let circleLayer = CAShapeLayer()
+        let newX = self.yourPinColorText.frame.origin.x + self.yourPinColorText.frame.width + 10
+        let newY = self.yourPinColorText.frame.origin.y + 2.5
+        circleLayer.path = UIBezierPath(ovalIn: CGRect(x: newX, y: newY, width: 18.0, height: 18.0)).cgPath
+        circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
+        circleLayer.strokeColor = UIColor.white.cgColor
+        self.firstView.layer.addSublayer(circleLayer)
+    }
+    
+    func updateStaffLocation() {
         
         let circleLayer414 = CAShapeLayer()
         let circleLayer375 = CAShapeLayer()
@@ -96,14 +153,25 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         
         self.imageView.layer.addSublayer(circleLayer414)
         self.imageView.layer.addSublayer(circleLayer375)
-        
     }
     
     // if FloatingPanel's position is at tip, then it will be at half
     @objc func handleSurface(tapGesture: UITapGestureRecognizer) {
+        
+        // Modify legendTopConstraint to 20 after viewDidLoad() is called
+        // put this in sending controller
+        if UIScreen.main.bounds.height == 667.0 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "updateLegendTopConstraintTo20"), object: nil)
+        }
+        
         if fpc.position == .tip {
             fpc.move(to: .full, animated: true)
         } else if fpc.position == .full {
+            // Modify legendTopConstraint to 0 after viewDidLoad() is called
+            // put this in sending controller
+            if UIScreen.main.bounds.height == 667.0 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "updateLegendTopConstraintTo0"), object: nil)
+            }
             fpc.move(to: .tip, animated: true)
         } else if fpc.position == .half {
             fpc.move(to: .full, animated: true)
@@ -123,13 +191,17 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         if self.navigationController?.viewControllers.firstIndex(of: self) == nil {
             // Back button pressed because self is no longer in the navigation stack.
             // Stop ranging if needed
-//            beaconManager.stopRangingBeacons(in: region)
+            beaconManager.stopRangingBeacons(in: region)
         }
+        
+        self.navigationController!.navigationBar.topItem!.title = "Back"
     }
 }
 
@@ -146,16 +218,77 @@ class StaffFloatingPanelLayout: FloatingPanelLayout {
         case .tip:
             let height = UIScreen.main.bounds.height
             if height == 896.0 { // iPhone 11 Pro Max
-                return 250.0
+                return 200.0
             } else if height == 812.0 { // iPhone 11 Pro
-                return 150.0
+                return 120.0
             } else if height == 736.0 { // iPhone 8 Plus
-                return 130.0
+                return 100.0
             } else if height == 667.0 { // iPhone 8
-                return 90.0
+                return 40.0
             }
         default: return nil // Or case .hidden: return nil
         }
         return nil
+    }
+}
+
+extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
+    func beaconManager(_ manager: KTKBeaconManager, didRangeBeacons beacons: [CLBeacon], in region: KTKBeaconRegion) {
+        // Debugging purposes
+        for beacon in beacons {
+            print(beacon.major, beacon.accuracy)
+        }
+        // wait a few rounds (5) to gather data to compute avg
+        if (self.count < self.threshold) {
+            self.count += 1
+            
+            for beacon in beacons {
+                // if too far, assume 999m away
+                if beacon.accuracy == -1 {
+                    self.roomDict[Int(truncating: beacon.major)]?.append(999)
+                } else {
+                    self.roomDict[Int(truncating: beacon.major)]?.append(Double(beacon.accuracy))
+                }
+            }
+        } else {
+            for beacon in beacons {
+                // queue system; dequeue iff array length >= threshold
+                if self.roomDict[Int(truncating: beacon.major)]!.count >= threshold {
+                    self.roomDict[Int(truncating: beacon.major)]?.remove(at: 0)
+                }
+                if beacon.accuracy == -1 {
+                    self.roomDict[Int(truncating: beacon.major)]?.append(999)
+                } else {
+                    self.roomDict[Int(truncating: beacon.major)]?.append(Double(beacon.accuracy))
+                }
+            }
+            // compute avg of the recent 5 results
+            var avgList: [Int: Double] = [:]
+            for beacon in beacons {
+                let beaconArray = self.roomDict[Int(truncating: beacon.major)]
+                if beaconArray!.count >= threshold {
+                    let avg = Double(beaconArray!.reduce(0, +)) / Double(threshold)
+                    avgList[Int(truncating: beacon.major)] = avg
+                }
+            }
+            // sort beacons by avg; [Int:Double] -> [(key: ..., value:...)]
+            let sortedBeaconArr = avgList.sorted(by: { $0.1 < $1.1})
+            
+            // if no beacons are detected or the distance of the nearest beacon is greater than the cutoff,
+            //      set currRoom to Private
+            if sortedBeaconArr.count != 0 {
+                if sortedBeaconArr[0].value >= self.cutoff[sortedBeaconArr[0].key]! {
+                    self.currRoom = "Private"
+                    Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)/room").setValue("Private")
+                } else {
+                    self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
+                    Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)").updateChildValues(["room" : currRoom])
+                }
+            } else {
+                self.currRoom = "Private"
+                Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)/room").setValue("Private")
+            }
+        }
+        
     }
 }

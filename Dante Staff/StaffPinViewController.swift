@@ -20,38 +20,25 @@ class StaffLegend {
 
 class StaffPinViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return staffList.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "StaffPinCell", for: indexPath) as? StaffPinTableViewCell {
-            
-            let staff = self.staffList[indexPath.row]
-            cell.staffName.text = staff.staffName
-            let color = staff.staffColor
-            let rgb = color!.split(separator: "-")
-            let r = CGFloat(Int(rgb[0])!)
-            let g = CGFloat(Int(rgb[1])!)
-            let b = CGFloat(Int(rgb[2])!)
-            let circleLayer = CAShapeLayer()
-            circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 20.0, y: 30.0, width: 18.0, height: 18.0)).cgPath
-            circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
-            circleLayer.strokeColor = UIColor.white.cgColor
-            cell.layer.addSublayer(circleLayer)
-            return cell
-        }
-        return UITableViewCell()
-    }
-
-
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var legendTopConstraint: NSLayoutConstraint!
+    
     var staffList : [StaffLegend] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // put this in receiving controller viewDidLoad()
+        // Modify legendTopConstraint to 0 after viewDidLoad() is called
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLegendTopConstraintTo0(_:)), name: Notification.Name(rawValue: "updateLegendTopConstraintTo0"), object: nil)
+        
+        // Modify legendTopConstraint to 20 after viewDidLoad() is called
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLegendTopConstraintTo20(_:)), name: Notification.Name(rawValue: "updateLegendTopConstraintTo20"), object: nil)
+        
+        if UIScreen.main.bounds.height == 667.0 {
+            legendTopConstraint.constant = 0
+        }
 
         let bottomBorder = CALayer()
         bottomBorder.frame = CGRect(x: 0, y: titleView.frame.height - 3
@@ -76,5 +63,37 @@ class StaffPinViewController: UIViewController, UITableViewDataSource, UITableVi
             StaffLegend(sn: "Mr. Liang", sc: "0-19-118"),
             StaffLegend(sn: "Staff 10", sc: "255-255-255")
         ]
+    }
+    
+    @objc func updateLegendTopConstraintTo0(_ notification: Notification) {
+        self.legendTopConstraint.constant = 0
+    }
+    
+    @objc func updateLegendTopConstraintTo20(_ notification: Notification) {
+        self.legendTopConstraint.constant = 20
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return staffList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "StaffPinCell", for: indexPath) as? StaffPinTableViewCell {
+            
+            let staff = self.staffList[indexPath.row]
+            cell.staffName.text = staff.staffName
+            let color = staff.staffColor
+            let rgb = color!.split(separator: "-")
+            let r = CGFloat(Int(rgb[0])!)
+            let g = CGFloat(Int(rgb[1])!)
+            let b = CGFloat(Int(rgb[2])!)
+            let circleLayer = CAShapeLayer()
+            circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 20.0, y: 35.0, width: 18.0, height: 18.0)).cgPath
+            circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
+            circleLayer.strokeColor = UIColor.white.cgColor
+            cell.layer.addSublayer(circleLayer)
+            return cell
+        }
+        return UITableViewCell()
     }
 }

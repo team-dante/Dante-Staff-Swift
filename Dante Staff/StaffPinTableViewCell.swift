@@ -10,7 +10,6 @@ import UIKit
 
 class StaffPinTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var staffCircleColor: UIView!
     @IBOutlet weak var staffLocation: UILabel!
     @IBOutlet weak var staffName: UILabel!
     override func awakeFromNib() {
