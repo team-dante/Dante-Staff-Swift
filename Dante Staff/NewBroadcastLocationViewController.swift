@@ -18,8 +18,8 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     @IBOutlet weak var scrollViewContent: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var yourPinColorText: UILabel!
-    @IBOutlet weak var firstView: UIView!
+    @IBOutlet weak var labelSecondView: UILabel!
+    @IBOutlet weak var currentStaffPin: UIView!
     
     var fpc : FloatingPanelController!
     var staffVC : StaffPinViewController!
@@ -120,14 +120,13 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         let r = CGFloat(Int(rgb[0])!)
         let g = CGFloat(Int(rgb[1])!)
         let b = CGFloat(Int(rgb[2])!)
-
+        
+        
         let circleLayer = CAShapeLayer()
-        let newX = self.yourPinColorText.frame.origin.x + self.yourPinColorText.frame.width + 10
-        let newY = self.yourPinColorText.frame.origin.y + 2.5
-        circleLayer.path = UIBezierPath(ovalIn: CGRect(x: newX, y: newY, width: 18.0, height: 18.0)).cgPath
+        circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 18.0, height: 18.0)).cgPath
         circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
         circleLayer.strokeColor = UIColor.white.cgColor
-        self.firstView.layer.addSublayer(circleLayer)
+        currentStaffPin.layer.addSublayer(circleLayer)
     }
     
     func updateStaffLocation() {
@@ -177,6 +176,16 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
             fpc.move(to: .full, animated: true)
         }
     }
+    
+    func floatingPanelWillBeginDragging(_ vc: FloatingPanelController) {
+        
+        // Modify legendTopConstraint to 20 after viewDidLoad() is called
+        // put this in sending controller
+        if UIScreen.main.bounds.height == 667.0 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "updateLegendTopConstraintTo20"), object: nil)
+        }
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -280,13 +289,28 @@ extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
                 if sortedBeaconArr[0].value >= self.cutoff[sortedBeaconArr[0].key]! {
                     self.currRoom = "Private"
                     Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)/room").setValue("Private")
+                    self.labelSecondView.text = "No beacons detected nearby. Your location is private."
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
+                    switch currRoom {
+                        case "LA1":
+                            currRoom = "Linear Accelerator 1"
+                        case "TLA":
+                            currRoom = "Trilogy Linear Accelerator"
+                        case "CT":
+                            currRoom = "CT Simulator"
+                        case "WR":
+                            currRoom = "Waiting Room"
+                        default:
+                            currRoom = "N/A"
+                    }
+                    self.labelSecondView.text = "Beacons detected. You are in \(currRoom)."
                     Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)").updateChildValues(["room" : currRoom])
                 }
             } else {
                 self.currRoom = "Private"
                 Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)/room").setValue("Private")
+                self.labelSecondView.text = "No beacons detected nearby. Your location is private."
             }
         }
         
