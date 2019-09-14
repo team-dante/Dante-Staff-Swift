@@ -54,11 +54,17 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     let circlePinWidth414 = 10.0
     let circlePinHeight414 = 10.0
     // when map's height changes, these coordinates MUST be changed
-    var mapDict : [String: [(Int, Int)]] = [
-        "LA1" : [(156, 325), (180, 326)],
-        "TLA" : [(351, 255), (381, 259)],
-        "CT" : [(55, 324), (11, 337)],
+    var freeMapDict : [String: [[String : (Int, Int)]]] = [
+        "LA1" : [["156,325" : (156, 325)], ["180,326" : (180, 326)]],
+        "TLA" : [["351,255" : (351, 255)], ["381,259" : (381, 259)]],
+        "CT" : [["55,324" : (55, 324)], ["11,337" : (11, 337)]],
     ]
+    var usedMapDict : [String : [[String : (Int, Int)]]] = [
+        "LA1" : [],
+        "TLA" : [],
+        "CT" : []
+    ]
+    var previousLocation : [(String, String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,18 +113,24 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         // update staff pin color
         self.getCurrentStaffPinColor(input: staffPhoneNumber!)
         
-        Kontakt.setAPIKey("IKLlxikqjxJwiXbyAgokGeLkcZqipAnc")
-        
-        // Initialize Beacon Manager
-        beaconManager = KTKBeaconManager(delegate: self)
-        beaconManager.requestLocationAlwaysAuthorization()
-        
-        // Create Beacon Region
-        region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "region-identifier")
-        
-        beaconManager.startRangingBeacons(in: region)
-        
-        self.updateStaffLocation()
+        // callback is called when completion(true) or done is true
+        // run the code below before executing the beacons
+        self.getStaffLocation { (done) in
+            if done {
+                self.updateStaffLocation()
+
+                Kontakt.setAPIKey("IKLlxikqjxJwiXbyAgokGeLkcZqipAnc")
+                
+                // Initialize Beacon Manager
+                self.beaconManager = KTKBeaconManager(delegate: self)
+                self.beaconManager.requestLocationAlwaysAuthorization()
+                
+                // Create Beacon Region
+                self.region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "region-identifier")
+                
+//                self.beaconManager.startRangingBeacons(in: self.region)
+            }
+        }
     }
     
     
@@ -142,68 +154,158 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         currentStaffPin.layer.addSublayer(circleLayer)
     }
     
-    func updateStaffLocation() {
+    func addPinToMap(key : String, pinColor : String, roomString: String) {
+        let rgb = pinColor.split(separator: "-")
+        let r = CGFloat(Int(rgb[0])!)
+        let g = CGFloat(Int(rgb[1])!)
+        let b = CGFloat(Int(rgb[2])!)
         
-        Database.database().reference().child("StaffLocation").observe(DataEventType.value) { (DataSnapshot) in
+        let circleLayer414 = CAShapeLayer()
+        let circleLayer375 = CAShapeLayer()
+        
+        // var freeMapDict : [String: [[String : (Int, Int)]]] = [
+        //     "LA1" : [["156,325" : (156, 325)], ["180,326" : (180, 326)]],
+        //     "TLA" : [["351,255" : (351, 255)], ["381,259" : (381, 259)]],
+        //     "CT" : [["55,324" : (55, 324)], ["11,337" : (11, 337)]],
+        // ]
+        // ["23,235" : (23, 235)] => access (23, 235) without the key
+        let x414 = Double(self.freeMapDict[roomString]![0].values.first!.0)
+        let y414 = Double(self.freeMapDict[roomString]![0].values.first!.1)
+        
+        let x375 = x414/self.ratio_of_414_to_375
+        let y375 = y414
+        
+        if UIScreen.main.bounds.width == 414 {
+            circleLayer414.path = UIBezierPath(ovalIn: CGRect(x: x414, y: y414, width: self.circlePinWidth414, height: self.circlePinHeight414)).cgPath
+            circleLayer414.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
+            circleLayer414.strokeColor = UIColor.white.cgColor
+        } else if UIScreen.main.bounds.width == 375 {
+            circleLayer375.path = UIBezierPath(ovalIn: CGRect(x: x375, y: y375, width: (self.circlePinWidth414/self.ratio_of_414_to_375), height: (self.circlePinHeight414/self.ratio_of_414_to_375))).cgPath
+            circleLayer375.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
+            circleLayer375.strokeColor = UIColor.white.cgColor
+        }
+        
+        let circleLayer414Name = "\(Int(x414)),\(Int(y414))-\(key)-\(roomString)-layer414"
+        circleLayer414.name = circleLayer414Name
+        let circleLayer375Name = "\(Int(x375)),\(Int(y375))-\(key)-\(roomString)-layer375"
+        circleLayer375.name = circleLayer375Name
+        
+        let tupleOfPrevLocation = (circleLayer414Name, circleLayer375Name)
+        
+        self.outerImageView.layer.addSublayer(circleLayer414)
+        self.outerImageView.layer.addSublayer(circleLayer375)
+        
+        // move used pin from freeMapDict to usedMapDict
+        let firstElement = self.freeMapDict[roomString]?.remove(at: 0)
+        self.usedMapDict[roomString]?.append(firstElement!)
+        
+        print("tupleOfPrevLocation====>", tupleOfPrevLocation)
+        self.previousLocation.append(tupleOfPrevLocation)
+    }
+    
+    func getStaffLocation(completion: @escaping (Bool) -> Void) {
+        Database.database().reference().child("StaffLocation").observeSingleEvent(of: .value) { (DataSnapshot) in
             let dict = DataSnapshot.value as! [String : AnyObject]
-            
-            self.mapDict = [
-                "LA1" : [(156, 325), (180, 326)],
-                "TLA" : [(351, 255), (381, 259)],
-                "CT" : [(55, 324), (11, 337)],
-            ]
-            self.outerImageView.layer.sublayers?.forEach {
-                if $0.name == "layer414" || $0.name == "layer375" {
-                    $0.removeFromSuperlayer()
-                }
-            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                 self.outerImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
             })
             self.outerImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
             
-            for (_, value) in dict {
+            for (key, value) in dict {
                 let pinColor : String = (value["pinColor"] as! String)
                 let roomString : String = (value["room"] as! String)
                 
-
                 if roomString != "Private" {
-//                    print("====>key\(key) and roomString=\(roomString)")
-                    let rgb = pinColor.split(separator: "-")
-                    let r = CGFloat(Int(rgb[0])!)
-                    let g = CGFloat(Int(rgb[1])!)
-                    let b = CGFloat(Int(rgb[2])!)
-                    
-                    let circleLayer414 = CAShapeLayer()
-                    let circleLayer375 = CAShapeLayer()
-                    
-                    let x414 = Double(self.mapDict[roomString]![0].0)
-                    let y414 = Double(self.mapDict[roomString]![0].1)
-                    
-//                  print("====>x414=\(x414) and y414=\(y414)")
-                    
-                    if UIScreen.main.bounds.width == 414 {
-                        circleLayer414.path = UIBezierPath(ovalIn: CGRect(x: x414, y: y414, width: self.circlePinWidth414, height: self.circlePinHeight414)).cgPath
-                        circleLayer414.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
-                        circleLayer414.strokeColor = UIColor.white.cgColor
-                    } else if UIScreen.main.bounds.width == 375 {
-                        circleLayer375.path = UIBezierPath(ovalIn: CGRect(x: (x414/self.ratio_of_414_to_375), y: y414, width: (self.circlePinWidth414/self.ratio_of_414_to_375), height: (self.circlePinHeight414/self.ratio_of_414_to_375))).cgPath
-                        circleLayer375.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
-                        circleLayer375.strokeColor = UIColor.white.cgColor
-                    }
-                    circleLayer414.name = "layer414"
-                    circleLayer375.name = "layer375"
-                    self.outerImageView.layer.addSublayer(circleLayer414)
-                    self.outerImageView.layer.addSublayer(circleLayer375)
-
-                    // recycle pin positions
-                    let firstElement = self.mapDict[roomString]?.remove(at: 0)
-                    self.mapDict[roomString]?.append(firstElement!)
-                    // print("====>mapDict=\(self.mapDict)")
-                    
+                    self.addPinToMap(key: key, pinColor: pinColor, roomString: roomString)
                 }
             }
+            completion(true)
+        }
+    }
+    
+    func removePinFromMap(layerName : String, staffPhoneNum : String, stafflayer : CALayer) {
+        let arr$0 = layerName.components(separatedBy: "-")
+        let coords = arr$0[0]
+        let phoneNum = arr$0[1]
+        let roomString = arr$0[2]
+        let layerType = arr$0[3]
+        if (phoneNum == staffPhoneNum) {
+            // remove sublayer that contains staffPhoneNum
+            stafflayer.removeFromSuperlayer()
+            // update usedMapDict and freeMapDict once
+            if layerType != "layer375" {
+                var count = 0
+                var removedIndex : Int!
+                for eachDict in self.usedMapDict[roomString]! {
+                    // if eachDict with specific coords exist
+                    //                                    print("eachDict=====>", eachDict)
+                    //                                    print("coords=====>", coords)
+                    if eachDict[coords] != nil {
+                        removedIndex = count
+                    }
+                    count += 1
+                }
+                //                                print("roomString=====>", roomString)
+                //                                print("removedIndex=======>", removedIndex)
+                let removedElement = self.usedMapDict[roomString]?.remove(at: removedIndex!)
+                self.freeMapDict[roomString]?.append(removedElement!)
+            }
+        }
+    }
+    
+    func updateStaffLocation() {
+        // Listen for changes to the items in a list. This event is triggered any time a child node is modified.
+        // The snapshot passed to the event listener contains the updated data for the child.
+        Database.database().reference().child("StaffLocation").observe(.childChanged) { (DataSnapshot) in
+            let updatedChildDict = DataSnapshot.value as! [String : AnyObject]
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                self.outerImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
+            })
+            self.outerImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
+            
+            let staffPhoneNum = DataSnapshot.key
+            let pinColor = updatedChildDict["pinColor"] as! String
+            let roomString = updatedChildDict["room"] as! String
+            
+            if roomString == "Private" {
+                print("IF.Key-updatedChildDict===>\(DataSnapshot.key)-\(updatedChildDict)")
+                self.outerImageView.layer.sublayers?.forEach {
+                    if $0.name != nil {
+//                        print("$0======>", $0.name)
+                        let layerName = $0.name
+                        self.removePinFromMap(layerName : layerName!, staffPhoneNum: staffPhoneNum, stafflayer: $0)
+                    }
+                }
+            } else if updatedChildDict["room"] as! String != "Private" {
+//                print("Else.Key-updatedChildDict===>\(DataSnapshot.key)-\(updatedChildDict)")
+                // remove old locations for both iphones 414 and 375
+                var foundOldLocation414 : String = ""
+                var foundOldLocation375 : String = ""
+//                print("previousLocation=====>", self.previousLocation)
+                for eachTuple in self.previousLocation {
+                    let arrStr = eachTuple.0.components(separatedBy: "-")
+//                    print("arrStr[1]====>", arrStr[1])
+//                    print("arrStr[2]====>", arrStr[2])
+                    if arrStr[1] == staffPhoneNum {
+                        foundOldLocation414 = eachTuple.0
+                        foundOldLocation375 = eachTuple.1
+                    }
+                }
+//                print("foundOldLocation414===>", foundOldLocation414)
+//                print("foundOldLocation375===>", foundOldLocation375)
+                self.outerImageView.layer.sublayers!.forEach {
+                    if $0.name == foundOldLocation414 || $0.name == foundOldLocation375 {
+                        self.removePinFromMap(layerName: $0.name!, staffPhoneNum: DataSnapshot.key, stafflayer: $0)
+                    }
+                }
+                // add new pin after removing old pins from 2 iphones 414 and 375
+                self.addPinToMap(key: staffPhoneNum, pinColor: pinColor, roomString: roomString)
+            }
+            
+            print("freeMapDict===>", self.freeMapDict)
+            print("usedMapDict===>", self.usedMapDict)
         }
     }
     
@@ -297,9 +399,9 @@ class StaffFloatingPanelLayout: FloatingPanelLayout {
 extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
     func beaconManager(_ manager: KTKBeaconManager, didRangeBeacons beacons: [CLBeacon], in region: KTKBeaconRegion) {
         // Debugging purposes
-//        for beacon in beacons {
-//            print(beacon.major, beacon.accuracy)
-//        }
+        for beacon in beacons {
+            print(beacon.major, beacon.accuracy)
+        }
         // wait a few rounds (5) to gather data to compute avg
         if (self.count < self.threshold) {
             self.count += 1
