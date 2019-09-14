@@ -128,7 +128,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 // Create Beacon Region
                 self.region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "region-identifier")
                 
-//                self.beaconManager.startRangingBeacons(in: self.region)
+                self.beaconManager.startRangingBeacons(in: self.region)
             }
         }
     }
@@ -199,7 +199,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         let firstElement = self.freeMapDict[roomString]?.remove(at: 0)
         self.usedMapDict[roomString]?.append(firstElement!)
         
-        print("tupleOfPrevLocation====>", tupleOfPrevLocation)
+//        print("tupleOfPrevLocation====>", tupleOfPrevLocation)
         self.previousLocation.append(tupleOfPrevLocation)
     }
     
@@ -239,15 +239,15 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 var removedIndex : Int!
                 for eachDict in self.usedMapDict[roomString]! {
                     // if eachDict with specific coords exist
-                    //                                    print("eachDict=====>", eachDict)
-                    //                                    print("coords=====>", coords)
+                    // print("eachDict=====>", eachDict)
+                    // print("coords=====>", coords)
                     if eachDict[coords] != nil {
                         removedIndex = count
                     }
                     count += 1
                 }
-                //                                print("roomString=====>", roomString)
-                //                                print("removedIndex=======>", removedIndex)
+                // print("roomString=====>", roomString)
+                // print("removedIndex=======>", removedIndex)
                 let removedElement = self.usedMapDict[roomString]?.remove(at: removedIndex!)
                 self.freeMapDict[roomString]?.append(removedElement!)
             }
