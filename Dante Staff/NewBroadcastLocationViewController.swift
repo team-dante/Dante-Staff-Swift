@@ -50,14 +50,14 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         "999": "0-19-118",
         "1000": "255-255-255"
     ]
-    
-    // an array of dictionary with both key and value are String.
-    var staffs = [[String:String]]()
+    let ratio_of_414_to_375 = 1.104
+    let circlePinWidth414 = 10.0
+    let circlePinHeight414 = 10.0
     // when map's height changes, these coordinates MUST be changed
-    var mapDict : [String: [(Double, Double)]] = [
-        "LA1" : [(158, 352), (185, 370)],
-        "TLA" : [(361, 269), (390, 207)],
-        "CT" : [(15, 421), (50, 427)],
+    var mapDict : [String: [(Int, Int)]] = [
+        "LA1" : [(156, 325), (180, 326)],
+        "TLA" : [(351, 255), (381, 259)],
+        "CT" : [(55, 324), (11, 337)],
     ]
     
     override func viewDidLoad() {
@@ -144,27 +144,67 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     
     func updateStaffLocation() {
         
-        let circleLayer414 = CAShapeLayer()
-        let circleLayer375 = CAShapeLayer()
-        
-        let ratio_of_414_to_375 = 1.104
-        let x414 = 25.0
-        let y414 = 322.0
-        let width414 = 10.0
-        let height414 = 10.0
-        
-        if UIScreen.main.bounds.width == 414 {
-            circleLayer414.path = UIBezierPath(ovalIn: CGRect(x: x414, y: y414, width: width414, height: height414)).cgPath
-            circleLayer414.fillColor = UIColor(red: 255/255, green: 220/255, blue: 36/255, alpha: 1.0).cgColor
-            circleLayer414.strokeColor = UIColor.white.cgColor
-        } else if UIScreen.main.bounds.width == 375 {
-            circleLayer375.path = UIBezierPath(ovalIn: CGRect(x: (x414/ratio_of_414_to_375), y: y414, width: (width414/ratio_of_414_to_375), height: (height414/ratio_of_414_to_375))).cgPath
-            circleLayer375.fillColor = UIColor(red: 255/255, green: 220/255, blue: 36/255, alpha: 1.0).cgColor
-            circleLayer375.strokeColor = UIColor.white.cgColor
+        Database.database().reference().child("StaffLocation").observe(DataEventType.value) { (DataSnapshot) in
+            let dict = DataSnapshot.value as! [String : AnyObject]
+            
+            self.mapDict = [
+                "LA1" : [(156, 325), (180, 326)],
+                "TLA" : [(351, 255), (381, 259)],
+                "CT" : [(55, 324), (11, 337)],
+            ]
+            self.outerImageView.layer.sublayers?.forEach {
+                if $0.name == "layer414" || $0.name == "layer375" {
+                    $0.removeFromSuperlayer()
+                }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                self.outerImageView.backgroundColor = UIColor(displayP3Red: 0.100, green: 0.100, blue: 0.100, alpha: 0.1)
+            })
+            self.outerImageView.backgroundColor = UIColor(white: 1, alpha: 0.3)
+            
+            for (_, value) in dict {
+                let pinColor : String = (value["pinColor"] as! String)
+                let roomString : String = (value["room"] as! String)
+                
+
+                if roomString != "Private" {
+//                    print("====>key\(key) and roomString=\(roomString)")
+                    let rgb = pinColor.split(separator: "-")
+                    let r = CGFloat(Int(rgb[0])!)
+                    let g = CGFloat(Int(rgb[1])!)
+                    let b = CGFloat(Int(rgb[2])!)
+                    
+                    let circleLayer414 = CAShapeLayer()
+                    let circleLayer375 = CAShapeLayer()
+                    
+                    let x414 = Double(self.mapDict[roomString]![0].0)
+                    let y414 = Double(self.mapDict[roomString]![0].1)
+                    
+//                  print("====>x414=\(x414) and y414=\(y414)")
+                    
+                    if UIScreen.main.bounds.width == 414 {
+                        circleLayer414.path = UIBezierPath(ovalIn: CGRect(x: x414, y: y414, width: self.circlePinWidth414, height: self.circlePinHeight414)).cgPath
+                        circleLayer414.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
+                        circleLayer414.strokeColor = UIColor.white.cgColor
+                    } else if UIScreen.main.bounds.width == 375 {
+                        circleLayer375.path = UIBezierPath(ovalIn: CGRect(x: (x414/self.ratio_of_414_to_375), y: y414, width: (self.circlePinWidth414/self.ratio_of_414_to_375), height: (self.circlePinHeight414/self.ratio_of_414_to_375))).cgPath
+                        circleLayer375.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
+                        circleLayer375.strokeColor = UIColor.white.cgColor
+                    }
+                    circleLayer414.name = "layer414"
+                    circleLayer375.name = "layer375"
+                    self.outerImageView.layer.addSublayer(circleLayer414)
+                    self.outerImageView.layer.addSublayer(circleLayer375)
+
+                    // recycle pin positions
+                    let firstElement = self.mapDict[roomString]?.remove(at: 0)
+                    self.mapDict[roomString]?.append(firstElement!)
+                    // print("====>mapDict=\(self.mapDict)")
+                    
+                }
+            }
         }
-        
-        self.imageView.layer.addSublayer(circleLayer414)
-        self.imageView.layer.addSublayer(circleLayer375)
     }
     
     // if FloatingPanel's position is at tip, then it will be at half
@@ -257,9 +297,9 @@ class StaffFloatingPanelLayout: FloatingPanelLayout {
 extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
     func beaconManager(_ manager: KTKBeaconManager, didRangeBeacons beacons: [CLBeacon], in region: KTKBeaconRegion) {
         // Debugging purposes
-        for beacon in beacons {
-            print(beacon.major, beacon.accuracy)
-        }
+//        for beacon in beacons {
+//            print(beacon.major, beacon.accuracy)
+//        }
         // wait a few rounds (5) to gather data to compute avg
         if (self.count < self.threshold) {
             self.count += 1
@@ -303,21 +343,22 @@ extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
                     self.currRoom = "Private"
                     Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)/room").setValue("Private")
                     self.labelSecondView.text = "No beacons detected nearby. Your location is private."
+                    
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
-                    switch currRoom {
+                    
+                    var beautifiedCurrRoom = currRoom
+                    switch beautifiedCurrRoom {
                         case "LA1":
-                            currRoom = "Linear Accelerator 1"
+                            beautifiedCurrRoom = "Linear Accelerator 1"
                         case "TLA":
-                            currRoom = "Trilogy Linear Accelerator"
+                            beautifiedCurrRoom = "Trilogy Linear Accelerator"
                         case "CT":
-                            currRoom = "CT Simulator"
-                        case "WR":
-                            currRoom = "Waiting Room"
+                            beautifiedCurrRoom = "CT Simulator"
                         default:
-                            currRoom = "N/A"
+                            beautifiedCurrRoom = "N/A"
                     }
-                    self.labelSecondView.text = "Beacons detected. You are in \(currRoom)."
+                    self.labelSecondView.text = "Beacons detected. You are in \(beautifiedCurrRoom)."
                     Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)").updateChildValues(["room" : currRoom])
                 }
             } else {
