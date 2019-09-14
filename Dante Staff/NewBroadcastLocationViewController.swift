@@ -15,6 +15,7 @@ import NVActivityIndicatorView
 
 class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate, FloatingPanelControllerDelegate {
     
+    @IBOutlet weak var outerImageView: UIView!
     @IBOutlet weak var scrollViewContent: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var bottomView: UIView!
@@ -62,10 +63,17 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // used for zooming outerImageView
+        scrollViewContent.delegate = self
+        scrollViewContent.minimumZoomScale = 1.0
+        scrollViewContent.maximumZoomScale = 3.0
+        // important!! this bounces the image back to original size when users zoom out
+        scrollViewContent.zoomScale = 1.0
+        
         if UIScreen.main.bounds.width == 414 {
-            imageView.image = UIImage(named: "clinic-map-414")
+            imageView.image = UIImage(named: "clinic-map-414x450")
         } else if UIScreen.main.bounds.width == 375 {
-            imageView.image = UIImage(named: "clinic-map-375")
+            imageView.image = UIImage(named: "clinic-map-375x450")
         }
         
         self.navigationController!.navigationBar.topItem!.title = "Stop"
@@ -94,9 +102,6 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         
         fpc.addPanel(toParent: self, belowView: bottomView, animated: false)
         
-        // used for zooming imageView
-        scrollViewContent.delegate = self
-        
         staffPhoneNumber = String((Auth.auth().currentUser?.email?.split(separator: "@")[0] ?? "N/A"))
         
         // update staff pin color
@@ -112,6 +117,14 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "region-identifier")
         
         beaconManager.startRangingBeacons(in: region)
+        
+        self.updateStaffLocation()
+    }
+    
+    
+    // return flashImageView when zooming
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return outerImageView
     }
     
     func getCurrentStaffPinColor(input : String) {
@@ -135,8 +148,8 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         let circleLayer375 = CAShapeLayer()
         
         let ratio_of_414_to_375 = 1.104
-        let x414 = 27.0
-        let y414 = 357.0
+        let x414 = 25.0
+        let y414 = 322.0
         let width414 = 10.0
         let height414 = 10.0
         
