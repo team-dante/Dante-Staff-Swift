@@ -11,6 +11,7 @@ import UIKit
 
 class PatientPinTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var patientLocationLabel: UILabel!
     @IBOutlet weak var patientLabel: UILabel!
     @IBOutlet weak var roomLabel: UILabel!
     
