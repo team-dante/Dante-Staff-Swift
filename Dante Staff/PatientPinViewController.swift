@@ -27,6 +27,7 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
     var ref: DatabaseReference!
     
     var patients = [[String: String]]()
+    var noPatient = false
     
     // For iOS 10 only
     private lazy var shadowLayer: CAShapeLayer = CAShapeLayer()
@@ -79,13 +80,25 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.patients.count
+        if self.patients.count == 0 {
+            return 1
+        } else {
+            return self.patients.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "PatientPinTableViewCell", for: indexPath) as? PatientPinTableViewCell {
-            
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PatientPinTableViewCell", for: indexPath) as? PatientPinTableViewCell else {
+            fatalError("==>The dequeued cell is not an instance of PatientPinViewController.")
+        }
+
+        if self.patients.count == 0 {
+            self.tableView.separatorStyle = .none
+            cell.emptyMiddleLabel.text = "There are no patients in the clinic at the meantime."
+            cell.patientLabel.isHidden = true
+            cell.roomLabel.isHidden = true
+            cell.selectionStyle = .none
+        } else {
             let patient = self.patients[indexPath.row]
             
             // parse color
@@ -100,40 +113,19 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
             circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
             circleLayer.strokeColor = UIColor.white.cgColor
             
-//            let rectLayer = CAShapeLayer()
-//            rectLayer.path = UIBezierPath(rect: CGRect(x: 28.0, y: 36.0, width: 2.0, height: 20.0)).cgPath
-//            rectLayer.fillColor = UIColor.white.cgColor
-            
             cell.layer.addSublayer(circleLayer)
-//            cell.layer.addSublayer(rectLayer)
+            // cell.layer.addSublayer(rectLayer)
             
             cell.patientLabel.text = patient["patientName"]
             cell.roomLabel.text = "Currently in " + patient["room"]!
-            
+            cell.selectionStyle = .none
             cell.setNeedsDisplay()
-            
-            return cell
         }
-        return UITableViewCell()
+        return cell
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        var numOfSections = 0
-        if self.patients.count != 0 {
-            tableView.separatorStyle = .singleLine
-            numOfSections = 1
-            tableView.backgroundView = nil
-        } else {
-            let defaultLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            defaultLabel.text = "There are no patients in the clinic at the meantime"
-            defaultLabel.textColor = UIColor.white
-            defaultLabel.textAlignment = .center
-            defaultLabel.numberOfLines = 0
-            tableView.backgroundView = defaultLabel
-            tableView.separatorStyle = .none
-            tableView.separatorColor = .white
-        }
-        return numOfSections
+        return 1
     }
 
 }

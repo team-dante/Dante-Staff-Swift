@@ -217,11 +217,11 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
             if height == 896.0 { // iPhone 11 Pro Max
                 return 250.0
             } else if height == 812.0 { // iPhone 11 Pro
-                return 140.0
+                return 170.0
             } else if height == 736.0 { // iPhone 8 Plus
-                return 120.0
+                return 150.0
             } else if height == 667.0 { // iPhone 8
-                return 100.0
+                return 90.0
             }
         default: return nil // Or case .hidden: return nil
         }
