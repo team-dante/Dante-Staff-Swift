@@ -2120,7 +2120,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rE5-au-I7J">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="450"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qb5-8j-JE1">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clinic-map-414x450" translatesAutoresizingMaskIntoConstraints="NO" id="Qb5-8j-JE1">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="450"/>
                                             </imageView>
                                         </subviews>
@@ -3757,6 +3757,7 @@
         <image name="broadcast-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="checked-box" width="170.66667175292969" height="170.66667175292969"/>
         <image name="clinic-map" width="3751" height="4504"/>
+        <image name="clinic-map-414x450" width="4141" height="4504"/>
         <image name="create-acc-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="feedback-icon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="hamburger-icon" width="170.66667175292969" height="170.66667175292969"/>

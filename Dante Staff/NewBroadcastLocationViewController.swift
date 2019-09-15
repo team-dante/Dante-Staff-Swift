@@ -113,12 +113,6 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         // important!! this bounces the image back to original size when users zoom out
         scrollViewContent.zoomScale = 1.0
         
-        if UIScreen.main.bounds.width == 414 {
-            mapImageView.image = UIImage(named: "clinic-map-414x450")
-        } else if UIScreen.main.bounds.width == 375 {
-            mapImageView.image = UIImage(named: "clinic-map-375x450")
-        }
-        
         // animating the labelSecondView
         secondViewActivityIndicatorView = NVActivityIndicatorView(frame: self.secondView.frame, type: .lineScale, padding: 10)
         self.secondView.addSubview(secondViewActivityIndicatorView)
@@ -199,6 +193,22 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 
                 self.beaconManager.startRangingBeacons(in: self.region)
                 
+                // in case bluetooth is disabled or running in an emulator environment, execute code below to remove spinning wheel animation.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
+                    if self.firstRun {
+                        self.firstRun = false
+                        // stop animation and unhide the details
+                        for eachLayer in self.allSubLayers {
+                            self.outerImageView.layer.addSublayer(eachLayer)
+                        }
+                        self.secondViewActivityIndicatorView.stopAnimating()
+                        self.secondViewActivityIndicatorView.removeFromSuperview()
+                        self.secondLabel.isHidden = false
+                        self.outerImageViewActivityIndicatorView.stopAnimating()
+                        self.outerImageViewActivityIndicatorView.removeFromSuperview()
+                        self.mapImageView.isHidden = false
+                    }
+                })
             }
         }
     }
