@@ -17,10 +17,15 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     
     @IBOutlet weak var outerImageView: UIView!
     @IBOutlet weak var scrollViewContent: UIScrollView!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var labelSecondView: UILabel!
+
+    @IBOutlet weak var secondView: UIView!
+    @IBOutlet weak var secondLabel: UILabel!
     @IBOutlet weak var currentStaffPin: UIView!
+    
+    var secondViewActivityIndicatorView : NVActivityIndicatorView!
+    var outerImageViewActivityIndicatorView : NVActivityIndicatorView!
     
     var fpc : FloatingPanelController!
     var staffVC : StaffPinViewController!
@@ -94,7 +99,9 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         "TLA" : [],
         "CT" : []
     ]
+    var allSubLayers : [CALayer] = []
     var previousLocation : [(String, String)] = []
+    var firstRun = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,10 +114,35 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         scrollViewContent.zoomScale = 1.0
         
         if UIScreen.main.bounds.width == 414 {
-            imageView.image = UIImage(named: "clinic-map-414x450")
+            mapImageView.image = UIImage(named: "clinic-map-414x450")
         } else if UIScreen.main.bounds.width == 375 {
-            imageView.image = UIImage(named: "clinic-map-375x450")
+            mapImageView.image = UIImage(named: "clinic-map-375x450")
         }
+        
+        // animating the labelSecondView
+        secondViewActivityIndicatorView = NVActivityIndicatorView(frame: self.secondView.frame, type: .lineScale, padding: 10)
+        self.secondView.addSubview(secondViewActivityIndicatorView)
+        
+        // add centerX and centerY to the spinner
+        secondViewActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        secondView.addConstraint(NSLayoutConstraint(item: secondViewActivityIndicatorView!, attribute: .centerX, relatedBy: .equal, toItem: secondView, attribute: .centerX, multiplier: 1, constant: 0))
+        secondView.addConstraint(NSLayoutConstraint(item: secondViewActivityIndicatorView!, attribute: .centerY, relatedBy: .equal, toItem: secondView, attribute: .centerY, multiplier: 1, constant: 0))
+        
+        secondViewActivityIndicatorView.startAnimating()
+        self.secondLabel.isHidden = true
+        
+        // animating the map frame
+        outerImageViewActivityIndicatorView = NVActivityIndicatorView(frame: self.outerImageView.frame, type: .ballClipRotate, padding: 300)
+        self.outerImageView.addSubview(outerImageViewActivityIndicatorView)
+        
+        // add centerX and centerY to the spinner
+        outerImageViewActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        outerImageView.addConstraint(NSLayoutConstraint(item: outerImageViewActivityIndicatorView!, attribute: .centerX, relatedBy: .equal, toItem: outerImageView, attribute: .centerX, multiplier: 1, constant: 0))
+        outerImageView.addConstraint(NSLayoutConstraint(item: outerImageViewActivityIndicatorView!, attribute: .centerY, relatedBy: .equal, toItem: outerImageView, attribute: .centerY, multiplier: 1, constant: 0))
+        
+        outerImageViewActivityIndicatorView.startAnimating()
+        self.mapImageView.isHidden = true
+
         
         self.navigationController!.navigationBar.topItem!.title = "Stop"
         
@@ -147,6 +179,13 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         // run the code below before executing the beacons
         self.getStaffLocation { (done) in
             if done {
+                self.outerImageView.layer.sublayers!.forEach {
+                    if $0.name?.components(separatedBy: "-")[3] == "layer414" || $0.name?.components(separatedBy: "-")[3] == "layer375" {
+                        self.allSubLayers.append($0)
+                        $0.removeFromSuperlayer()
+                    }
+                }
+                
                 self.updateStaffLocation()
 
                 Kontakt.setAPIKey("IKLlxikqjxJwiXbyAgokGeLkcZqipAnc")
@@ -159,10 +198,10 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 self.region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "region-identifier")
                 
                 self.beaconManager.startRangingBeacons(in: self.region)
+                
             }
         }
     }
-    
     
     // return flashImageView when zooming
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -393,6 +432,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
             // Back button pressed because self is no longer in the navigation stack.
             // Stop ranging if needed
             beaconManager.stopRangingBeacons(in: region)
+            Database.database().reference().child("StaffLocation/\(self.staffPhoneNumber!)/room").setValue("Private")
         }
         
         self.navigationController!.navigationBar.topItem!.title = "Back"
@@ -445,6 +485,21 @@ extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
                 }
             }
         } else {
+            
+            if self.firstRun {
+                self.firstRun = false
+                // stop animation and unhide the details
+                for eachLayer in self.allSubLayers {
+                    self.outerImageView.layer.addSublayer(eachLayer)
+                }
+                self.secondViewActivityIndicatorView.stopAnimating()
+                self.secondViewActivityIndicatorView.removeFromSuperview()
+                self.secondLabel.isHidden = false
+                self.outerImageViewActivityIndicatorView.stopAnimating()
+                self.outerImageViewActivityIndicatorView.removeFromSuperview()
+                self.mapImageView.isHidden = false
+            }
+            
             for beacon in beacons {
                 // queue system; dequeue iff array length >= threshold
                 if self.roomDict[Int(truncating: beacon.major)]!.count >= threshold {
@@ -474,7 +529,7 @@ extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
                 if sortedBeaconArr[0].value >= self.cutoff[sortedBeaconArr[0].key]! {
                     self.currRoom = "Private"
                     Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)/room").setValue("Private")
-                    self.labelSecondView.text = "No beacons detected nearby. Your location is private."
+                    self.secondLabel.text = "No beacons detected nearby. Your location is private."
                     
                 } else {
                     self.currRoom = self.majorToRoom[sortedBeaconArr[0].key]!
@@ -490,13 +545,13 @@ extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
                         default:
                             beautifiedCurrRoom = "N/A"
                     }
-                    self.labelSecondView.text = "Beacons detected. You are in \(beautifiedCurrRoom)."
+                    self.secondLabel.text = "Beacons detected. You are in \(beautifiedCurrRoom)."
                     Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)").updateChildValues(["room" : currRoom])
                 }
             } else {
                 self.currRoom = "Private"
                 Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)/room").setValue("Private")
-                self.labelSecondView.text = "No beacons detected nearby. Your location is private."
+                self.secondLabel.text = "No beacons detected nearby. Your location is private."
             }
         }
         

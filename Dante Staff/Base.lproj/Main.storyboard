@@ -2177,10 +2177,11 @@
                     <connections>
                         <outlet property="bottomView" destination="5ke-Yy-l0O" id="wLd-NF-aiQ"/>
                         <outlet property="currentStaffPin" destination="bSX-4a-Osm" id="9kA-2O-8ov"/>
-                        <outlet property="imageView" destination="Qb5-8j-JE1" id="K8g-Fo-c7h"/>
-                        <outlet property="labelSecondView" destination="M1S-oW-IYx" id="vT1-Mc-1zU"/>
+                        <outlet property="mapImageView" destination="Qb5-8j-JE1" id="Yx3-xw-4Ni"/>
                         <outlet property="outerImageView" destination="rE5-au-I7J" id="q3j-1y-zAA"/>
                         <outlet property="scrollViewContent" destination="Hjl-0O-V20" id="uHv-Hd-ijK"/>
+                        <outlet property="secondLabel" destination="M1S-oW-IYx" id="UBs-TX-nnj"/>
+                        <outlet property="secondView" destination="fMC-a0-OMn" id="M0O-nY-s5H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dFn-o1-Aot" userLabel="First Responder" sceneMemberID="firstResponder"/>

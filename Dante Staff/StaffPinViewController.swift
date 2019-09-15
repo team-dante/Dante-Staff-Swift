@@ -127,7 +127,13 @@ class StaffPinViewController: UIViewController, UITableViewDataSource, UITableVi
         let staff = self.staffList[indexPath.row]
         cell.staffName.text = staff.staffName
         cell.staffName.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        cell.staffLocation.text = "Location: \(self.prettifyRoom(room: staff.staffLocation))"
+        if staff.staffLocation == "Private" {
+            cell.staffLocation.text = "Location: Private"
+        }
+        else {
+            cell.staffLocation.text = "Location: \(self.prettifyRoom(room: staff.staffLocation))"   
+        }
+        
         cell.staffLocation.font = UIFont.italicSystemFont(ofSize: 17)
         let color = staff.staffColor
         let rgb = color!.split(separator: "-")
