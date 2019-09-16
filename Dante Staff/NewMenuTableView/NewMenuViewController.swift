@@ -115,11 +115,15 @@ class NewMenuViewController: UIViewController, UITableViewDataSource, UITableVie
         })
 
         if (sender.tag == 0) {
-            self.performSegue(withIdentifier: "goToBroadcast", sender: self)
+            if UIScreen.main.bounds.width == 375 || UIScreen.main.bounds.height == 414 {
+                self.performSegue(withIdentifier: "goToBroadcast", sender: self)
+            }
         } else if sender.tag == 10 {
             self.performSegue(withIdentifier: "lookupAcc", sender: self)
         } else if sender.tag == 1 {
-            self.performSegue(withIdentifier: "patientMap", sender: self)
+            if UIScreen.main.bounds.width == 375 || UIScreen.main.bounds.height == 414 {
+                self.performSegue(withIdentifier: "patientMap", sender: self)
+            }
         } else if sender.tag == 11 {
             self.performSegue(withIdentifier: "goToStats", sender: self)
         } else if sender.tag == 2 {
