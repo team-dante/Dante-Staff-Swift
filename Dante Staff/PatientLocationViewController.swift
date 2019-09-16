@@ -101,6 +101,11 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // get all patients in the PatientLocation
+        ref.child("PatientLocation").observeSingleEvent(of: .value) { (DataSnapshot) in
+            print("ALL PATIENTS COUNT =====>", DataSnapshot.childrenCount)
+        }
+        
         // call observe to always listen for event changes
         ref.child("PatientLocation").observe(.value, with: {(snapshot) in
             if let patients = snapshot.value as? [String: Any] {
