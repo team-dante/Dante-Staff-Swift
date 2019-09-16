@@ -2288,24 +2288,30 @@
                                 <color key="backgroundColor" red="0.24797177314758301" green="0.20388847589492798" blue="0.34119081497192383" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PatientPinTableViewCell" rowHeight="80" id="eHk-UZ-AZb" customClass="PatientPinTableViewCell" customModule="Dante_Staff" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PatientPinTableViewCell" rowHeight="100" id="eHk-UZ-AZb" customClass="PatientPinTableViewCell" customModule="Dante_Staff" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eHk-UZ-AZb" id="wgO-5q-3YO">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="79.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="99.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="EsN-2C-XSa">
-                                                    <rect key="frame" x="60" y="15.999999999999996" width="338" height="47.666666666666657"/>
+                                                    <rect key="frame" x="60" y="10" width="344" height="79.666666666666671"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hung Phan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Os-0B-Grs">
-                                                            <rect key="frame" x="0.0" y="0.0" width="338" height="20.333333333333332"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="344" height="22"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CT Simulator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xx4-kK-8RE">
-                                                            <rect key="frame" x="0.0" y="27.333333333333336" width="338" height="20.333333333333336"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently in CT Simulator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xx4-kK-8RE">
+                                                            <rect key="frame" x="0.0" y="29" width="344" height="21.666666666666671"/>
+                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Checked in at 12:30 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTQ-ed-2dN">
+                                                            <rect key="frame" x="0.0" y="57.666666666666671" width="344" height="22"/>
                                                             <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -2313,7 +2319,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYj-Is-XrG">
-                                                    <rect key="frame" x="10" y="28" width="394" height="24"/>
+                                                    <rect key="frame" x="10" y="38" width="394" height="24"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -2324,15 +2330,16 @@
                                                 <constraint firstItem="EsN-2C-XSa" firstAttribute="leading" secondItem="wgO-5q-3YO" secondAttribute="leading" constant="60" id="875-Zq-nsd"/>
                                                 <constraint firstItem="DYj-Is-XrG" firstAttribute="leading" secondItem="wgO-5q-3YO" secondAttribute="leading" constant="10" id="JNV-Is-iAn"/>
                                                 <constraint firstItem="DYj-Is-XrG" firstAttribute="centerX" secondItem="wgO-5q-3YO" secondAttribute="centerX" id="NqA-n9-ezE"/>
-                                                <constraint firstItem="EsN-2C-XSa" firstAttribute="top" secondItem="wgO-5q-3YO" secondAttribute="top" constant="16" id="Zb6-A6-wRn"/>
+                                                <constraint firstItem="EsN-2C-XSa" firstAttribute="top" secondItem="wgO-5q-3YO" secondAttribute="top" constant="10" id="Zb6-A6-wRn"/>
                                                 <constraint firstItem="DYj-Is-XrG" firstAttribute="centerY" secondItem="wgO-5q-3YO" secondAttribute="centerY" id="hiC-0p-r0T"/>
-                                                <constraint firstAttribute="bottom" secondItem="EsN-2C-XSa" secondAttribute="bottom" constant="16" id="lo0-Ir-Ewr"/>
-                                                <constraint firstAttribute="trailing" secondItem="EsN-2C-XSa" secondAttribute="trailing" constant="16" id="snO-W2-wwc"/>
+                                                <constraint firstAttribute="bottom" secondItem="EsN-2C-XSa" secondAttribute="bottom" constant="10" id="lo0-Ir-Ewr"/>
+                                                <constraint firstAttribute="trailing" secondItem="EsN-2C-XSa" secondAttribute="trailing" constant="10" id="snO-W2-wwc"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.24797177314758301" green="0.20388847589492798" blue="0.34119081497192383" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
+                                            <outlet property="checkedInTime" destination="nTQ-ed-2dN" id="zz8-Gi-YLS"/>
                                             <outlet property="emptyMiddleLabel" destination="DYj-Is-XrG" id="w6v-CC-eIO"/>
                                             <outlet property="patientLabel" destination="6Os-0B-Grs" id="0R8-tM-g0H"/>
                                             <outlet property="patientLocationLabel" destination="Xx4-kK-8RE" id="YMk-60-85n"/>

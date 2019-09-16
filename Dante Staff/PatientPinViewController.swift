@@ -27,7 +27,7 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
     var ref: DatabaseReference!
     
     var patients = [[String: String]]()
-    var noPatient = false
+    var allSubLayers : [CALayer] = []
     
     // For iOS 10 only
     private lazy var shadowLayer: CAShapeLayer = CAShapeLayer()
@@ -37,7 +37,7 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsSelection = false
-        tableView.rowHeight = 80
+        tableView.rowHeight = 100
         
         ref = Database.database().reference()
     }
@@ -66,9 +66,17 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
                         if room != "Private" {
                             let name = pat["name"]!
                             let color = pat["pinColor"]!
+                            var startTime = pat["startTime"]!
+                            
+                            if startTime != "N/A" {
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "hh:mm a"
+                                startTime = dateFormatter.string(from: NSDate(timeIntervalSince1970: Double(startTime)!) as Date)
+                            }
                             
                             let formattedRoomStr = self.prettifyRoom(room: room)
-                            let patientDict = ["pinColor": color, "room": formattedRoomStr, "patientName": name]
+                            let patientDict = ["pinColor": color, "room": formattedRoomStr, "patientName": name, "startTime" : startTime]
+                            
                             self.patients.append(patientDict)
                         }
                     }
@@ -93,12 +101,24 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
         }
 
         if self.patients.count == 0 {
+            cell.layer.sublayers!.forEach {
+                if $0.name == "circleLayer" {
+                    $0.removeFromSuperlayer()
+                }
+            }
+            cell.emptyMiddleLabel.isHidden = false
             self.tableView.separatorStyle = .none
             cell.emptyMiddleLabel.text = "There are no patients in the clinic at the meantime."
             cell.patientLabel.isHidden = true
             cell.roomLabel.isHidden = true
+            cell.checkedInTime.isHidden = true
             cell.selectionStyle = .none
         } else {
+            self.tableView.separatorStyle = .singleLine
+            cell.emptyMiddleLabel.isHidden = true
+            cell.patientLabel.isHidden = false
+            cell.roomLabel.isHidden = false
+            cell.checkedInTime.isHidden = false
             let patient = self.patients[indexPath.row]
             
             // parse color
@@ -109,15 +129,17 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
             let b = CGFloat(Int(rgb[2])!)
             
             let circleLayer = CAShapeLayer()
-            circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 20.0, y: 30.0, width: 18.0, height: 18.0)).cgPath
+            circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 20.0, y: 38.0, width: 18.0, height: 18.0)).cgPath
             circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
             circleLayer.strokeColor = UIColor.white.cgColor
             
+            circleLayer.name = "circleLayer"
             cell.layer.addSublayer(circleLayer)
-            // cell.layer.addSublayer(rectLayer)
+            self.allSubLayers.append(circleLayer)
             
             cell.patientLabel.text = patient["patientName"]
             cell.roomLabel.text = "Currently in " + patient["room"]!
+            cell.checkedInTime.text = "Checked in at \(patient["startTime"]!)"
             cell.selectionStyle = .none
             cell.setNeedsDisplay()
         }

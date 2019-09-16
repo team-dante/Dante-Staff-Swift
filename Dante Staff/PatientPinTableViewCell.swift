@@ -15,6 +15,7 @@ class PatientPinTableViewCell: UITableViewCell {
     @IBOutlet weak var patientLabel: UILabel!
     @IBOutlet weak var roomLabel: UILabel!
     @IBOutlet weak var emptyMiddleLabel: UILabel!
+    @IBOutlet weak var checkedInTime: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
