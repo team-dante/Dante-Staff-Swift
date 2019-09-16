@@ -115,7 +115,7 @@ class CreateAccountVC: UIViewController {
                                 Database.database().reference().child("ColorUsedPatient").childByAutoId().setValue(colorStr)
                                 
                                 // under /PatientLocation, set patient name, pinColor (as string) and room (Private by default)
-                                Database.database().reference().child("PatientLocation/\(oppn!)").setValue(["name": "\(opfn!) \(opln!)", "pinColor": colorStr, "room": "Private"])
+                                Database.database().reference().child("PatientLocation/\(oppn!)").setValue(["name": "\(opfn!) \(opln!)", "pinColor": colorStr, "room": "Private", "startTime" : "N/A"])
                                 
                                 // QR code is uploaded successfully & color has been generated, perform segue to display success message
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

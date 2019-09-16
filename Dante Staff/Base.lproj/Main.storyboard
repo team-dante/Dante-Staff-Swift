@@ -2306,13 +2306,13 @@
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently in CT Simulator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xx4-kK-8RE">
                                                             <rect key="frame" x="0.0" y="29" width="344" height="21.666666666666671"/>
-                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Checked in at 12:30 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTQ-ed-2dN">
                                                             <rect key="frame" x="0.0" y="57.666666666666671" width="344" height="22"/>
-                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
