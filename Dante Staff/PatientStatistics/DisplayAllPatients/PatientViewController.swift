@@ -114,6 +114,25 @@ class PatientViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        var numberOfSections = 0
+        
+        if self.patients.count == 0 {
+            let emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height))
+            emptyLabel.text = "No Patient Visit History"
+            emptyLabel.textColor = .white
+            emptyLabel.textAlignment = .center
+            tableView.backgroundView = emptyLabel
+            tableView.separatorStyle = .none
+        } else {
+            tableView.separatorStyle = .singleLine
+            numberOfSections = 1
+            tableView.backgroundView = nil
+        }
+        
+        return numberOfSections
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let patient = patients[indexPath.row]
         self.passedData = patient.patientPhoneNum

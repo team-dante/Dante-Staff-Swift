@@ -605,6 +605,28 @@ class DateViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        var numOfSections = 0
+        if self.dates.count == 0 &&
+            self.months.count == 0 &&
+            self.weeks.count == 0 &&
+            self.years.count == 0 {
+            
+            let emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height))
+            emptyLabel.text = "No Patient Visit History"
+            emptyLabel.textColor = .white
+            emptyLabel.textAlignment = .center
+            tableView.backgroundView = emptyLabel
+            tableView.separatorStyle = .none
+        }
+        else {
+            tableView.separatorStyle = .singleLine
+            numOfSections = 1
+            tableView.backgroundView = nil
+        }
+        return numOfSections
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
