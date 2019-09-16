@@ -149,12 +149,17 @@ class NewMenuViewController: UIViewController, UITableViewDataSource, UITableVie
         
     }
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Hide the Navigation Bar
         // Set login page's seugue to navigation control, not the main menu page
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
+        self.setNeedsStatusBarAppearanceUpdate()
         
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = Auth.auth().currentUser {

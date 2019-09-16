@@ -13,6 +13,16 @@ import FirebaseAuth
 class SlidingViewVC: UIViewController {
     
     var interactor:Interactor? = nil
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

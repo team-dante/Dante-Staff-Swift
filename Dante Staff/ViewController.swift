@@ -78,8 +78,14 @@ class ViewController: UIViewController {
     }
     }
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        self.setNeedsStatusBarAppearanceUpdate()
         
         // Hide the navigation bar on the this view controller
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
