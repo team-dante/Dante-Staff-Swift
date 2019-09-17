@@ -9,6 +9,22 @@
 import Foundation
 import UIKit
 
+func hexStringToUIColor (hex:String) -> String {
+    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    
+    if (cString.hasPrefix("#")) {
+        cString.remove(at: cString.startIndex)
+    }
+    
+    if ((cString.count) != 6) {
+        return "128-128-128"
+    }
+    
+    var rgbValue:UInt64 = 0
+    Scanner(string: cString).scanHexInt64(&rgbValue)
+    
+    return "\(Int(CGFloat((rgbValue & 0xFF0000) >> 16)))-\(Int(CGFloat((rgbValue & 0x00FF00) >> 8)))-\(Int(CGFloat(rgbValue & 0x0000FF)))"
+}
 
 extension Date {
     var startOfWeek: Date? {
