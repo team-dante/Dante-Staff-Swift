@@ -137,9 +137,6 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         outerImageViewActivityIndicatorView.startAnimating()
         self.mapImageView.isHidden = true
 
-        
-        self.navigationController!.navigationBar.topItem!.title = "Stop"
-        
         // Initialize FloatingPanelController
         fpc = FloatingPanelController()
         fpc.delegate = self
@@ -444,8 +441,6 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
             beaconManager.stopRangingBeacons(in: region)
             Database.database().reference().child("StaffLocation/\(self.staffPhoneNumber!)/room").setValue("Private")
         }
-        
-        self.navigationController!.navigationBar.topItem!.title = "Back"
     }
 }
 

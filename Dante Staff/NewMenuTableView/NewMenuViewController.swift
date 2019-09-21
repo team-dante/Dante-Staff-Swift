@@ -116,19 +116,37 @@ class NewMenuViewController: UIViewController, UITableViewDataSource, UITableVie
 
         if (sender.tag == 0) {
             if UIScreen.main.bounds.width == 375 || UIScreen.main.bounds.width == 414 {
+                let backItem = UIBarButtonItem()
+                backItem.title = "Stop"
+                navigationItem.backBarButtonItem = backItem
                 self.performSegue(withIdentifier: "goToBroadcast", sender: self)
             }
         } else if sender.tag == 10 {
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
             self.performSegue(withIdentifier: "lookupAcc", sender: self)
         } else if sender.tag == 1 {
             if UIScreen.main.bounds.width == 375 || UIScreen.main.bounds.width == 414 {
+                let backItem = UIBarButtonItem()
+                backItem.title = "Back"
+                navigationItem.backBarButtonItem = backItem
                 self.performSegue(withIdentifier: "patientMap", sender: self)
             }
         } else if sender.tag == 11 {
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
             self.performSegue(withIdentifier: "goToStats", sender: self)
         } else if sender.tag == 2 {
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
             self.performSegue(withIdentifier: "createAcc", sender: self)
         } else if sender.tag == 12 {
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
             self.performSegue(withIdentifier: "goToFeedback", sender: self)
         }
         
