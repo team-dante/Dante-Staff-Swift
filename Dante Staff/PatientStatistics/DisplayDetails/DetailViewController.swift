@@ -139,7 +139,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Modify xAxis's properties
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
-        xAxis.labelFont = .systemFont(ofSize: 15, weight: .ultraLight)
+        xAxis.labelFont = .systemFont(ofSize: 15, weight: .regular)
         xAxis.labelCount = 4
         xAxis.labelTextColor = UIColor.white
         xAxis.valueFormatter = IndexAxisValueFormatter(values: rooms)
@@ -152,14 +152,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         leftAxis.labelTextColor = UIColor.white
         leftAxis.axisMinimum = 0.0
         leftAxis.gridColor = UIColor.white
-        leftAxis.labelFont = .systemFont(ofSize: 15, weight: .ultraLight)
+        leftAxis.labelFont = .systemFont(ofSize: 15, weight: .regular)
         
         // Modify rightAxis's properties
         let rightAxis = chartView.rightAxis
         rightAxis.labelTextColor = UIColor.white
         rightAxis.axisMinimum = 0.0
         rightAxis.gridColor = UIColor.white
-        rightAxis.labelFont = .systemFont(ofSize: 15, weight: .ultraLight)
+        rightAxis.labelFont = .systemFont(ofSize: 15, weight: .regular)
         
         let legendVar = chartView.legend
         legendVar.form = .circle
