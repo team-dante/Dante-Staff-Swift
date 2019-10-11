@@ -3013,8 +3013,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="70"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RS1-gi-mZR">
-                                                            <rect key="frame" x="21.666666666666657" y="8.0000000000000036" width="300" height="54.333333333333343"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RS1-gi-mZR">
+                                                            <rect key="frame" x="21.666666666666657" y="6" width="300" height="58"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RP4-Fv-Cu5">
                                                                     <rect key="frame" x="0.0" y="0.0" width="300" height="24"/>
@@ -3026,7 +3026,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mPJ-EM-XGE">
-                                                                    <rect key="frame" x="0.0" y="34" width="300" height="20.333333333333329"/>
+                                                                    <rect key="frame" x="0.0" y="34" width="300" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="300" id="LiQ-Nw-Kut"/>
                                                                     </constraints>
@@ -3224,60 +3224,8 @@
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailTableViewCell" rowHeight="70" id="1cB-jY-Fvf" customClass="DetailTableViewCell" customModule="Dante_Staff" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="374" height="70"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1cB-jY-Fvf" id="GfL-nT-u8D">
-                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="70"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="E8f-MH-fSl">
-                                                            <rect key="frame" x="22.666666666666657" y="11" width="329" height="18"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trilogy Linear Accelerator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EC2-eZ-xlA">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="18"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="200" id="fSB-jC-Hc8"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1003222.23 min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ch-T0-cVv">
-                                                                    <rect key="frame" x="209" y="0.0" width="120" height="18"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="120" id="Kbs-dv-ezM"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="04:28 PM - 04:29 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="liZ-5A-Dch">
-                                                            <rect key="frame" x="24.333333333333329" y="41" width="149.66666666666669" height="18"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstItem="liZ-5A-Dch" firstAttribute="centerY" secondItem="GfL-nT-u8D" secondAttribute="centerY" constant="15" id="1Fc-Pd-ihe"/>
-                                                        <constraint firstItem="E8f-MH-fSl" firstAttribute="centerX" secondItem="GfL-nT-u8D" secondAttribute="centerX" id="ADO-hj-h8f"/>
-                                                        <constraint firstItem="liZ-5A-Dch" firstAttribute="centerX" secondItem="GfL-nT-u8D" secondAttribute="centerX" constant="-88" id="EzA-KO-oVf"/>
-                                                        <constraint firstItem="E8f-MH-fSl" firstAttribute="centerY" secondItem="GfL-nT-u8D" secondAttribute="centerY" constant="-15" id="wiE-kk-pye"/>
-                                                    </constraints>
-                                                </tableViewCellContentView>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <connections>
-                                                    <outlet property="durationMinuteLabel" destination="7Ch-T0-cVv" id="5dU-Bh-wt7"/>
-                                                    <outlet property="roomLabel" destination="EC2-eZ-xlA" id="Is0-9s-l6P"/>
-                                                    <outlet property="timeline" destination="liZ-5A-Dch" id="Bih-ps-DNA"/>
-                                                </connections>
-                                            </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomHeaderDetailTableViewCell" rowHeight="30" id="fTP-0E-Xkf" customClass="CustomHeaderDetailTableViewCell" customModule="Dante_Staff" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="98" width="374" height="30"/>
+                                                <rect key="frame" x="0.0" y="28" width="374" height="30"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fTP-0E-Xkf" id="cfi-mb-kzY">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -3341,6 +3289,58 @@
                                                     <outlet property="leftHeaderView" destination="zaj-ku-fQg" id="Clc-eW-DaF"/>
                                                     <outlet property="locationLabel" destination="Hmp-1q-jXH" id="GoK-je-Aus"/>
                                                     <outlet property="timeLabel" destination="Mct-VV-4WY" id="AH0-cT-Ukn"/>
+                                                </connections>
+                                            </tableViewCell>
+                                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailTableViewCell" rowHeight="70" id="1cB-jY-Fvf" customClass="DetailTableViewCell" customModule="Dante_Staff" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="58" width="374" height="70"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1cB-jY-Fvf" id="GfL-nT-u8D">
+                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="70"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="E8f-MH-fSl">
+                                                            <rect key="frame" x="22.666666666666657" y="11" width="329" height="18"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trilogy Linear Accelerator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EC2-eZ-xlA">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="18"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="200" id="fSB-jC-Hc8"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1003222.23 min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ch-T0-cVv">
+                                                                    <rect key="frame" x="209" y="0.0" width="120" height="18"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="120" id="Kbs-dv-ezM"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="04:28 PM - 04:29 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="liZ-5A-Dch">
+                                                            <rect key="frame" x="24.333333333333329" y="41" width="149.66666666666669" height="18"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="liZ-5A-Dch" firstAttribute="centerY" secondItem="GfL-nT-u8D" secondAttribute="centerY" constant="15" id="1Fc-Pd-ihe"/>
+                                                        <constraint firstItem="E8f-MH-fSl" firstAttribute="centerX" secondItem="GfL-nT-u8D" secondAttribute="centerX" id="ADO-hj-h8f"/>
+                                                        <constraint firstItem="liZ-5A-Dch" firstAttribute="centerX" secondItem="GfL-nT-u8D" secondAttribute="centerX" constant="-88" id="EzA-KO-oVf"/>
+                                                        <constraint firstItem="E8f-MH-fSl" firstAttribute="centerY" secondItem="GfL-nT-u8D" secondAttribute="centerY" constant="-15" id="wiE-kk-pye"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <outlet property="durationMinuteLabel" destination="7Ch-T0-cVv" id="5dU-Bh-wt7"/>
+                                                    <outlet property="roomLabel" destination="EC2-eZ-xlA" id="Is0-9s-l6P"/>
+                                                    <outlet property="timeline" destination="liZ-5A-Dch" id="Bih-ps-DNA"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
