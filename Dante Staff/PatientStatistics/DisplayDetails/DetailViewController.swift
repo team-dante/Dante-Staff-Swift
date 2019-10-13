@@ -886,16 +886,16 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        let headerCell = tableView.dequeueReusableCell(withIdentifier: "CustomHeaderDetailTableViewCell") as! CustomHeaderDetailTableViewCell
-        headerView.autoresizingMask = []
-        if tableTypes == "monthly" || tableTypes == "yearly" || tableTypes == "weekly" {
-            headerCell.locationLabel.text = "List of All Locations"
-            headerCell.timeLabel.text = "Total Time"
-        }
-        headerView.addSubview(headerCell)
-        
-        return headerView
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView()
+//        let headerCell = tableView.dequeueReusableCell(withIdentifier: "CustomHeaderDetailTableViewCell") as! CustomHeaderDetailTableViewCell
+//        headerView.autoresizingMask = []
+//        if tableTypes == "monthly" || tableTypes == "yearly" || tableTypes == "weekly" {
+//            headerCell.locationLabel.text = "List of All Locations"
+//            headerCell.timeLabel.text = "Total Time"
+//        }
+//        headerView.addSubview(headerCell)
+//
+//        return headerView
+//    }
 }

@@ -2284,7 +2284,7 @@
                                     <constraint firstAttribute="bottom" secondItem="fSK-fe-RmS" secondAttribute="bottom" constant="20" id="cpa-KA-Nto"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x52-Ny-BRf">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x52-Ny-BRf">
                                 <rect key="frame" x="0.0" y="70" width="414" height="826"/>
                                 <color key="backgroundColor" red="0.24797177314758301" green="0.20388847589492798" blue="0.34119081497192383" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>

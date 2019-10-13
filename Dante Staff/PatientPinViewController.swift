@@ -37,7 +37,6 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsSelection = false
-        tableView.rowHeight = 100
         
         ref = Database.database().reference()
     }
@@ -107,14 +106,14 @@ class PatientPinViewController: UIViewController, UITableViewDataSource, UITable
                 }
             }
             cell.emptyMiddleLabel.isHidden = false
-            self.tableView.separatorStyle = .none
+//            self.tableView.separatorStyle = .none
             cell.emptyMiddleLabel.text = "There are no patients in the clinic at the meantime."
             cell.patientLabel.isHidden = true
             cell.roomLabel.isHidden = true
             cell.checkedInTime.isHidden = true
             cell.selectionStyle = .none
         } else {
-            self.tableView.separatorStyle = .singleLine
+//            self.tableView.separatorStyle = .singleLine
             cell.emptyMiddleLabel.isHidden = true
             cell.patientLabel.isHidden = false
             cell.roomLabel.isHidden = false
