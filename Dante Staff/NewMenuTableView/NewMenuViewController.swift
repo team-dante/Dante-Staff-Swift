@@ -125,7 +125,7 @@ class NewMenuViewController: UIViewController, UITableViewDataSource, UITableVie
             let backItem = UIBarButtonItem()
             backItem.title = "Back"
             navigationItem.backBarButtonItem = backItem
-            self.performSegue(withIdentifier: "lookupAcc", sender: self)
+//            self.performSegue(withIdentifier: "lookupAcc", sender: self)
         } else if sender.tag == 1 {
             if UIScreen.main.bounds.width == 375 || UIScreen.main.bounds.width == 414 {
                 let backItem = UIBarButtonItem()
