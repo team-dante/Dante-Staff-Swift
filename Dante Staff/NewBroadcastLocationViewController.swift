@@ -192,7 +192,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 self.beaconManager.requestLocationAlwaysAuthorization()
                 
                 // Create Beacon Region
-                self.region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "region-identifier")
+                self.region = KTKBeaconRegion(proximityUUID: UUID(uuidString: "f7826da6-4fa2-4e98-8024-bc5b71e0345e")!, identifier: "region-identifier")
                 
                 self.beaconManager.startRangingBeacons(in: self.region)
                 
