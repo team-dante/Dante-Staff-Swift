@@ -56,23 +56,41 @@ class StaffPinViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.delegate = self
         tableView.dataSource = self
         
-        staffList = [
-            StaffLegend(spn: "111", sn: "Dr. Roa", sc: "255-220-36", sl: "Private"),
-            StaffLegend(spn: "222", sn: "Dr. Kuo", sc: "255-0-0", sl: "Private"),
-            StaffLegend(spn: "333", sn: "Dr. Gan", sc: "0-255-240", sl: "Private"),
-            StaffLegend(spn: "444", sn: "Ms. Shen", sc: "20-255-0", sl: "Private"),
-            StaffLegend(spn: "555", sn: "Ms. Moore", sc: "20-122-46", sl: "Private"),
-            StaffLegend(spn: "666", sn: "Mrs. Zeleznik", sc: "35-145-152", sl: "Private"),
-            StaffLegend(spn: "777", sn: "Mr. JRoa", sc: "48-93-209", sl: "Private"),
-            StaffLegend(spn: "888", sn: "Mr. Phan", sc: "157-48-209", sl: "Private"),
-            StaffLegend(spn: "999", sn: "Mr. Liang", sc: "0-19-118", sl: "Private"),
-            StaffLegend(spn: "1000", sn: "Staff 10", sc: "255-255-255", sl: "Private")
-        ]
+//        staffList = [
+//            StaffLegend(spn: "111", sn: "Dr. Roa", sc: "255-220-36", sl: "Private"),
+//            StaffLegend(spn: "222", sn: "Dr. Kuo", sc: "255-0-0", sl: "Private"),
+//            StaffLegend(spn: "333", sn: "Dr. Gan", sc: "0-255-240", sl: "Private"),
+//            StaffLegend(spn: "444", sn: "Ms. Shen", sc: "20-255-0", sl: "Private"),
+//            StaffLegend(spn: "555", sn: "Ms. Moore", sc: "20-122-46", sl: "Private"),
+//            StaffLegend(spn: "666", sn: "Mrs. Zeleznik", sc: "35-145-152", sl: "Private"),
+//            StaffLegend(spn: "777", sn: "Mr. JRoa", sc: "48-93-209", sl: "Private"),
+//            StaffLegend(spn: "888", sn: "Mr. Phan", sc: "157-48-209", sl: "Private"),
+//            StaffLegend(spn: "999", sn: "Mr. Liang", sc: "0-19-118", sl: "Private"),
+//            StaffLegend(spn: "1000", sn: "Staff 10", sc: "255-255-255", sl: "Private")
+//        ]
         
-        self.getStaffLocation { (done) in
+        self.loadStaffDataFirst { (done) in
             if done {
-                self.updateStaffLocation()
+                self.getStaffLocation { (done) in
+                    if done {
+                        self.updateStaffLocation()
+                    }
+                }
             }
+        }
+    }
+    
+    func loadStaffDataFirst(completion: @escaping (Bool) -> Void) {
+        Database.database().reference().child("StaffLocation").observeSingleEvent(of: .value) { (DataSnapshot) in
+            let allStaffDict = DataSnapshot.value as! [String : AnyObject]
+            
+            for (key, value) in allStaffDict {
+                let lastName = value["lastName"]
+                let pinColor = value["pinColor"]
+                let room = value["room"]
+                self.staffList.append(StaffLegend(spn: key, sn: lastName as! String, sc: pinColor as! String, sl: room as! String))
+            }
+            completion(true)
         }
     }
     

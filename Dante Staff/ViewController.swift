@@ -30,6 +30,10 @@ class ViewController: UIViewController {
         activateBtn(bool: !isChecked)
     }
     @IBAction func loginBtnPress(_ sender: Any) {
+        // drop keyboard when btn pressed
+        phoneTextField.resignFirstResponder()
+        pinTextField.resignFirstResponder()
+        
         loggedInBtnPressed = true
         if (isChecked == false) {
             UserDefaults.standard.set(true, forKey: "turnOffFaceID")

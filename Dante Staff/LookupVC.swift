@@ -17,6 +17,9 @@ class LookupVC: UIViewController {
     @IBOutlet weak var lookupBtn: CustomButton!
     @IBOutlet weak var noUserFound: UILabel!
     @IBAction func lookupBtnPressed(_ sender: Any) {
+        
+        searchBar.resignFirstResponder()
+        
         ViewController().showSpinner(onView: self.view)
         
         Database.database().reference().child("Patients")

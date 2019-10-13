@@ -19,7 +19,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     @IBOutlet weak var scrollViewContent: UIScrollView!
     @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var bottomView: UIView!
-
+    
     @IBOutlet weak var secondView: UIView!
     @IBOutlet weak var secondLabel: UILabel!
     @IBOutlet weak var currentStaffPin: UIView!
@@ -43,18 +43,21 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     let threshold = 5
     var count = 0
     var currRoom = ""
-    var staffColor : [String:String] = [
-        "111": "255-220-36",
-        "222": "255-0-0",
-        "333": "0-255-240",
-        "444": "20-255-0",
-        "555": "20-122-46",
-        "666": "35-145-152",
-        "777": "48-93-209",
-        "888": "157-48-209",
-        "999": "0-19-118",
-        "1000": "255-255-255"
-    ]
+    var staffColor : [String:String] = [:]
+    //        "111": "200-10-136",
+    //        "222": "255-0-0",
+    //        "333": "0-255-240",
+    //        "444": "20-255-0",
+    //        "555": "20-122-46",
+    //        "666": "35-145-152",
+    //        "777": "48-93-209",
+    //        "888": "157-48-209",
+    //        "999": "0-19-118",
+    //        "1000": "255-255-255",
+    //        "2000": "232-44-22",
+    //        "3000": "12-66-123",
+    //        "4000": "234-223-100"
+    
     let ratio_of_414_to_375 = 1.104
     let circlePinWidth414 = 10.0
     let circlePinHeight414 = 10.0
@@ -69,7 +72,8 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
             ["155,310" : (155,310)], ["147,349" : (147,349)], ["191,299":(191,299)],
             ["154,428":(154,428)], ["169,336":(169,336)], ["175,413":(175,413)],
             ["156,385":(156,385)], ["194,390":(194,390)], ["172,307":(172,307)],
-            ["192,353":(192,353)]
+            ["192,353":(192,353)], ["170,383":(170,383)],
+            ["150,410":(150,410)], ["180,290":(180,290)]
         ],
         // TLA:
         // 344,240 364,264 396,247
@@ -80,7 +84,8 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
             ["344,240":(344,240)], ["364,264":(364,264)], ["396,247":(396,247)],
             ["342,193":(342,193)], ["370,193":(370,193)], ["399,188":(399,188)],
             ["351,285":(351,285)], ["379,295":(379,295)], ["397,272":(397,272)],
-            ["339,169":(339,169)]
+            ["339,169":(339,169)], ["358,300":(358,300)],
+            ["370,236":(370,236)], ["372,163":(372,163)]
         ],
         // CT:
         // 40,316 54,300 40,383
@@ -91,7 +96,8 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
             ["40,316":(40,316)], ["54,300":(54,300)], ["40,383":(40,383)],
             ["7,341":(7,341)], ["47,342":(47,342)], ["4,375":(4,375)],
             ["10,401":(10,401)], ["34,404":(34,404)], ["60,402":(60,402)],
-            ["37,289":(37,289)]
+            ["37,289":(37,289)], ["30,327":(30,327)], ["15,332":(15,332)],
+            ["27,380":(27,380)]
         ],
     ]
     var usedMapDict : [String : [[String : (Int, Int)]]] = [
@@ -136,7 +142,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         
         outerImageViewActivityIndicatorView.startAnimating()
         self.mapImageView.isHidden = true
-
+        
         // Initialize FloatingPanelController
         fpc = FloatingPanelController()
         fpc.delegate = self
@@ -178,7 +184,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 }
                 
                 self.updateStaffLocation()
-
+                
                 Kontakt.setAPIKey("IKLlxikqjxJwiXbyAgokGeLkcZqipAnc")
                 
                 // Initialize Beacon Manager
@@ -191,7 +197,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 self.beaconManager.startRangingBeacons(in: self.region)
                 
                 // in case bluetooth is disabled or running in an emulator environment, execute code below to remove spinning wheel animation.
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.10, execute: {
                     if self.firstRun {
                         self.firstRun = false
                         // stop animation and unhide the details
@@ -216,18 +222,26 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
     }
     
     func getCurrentStaffPinColor(input : String) {
-        let color = staffColor[input]
-        let rgb = color!.split(separator: "-")
-        let r = CGFloat(Int(rgb[0])!)
-        let g = CGFloat(Int(rgb[1])!)
-        let b = CGFloat(Int(rgb[2])!)
-        
-        
-        let circleLayer = CAShapeLayer()
-        circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 18.0, height: 18.0)).cgPath
-        circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
-        circleLayer.strokeColor = UIColor.white.cgColor
-        currentStaffPin.layer.addSublayer(circleLayer)
+        Database.database().reference().child("StaffLocation").observeSingleEvent(of: .value) { (DataSnapshot) in
+            let allStaffDict = DataSnapshot.value as! [String : AnyObject]
+            
+            for (key, value) in allStaffDict {
+                if key == input {
+                    let color = value["pinColor"] as? String
+                    let rgb = color!.split(separator: "-")
+                    let r = CGFloat(Int(rgb[0])!)
+                    let g = CGFloat(Int(rgb[1])!)
+                    let b = CGFloat(Int(rgb[2])!)
+                    
+                    
+                    let circleLayer = CAShapeLayer()
+                    circleLayer.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 18.0, height: 18.0)).cgPath
+                    circleLayer.fillColor = UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1.0).cgColor
+                    circleLayer.strokeColor = UIColor.white.cgColor
+                    self.currentStaffPin.layer.addSublayer(circleLayer)
+                }
+            }
+        }
     }
     
     func addPinToMap(key : String, pinColor : String, roomString: String) {
@@ -275,7 +289,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
         let firstElement = self.freeMapDict[roomString]?.remove(at: 0)
         self.usedMapDict[roomString]?.append(firstElement!)
         
-//        print("tupleOfPrevLocation====>", tupleOfPrevLocation)
+        //        print("tupleOfPrevLocation====>", tupleOfPrevLocation)
         self.previousLocation.append(tupleOfPrevLocation)
     }
     
@@ -349,28 +363,28 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 print("IF.Key-updatedChildDict===>\(DataSnapshot.key)-\(updatedChildDict)")
                 self.outerImageView.layer.sublayers?.forEach {
                     if $0.name != nil {
-//                        print("$0======>", $0.name)
+                        //                        print("$0======>", $0.name)
                         let layerName = $0.name
                         self.removePinFromMap(layerName : layerName!, staffPhoneNum: staffPhoneNum, stafflayer: $0)
                     }
                 }
             } else if updatedChildDict["room"] as! String != "Private" {
-//                print("Else.Key-updatedChildDict===>\(DataSnapshot.key)-\(updatedChildDict)")
+                //                print("Else.Key-updatedChildDict===>\(DataSnapshot.key)-\(updatedChildDict)")
                 // remove old locations for both iphones 414 and 375
                 var foundOldLocation414 : String = ""
                 var foundOldLocation375 : String = ""
-//                print("previousLocation=====>", self.previousLocation)
+                //                print("previousLocation=====>", self.previousLocation)
                 for eachTuple in self.previousLocation {
                     let arrStr = eachTuple.0.components(separatedBy: "-")
-//                    print("arrStr[1]====>", arrStr[1])
-//                    print("arrStr[2]====>", arrStr[2])
+                    //                    print("arrStr[1]====>", arrStr[1])
+                    //                    print("arrStr[2]====>", arrStr[2])
                     if arrStr[1] == staffPhoneNum {
                         foundOldLocation414 = eachTuple.0
                         foundOldLocation375 = eachTuple.1
                     }
                 }
-//                print("foundOldLocation414===>", foundOldLocation414)
-//                print("foundOldLocation375===>", foundOldLocation375)
+                //                print("foundOldLocation414===>", foundOldLocation414)
+                //                print("foundOldLocation375===>", foundOldLocation375)
                 self.outerImageView.layer.sublayers!.forEach {
                     if $0.name == foundOldLocation414 || $0.name == foundOldLocation375 {
                         self.removePinFromMap(layerName: $0.name!, staffPhoneNum: DataSnapshot.key, stafflayer: $0)
@@ -541,14 +555,14 @@ extension NewBroadcastLocationViewController : KTKBeaconManagerDelegate {
                     
                     var beautifiedCurrRoom = currRoom
                     switch beautifiedCurrRoom {
-                        case "LA1":
-                            beautifiedCurrRoom = "Linear Accelerator 1"
-                        case "TLA":
-                            beautifiedCurrRoom = "Trilogy Linear Accelerator"
-                        case "CT":
-                            beautifiedCurrRoom = "CT Simulator"
-                        default:
-                            beautifiedCurrRoom = "N/A"
+                    case "LA1":
+                        beautifiedCurrRoom = "Linear Accelerator 1"
+                    case "TLA":
+                        beautifiedCurrRoom = "Trilogy Linear Accelerator"
+                    case "CT":
+                        beautifiedCurrRoom = "CT Simulator"
+                    default:
+                        beautifiedCurrRoom = "N/A"
                     }
                     self.secondLabel.text = "Beacons detected. You are in \(beautifiedCurrRoom)."
                     Database.database().reference().child("/StaffLocation/\(staffPhoneNumber!)").updateChildValues(["room" : currRoom])

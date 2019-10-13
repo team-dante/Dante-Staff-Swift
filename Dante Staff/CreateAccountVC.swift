@@ -34,6 +34,12 @@ class CreateAccountVC: UIViewController {
     }
     
     @IBAction func createBtnPressed(_ sender: Any) {
+        
+        firstNameTF.resignFirstResponder()
+        lastNameTF.resignFirstResponder()
+        phoneNumTF.resignFirstResponder()
+        pinTF.resignFirstResponder()
+        
         ViewController().showSpinner(onView: self.view)
         let opfn = self.firstNameTF.text
         let opln = self.lastNameTF.text
