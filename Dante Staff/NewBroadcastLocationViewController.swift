@@ -197,7 +197,7 @@ class NewBroadcastLocationViewController: UIViewController, UIScrollViewDelegate
                 self.beaconManager.startRangingBeacons(in: self.region)
                 
                 // in case bluetooth is disabled or running in an emulator environment, execute code below to remove spinning wheel animation.
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.10, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
                     if self.firstRun {
                         self.firstRun = false
                         // stop animation and unhide the details
