@@ -57,7 +57,6 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
         "FFA6FE",
         "FFDB66",
         "006401",
-        "010067",
         "95003A",
         "007DB5",
         "FF00F6",
@@ -128,6 +127,7 @@ class PatientLocationViewController: UIViewController, UIScrollViewDelegate, Flo
                 var i = 0
                 for (key, _) in dict {
                     let rgbColor = hexStringToUIColor(hex: self.distinctColors[i])
+                    print("\(key) - \(rgbColor)")
                     self.ref.child("PatientLocation/\(key)/pinColor").setValue(rgbColor)
                     i += 1
                 }

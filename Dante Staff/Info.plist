@@ -33,18 +33,20 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to access your Bluetooth.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your Bluetooth</string>
+	<string>$(PRODUCT_NAME) would like to access your Bluetooth.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to access your camera.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your Face ID</string>
+	<string>$(PRODUCT_NAME) would like to access your Face ID.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your location</string>
+	<string>$(PRODUCT_NAME) would like to access your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your location</string>
+	<string>$(PRODUCT_NAME) would like to access your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your location</string>
+	<string>$(PRODUCT_NAME) would like to access your location.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to access your Camera Roll.</string>
 	<key>UILaunchStoryboardName</key>
