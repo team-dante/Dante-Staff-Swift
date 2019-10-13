@@ -164,6 +164,7 @@ class CreateAccountVC: UIViewController {
                 ViewController().removeSpinner()
                 self.emptyValLabel.isHidden = false
                 self.emptyValLabel.text = "One of the required fields is empty."
+                self.performSegue(withIdentifier: "success", sender: self)
             }
         }
     }

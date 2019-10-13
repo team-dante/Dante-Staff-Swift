@@ -18,7 +18,7 @@ class LookupVC: UIViewController {
     @IBOutlet weak var noUserFound: UILabel!
     @IBAction func lookupBtnPressed(_ sender: Any) {
         
-//        searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
         
         ViewController().showSpinner(onView: self.view)
         
